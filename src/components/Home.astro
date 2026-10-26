@@ -30,7 +30,7 @@ const linkBase = role ? `?from=${role}` : '';
           <h2>{c.data.title}</h2>
           <p class="summary">{c.data.summary}</p>
           <ul class="metrics">{c.data.metrics.map((m) => <li><b>{m.value}</b><span>{m.label}</span></li>)}</ul>
-          <span class="btn">View case</span>
+          <span class="more">View case →</span>
         </div>
         <div class="visual">{c.data.cover && <Figure src={c.data.cover} alt={`${c.data.title} preview`} bare sizes="(min-width: 1100px) 640px, 100vw" />}</div>
       </a>

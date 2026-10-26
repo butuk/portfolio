@@ -3,7 +3,6 @@
   --paper: #ffffff;
   --panel: #f7f8f9;      /* matches the canvas of case images, so they sit flush */
   --ink: #3b3535;
-  --ink-2: #6f6868;  /* warm grey to match the warm ink */
   --rule: #e3e6ea;
   --accent: #2c4b7e;
   --accent-ink: #ffffff;
@@ -52,7 +51,7 @@ a { color: inherit; }
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
 .site-header .name { font-weight: 650; font-stretch: 90%; text-decoration: none;  }
 .site-header nav { display: flex; align-items: center; gap: 4px; }
-.site-header nav a:not(.btn) { text-decoration: none; color: var(--ink-2); padding: 8px 10px; border-radius: var(--radius-sm); }
+.site-header nav a:not(.btn) { text-decoration: none; color: var(--ink); padding: 8px 10px; border-radius: var(--radius-sm); }
 .site-header nav a:not(.btn):hover { color: var(--ink); background: var(--panel); }
 
 .btn {
@@ -75,57 +74,56 @@ a { color: inherit; }
 /* System fonts have no width axis everywhere, so density is set with weight and tracking. */
 .hero .dense { font-weight: 900; letter-spacing: -0.02em; }
 .hero .airy { font-weight: 300; letter-spacing: 0.03em; color: var(--accent); }
-.hero .lede { margin: 28px 0 0; color: var(--ink-2); }  /* runs the full width on purpose */
+.hero .lede { margin: 28px 0 0; color: var(--ink); }  /* runs the full width on purpose */
 .hero .actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
-.hero .photo { float: right; width: clamp(74px, 8.65vw, 113px); margin: 0 0 16px 32px; aspect-ratio: 1; border-radius: 50%; background: var(--panel); overflow: hidden; display: grid; place-items: center; color: var(--ink-2); }
+.hero .photo { float: right; width: clamp(74px, 8.65vw, 113px); margin: 0 0 16px 32px; aspect-ratio: 1; border-radius: 50%; background: var(--panel); overflow: hidden; display: grid; place-items: center; color: var(--ink); }
 .hero .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
 
 /* Case cards */
 .cases { display: grid; gap: 24px; padding-bottom: clamp(64px, 8vw, 120px); }
-.section-title { font-weight: 600; color: var(--ink-2); margin: 0 0 4px; }
+.section-title { font-weight: 600; color: var(--ink); margin: 0 0 4px; }
 .case-card {
   display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 56px); align-items: center;
   background: var(--panel); border-radius: var(--radius-lg); padding: clamp(24px, 4vw, 56px);
   text-decoration: none;
 }
-.case-card .client { margin: 0; color: var(--ink-2); }
+.case-card .client { margin: 0; color: var(--ink); }
 .case-card h2 { margin: 8px 0 12px; font-weight: 700; font-stretch: 88%;  }
-.case-card p.summary { margin: 0; color: var(--ink-2); }
-.case-card .btn { margin-top: 28px; }
+.case-card p.summary { margin: 0; color: var(--ink); }
+.case-card .more { display: inline-block; margin-top: 28px; font-weight: 600; }
 .case-card .visual img { border-radius: var(--radius); box-shadow: 0 1px 2px rgb(59 53 53 / 6%), 0 12px 40px -12px rgb(59 53 53 / 18%); }
-.case-card:hover .btn { background: var(--ink); color: var(--paper); }
+.case-card:hover .more, .case-card:focus-visible .more { color: var(--accent); }
 
 .roles { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0 0 16px; padding: 0; }
-.roles li { padding: 3px 10px; border-radius: var(--radius-sm); border: 1px solid var(--rule); background: var(--paper); color: var(--ink-2); }
+.roles li { padding: 3px 10px; border-radius: var(--radius-sm); border: 1px solid var(--rule); background: var(--paper); color: var(--ink); }
 
 .metrics { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; border-top: 1px solid var(--rule); padding-top: 20px; }
 .metrics b { display: block; font-weight: 650; font-variant-numeric: tabular-nums;  margin-bottom: 8px; }
-.metrics span { display: block; color: var(--ink-2); }
+.metrics span { display: block; color: var(--ink); }
 
 /* Contact block */
 .contact { border-top: 1px solid var(--rule); padding-block: clamp(56px, 8vw, 112px); }
 .contact h2 { margin: 0;  font-weight: 500; max-width: 18ch; }
-.contact p { color: var(--ink-2); max-width: var(--text); margin: 16px 0 0; }
+.contact p { color: var(--ink); max-width: var(--text); margin: 16px 0 0; }
 .contact .actions { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
 .contact .actions a:not(.btn) { font-weight: 550; text-underline-offset: 4px; text-decoration-color: var(--rule); }
 .contact .actions a:not(.btn):hover { text-decoration-color: currentColor; }
-.site-footer { padding-block: 24px 40px; color: var(--ink-2); }
+.site-footer { padding-block: 24px 40px; color: var(--ink); }
 
 /* Case page */
 .case-head { padding-block: clamp(40px, 7vw, 96px) 40px; }
-.case-head .client { margin: 0 0 12px; color: var(--ink-2); }
+.case-head .client { margin: 0 0 12px; color: var(--ink); }
 .case-head h1 { margin: 0;  font-weight: 700; font-stretch: 85%; max-width: 16ch; }
 .case-head .lead { max-width: 30em; margin: 24px 0 0; color: var(--ink); }
 /* Case header shares the article's columns: the second column starts where the article text starts. */
 .case-head, .prose { --inner: min(100vw - 2 * var(--gutter), var(--max) - 2 * var(--gutter)); --aside: calc((var(--inner) - var(--text)) / 2); }
-.facts { display: grid; grid-template-columns: var(--aside) max-content 48px max-content; gap: 12px 0; margin: 32px 0 0; }
-.facts > div:nth-child(3) { grid-column: 4; }
-.facts dt { color: var(--ink-2); }
+/* Blocks in a row keep equal gaps; the gap grows with the screen so the second block lands on the article column.
+   For facts the gap is aside minus the first block's width, measured by a small script (48px without it). */
+.facts { display: flex; column-gap: var(--facts-gap, 48px); margin: 32px 0 0; }
+.facts dt { color: var(--ink); }
 .facts dd { margin: 2px 0 0; font-weight: 550; }
 /* Factoids: each column is about as wide as its number, so the figure sits over its label. */
-.case-head .metrics { grid-template-columns: var(--aside) 8.5rem 40px 8.5rem; gap: 20px 0; margin-top: 32px; }
-.case-head .metrics li:nth-child(3) { grid-column: 4; }
-.case-head .metrics li { max-width: 8.5rem; }
+.case-head .metrics { grid-template-columns: repeat(3, 8.5rem); column-gap: calc(var(--aside) - 8.5rem); margin-top: 32px; }
 
 .prose { padding-bottom: 32px; }
 .prose > * { max-width: var(--text); margin-inline: auto; }
@@ -137,8 +135,8 @@ a { color: inherit; }
 
 .figure { max-width: 1040px !important; margin: 40px auto 48px; }
 .figure img, .figure video { width: 100%; border-radius: var(--radius); background: var(--panel); }
-.figure figcaption { max-width: var(--text); margin: 12px auto 0; color: var(--ink-2); }
-.figure-missing { aspect-ratio: 16 / 9; border-radius: var(--radius); background: var(--panel); border: 1.5px dashed var(--rule); display: grid; place-items: center; color: var(--ink-2); }
+.figure figcaption { max-width: var(--text); margin: 12px auto 0; color: var(--ink); }
+.figure-missing { aspect-ratio: 16 / 9; border-radius: var(--radius); background: var(--panel); border: 1.5px dashed var(--rule); display: grid; place-items: center; color: var(--ink); }
 .figure .zoom { all: unset; display: block; width: 100%; cursor: zoom-in; border-radius: var(--radius); }
 .figure .zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .figure--wide .scroller { overflow-x: auto; border-radius: var(--radius); scrollbar-width: thin; }
@@ -216,13 +214,10 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 /* Below 1000px the side column is too narrow: the header and the article text start at the left edge. */
 @media (max-width: 1000px) {
   .prose > * { margin-inline: 0; }
-  .facts { grid-template-columns: repeat(3, max-content); gap: 12px 40px; }
-  .facts > div:nth-child(3) { grid-column: auto; }
-  .case-head .metrics { grid-template-columns: repeat(3, 8.5rem); gap: 20px 40px; }
-  .case-head .metrics li:nth-child(3) { grid-column: auto; }
+  .facts { column-gap: 40px !important; }
+  .case-head .metrics { column-gap: 40px; }
 }
 @media (max-width: 720px) {
-  .facts { grid-template-columns: 1fr 1fr; }
+  .facts { flex-wrap: wrap; row-gap: 12px; column-gap: 32px !important; }
   .case-head .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-  .case-head .metrics li { max-width: none; }
 }

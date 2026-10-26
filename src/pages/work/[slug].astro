@@ -24,4 +24,18 @@ const d = entry.data;
     </header>
     <div class="prose wrap"><Content /></div>
   </article>
+  <script>
+    // Equal gaps between fact blocks: the second block starts where the article text starts.
+    const facts = document.querySelector<HTMLElement>('.facts');
+    const text = document.querySelector<HTMLElement>('.prose > p');
+    const fit = () => {
+      if (!facts || !text || facts.children.length < 2) return;
+      facts.style.removeProperty('--facts-gap');
+      const first = facts.children[0].getBoundingClientRect();
+      const gap = text.getBoundingClientRect().left - first.right;
+      if (gap > 24) facts.style.setProperty('--facts-gap', `${gap}px`);
+    };
+    fit();
+    addEventListener('resize', fit);
+  </script>
 </Base>
