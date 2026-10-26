@@ -73,8 +73,12 @@ a { color: inherit; }
 }
 /* The one expressive move: the words are set the way they read. */
 /* System fonts have no width axis everywhere, so density is set with weight and tracking. */
-.hero .dense { font-weight: 900; letter-spacing: -0.02em; }
-.hero .airy { font-weight: 100; letter-spacing: 0.03em; }  /* thinnest weight the system font has: SF and Roboto go to 100, Segoe UI stops at Light */
+/* Split-flap ending: the whole headline is set alike; letters flip on change. */
+.hero .flap .word { white-space: nowrap; perspective: 600px; }
+.hero .flap .ch { display: inline-block; transform-origin: 50% 60%; }
+.hero .flap .ch.flip { animation: flap 70ms ease-out; }
+@keyframes flap { from { transform: rotateX(-75deg); opacity: 0.35; } to { transform: none; opacity: 1; } }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .hero .lede { margin: 28px 0 0; color: var(--ink); }  /* runs the full width on purpose */
 .hero .actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
 .hero .photo { float: right; width: clamp(74px, 8.65vw, 113px); margin: 0 0 16px 32px; aspect-ratio: 1; border-radius: 50%; background: var(--panel); overflow: hidden; display: grid; place-items: center; color: var(--ink); }

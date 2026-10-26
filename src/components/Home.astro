@@ -10,11 +10,19 @@ const main = cases.filter((c) => c.data.format === 'full' || c.data.format === '
 const roleNames = { product: 'Product', ux: 'UX/UI', data: 'Data' } as const;
 const lead = role === 'product' ? 'Senior product designer' : role === 'ux' ? 'Senior UX/UI designer' : role === 'data' ? 'Senior information designer' : 'Senior designer';
 const linkBase = role ? `?from=${role}` : '';
+// Endings of the main headline, shown one after another like a split-flap board. The first one is the default.
+const endings = [
+  'makes dense information easy to absorb',
+  'makes the complex simple',
+  'is all about meaning',
+  'is Actual Individual',
+  'fights entropy',
+];
 ---
 <Base>
   <section class="hero wrap">
     <div class="photo"><Figure src="/media/site/photo" alt="Vitali Yanusheuski" bare eager sizes="(min-width: 860px) 113px, 80px" /></div>
-    <h1>{lead} who makes <span class="dense">dense information</span> <span class="airy">easy to absorb</span></h1>
+    <h1>{lead} who <span class="sr-only">{endings[0]}</span><span class="flap" aria-hidden="true" data-endings={JSON.stringify(endings)}>{endings[0]}</span></h1>
     <p class="lede">I turn large volumes of information into clear structures, so people get the most value in the least time and space. 10+ years in product companies, design studios and agencies, now in healthcare AI at Denti.AI. Based in Kraków.</p>
     <div class="actions">
       <a class="btn btn--accent" href={site.calendly}>Let's talk</a>
@@ -36,4 +44,79 @@ const linkBase = role ? `?from=${role}` : '';
       </a>
     ))}
   </section>
+  <script>
+    // Split-flap headline: each letter flips through a few random letters before it settles.
+    const flap = document.querySelector<HTMLElement>('.flap');
+    const h1 = flap?.closest('h1');
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (flap && h1 && !still) {
+      const endings: string[] = JSON.parse(flap.dataset.endings!);
+      const letters = 'abcdefghijklmnopqrstuvwxyz';
+      const random = () => letters[Math.floor(Math.random() * letters.length)];
+      const HOLD = 4000, STEP = 45, STAGGER = 28;
+
+      // Reserve the height of the tallest ending so the page below never jumps.
+      const reserve = () => {
+        h1.style.minHeight = '';
+        const now = flap.textContent;
+        let max = 0;
+        for (const e of endings) { flap.textContent = e; max = Math.max(max, h1.offsetHeight); }
+        flap.textContent = now;
+        h1.style.minHeight = `${max}px`;
+      };
+
+      // Words stay unbreakable; every character is its own flap.
+      const build = (text: string) => {
+        flap.textContent = '';
+        const cells: HTMLSpanElement[] = [];
+        text.split(' ').forEach((word, i) => {
+          if (i) flap.append(' ');
+          const w = document.createElement('span');
+          w.className = 'word';
+          for (const ch of word) {
+            const c = document.createElement('span');
+            c.className = 'ch';
+            c.dataset.to = ch;
+            c.textContent = random();
+            w.append(c);
+            cells.push(c);
+          }
+          flap.append(w);
+        });
+        return cells;
+      };
+
+      const flip = (c: HTMLSpanElement, ch: string) => {
+        c.textContent = ch;
+        c.classList.remove('flip');
+        void c.offsetWidth;
+        c.classList.add('flip');
+      };
+
+      const show = (text: string) => new Promise<void>((done) => {
+        const cells = build(text);
+        let left = cells.length;
+        cells.forEach((c, i) => {
+          let turns = 3 + Math.floor(Math.random() * 4);
+          setTimeout(function tick() {
+            if (turns-- > 0) { flip(c, random()); setTimeout(tick, STEP); }
+            else { flip(c, c.dataset.to!); if (--left === 0) done(); }
+          }, i * STAGGER);
+        });
+      });
+
+      let n = 0;
+      const next = async () => {
+        if (!document.hidden) {
+          n = (n + 1) % endings.length;
+          await show(endings[n]);
+        }
+        setTimeout(next, HOLD);
+      };
+
+      reserve();
+      addEventListener('resize', () => { clearTimeout((reserve as any).t); (reserve as any).t = setTimeout(reserve, 150); });
+      setTimeout(next, HOLD);
+    }
+  </script>
 </Base>
