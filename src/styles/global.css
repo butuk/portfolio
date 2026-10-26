@@ -228,3 +228,29 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .case-head h1, .contact h2, .case-card h2, .prose h2, .metrics b,
 .btn, .site-header .name, .figure-row__label { font-weight: 400; }
 .facts dd, .case-card .more, .prose strong { font-weight: 600; }
+
+/* Case card on the home page, after Vitali's mockup: text on the left, the report in perspective
+   running off the card's right edge. Text column ~36% of the card. */
+.case-card { position: relative; overflow: hidden; grid-template-columns: minmax(0, 36fr) minmax(0, 64fr); align-items: start; padding-block: clamp(32px, 5vw, 64px); }
+.case-card > div:first-child { position: relative; z-index: 1; }
+.case-card .visual { position: absolute; top: 3%; bottom: 3%; left: 41%; pointer-events: none; }
+.case-card .visual img { height: 100%; width: auto; max-width: none; border-radius: 0; box-shadow: none; background: none; }
+.case-card .roles { gap: 8px; margin-bottom: 20px; }
+.case-card .roles li { padding: 5px 12px; }
+.case-card .client { margin-top: 0; }
+.case-card h2 { margin: 12px 0 20px; }
+.case-card .metrics { margin-top: 32px; padding-top: 32px; gap: 24px; }
+.case-card .metrics b { margin-bottom: 12px; }
+.case-card .more { margin-top: 40px; }
+/* Sizes, HIG styles: title Large Title, summary Title 3, figures Title 1, small text Subhead, link Title 3 semibold */
+.case-card h2 { font-size: 2.125rem; line-height: 2.5625rem; }
+.case-card p.summary, .case-card .more { font-size: 1.25rem; line-height: 1.5625rem; }
+.case-card .metrics b { font-size: 1.75rem; line-height: 2.125rem; }
+.case-card .roles li, .case-card .client, .case-card .metrics span { font-size: 0.9375rem; line-height: 1.25rem; }
+@media (max-width: 860px) {
+  .case-card { grid-template-columns: 1fr; }
+  .case-card .visual { position: static; order: -1; margin: -8px calc(-1 * clamp(24px, 4vw, 56px)) 8px 0; overflow: hidden; }
+  .case-card .visual img { height: auto; width: 130%; }
+  .case-card h2 { font-size: 1.75rem; line-height: 2.125rem; }
+  .case-card .metrics b { font-size: 1.375rem; line-height: 1.75rem; }
+}
