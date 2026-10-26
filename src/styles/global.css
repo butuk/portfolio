@@ -25,6 +25,13 @@
   --radius: 16px;
 }
 
+/* Type scale after Apple HIG (iOS Dynamic Type, default size), size / leading in px:
+   Large Title 34/41 · Title 1 28/34 · Title 2 22/28 · Title 3 20/25 · Headline 17/22 semibold · Body 17/22
+   Callout 16/21 · Subhead 15/20 · Footnote 13/18 · Caption 1 12/16 · Caption 2 11/13.
+   Two display steps sit above Large Title on wide screens only: Display 1 72/68 (main headline, leading
+   tightened 10%) and Display 2 48/56. On phones everything falls back to the HIG sizes. Roles are at the end. */
+
+
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
 body {
@@ -32,8 +39,6 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font);
-  font-size: 1.0625rem;
-  line-height: 1.6;
   font-stretch: 100%;
   font-optical-sizing: auto;
 }
@@ -54,13 +59,13 @@ a { color: inherit; }
 .site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
 .site-header .name { font-weight: 650; font-stretch: 90%; text-decoration: none; letter-spacing: -0.01em; }
 .site-header nav { display: flex; align-items: center; gap: 4px; }
-.site-header nav a:not(.btn) { text-decoration: none; color: var(--ink-2); padding: 8px 10px; border-radius: 8px; font-size: 0.9375rem; }
+.site-header nav a:not(.btn) { text-decoration: none; color: var(--ink-2); padding: 8px 10px; border-radius: 8px; }
 .site-header nav a:not(.btn):hover { color: var(--ink); background: var(--panel); }
 
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 10px 18px; border-radius: 999px;
-  font-weight: 600; font-size: 0.9375rem; text-decoration: none; line-height: 1.2;
+  font-weight: 600; text-decoration: none;
   border: 1.5px solid var(--ink); color: var(--ink); background: transparent;
 }
 .btn:hover { background: var(--ink); color: var(--paper); }
@@ -71,62 +76,62 @@ a { color: inherit; }
 /* Photo floats top-right; the headline and the paragraph flow around it and run under it once they pass its bottom edge. */
 .hero { display: flow-root; padding-block: clamp(48px, 9vw, 120px) clamp(48px, 7vw, 96px); }
 .hero h1 {
-  margin: 0; font-weight: 500; font-size: clamp(2.5rem, 6.4vw, 5.25rem); line-height: 1.02; letter-spacing: -0.03em; text-wrap: balance;
+  margin: 0; font-weight: 500; letter-spacing: -0.03em; text-wrap: balance;
 }
 /* The one expressive move: the words are set the way they read. */
 .hero .dense, .hero .airy { white-space: nowrap; }
 /* Satoshi has no width axis, so density is set with weight and tracking. */
 .hero .dense { font-weight: 900; letter-spacing: -0.045em; }
 .hero .airy { font-weight: 300; letter-spacing: 0.03em; color: var(--accent); }
-.hero .lede { margin: 28px 0 0; color: var(--ink-2); font-size: 1.1875rem; }
+.hero .lede { margin: 28px 0 0; color: var(--ink-2); }
 .hero .actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
-.hero .photo { float: right; width: clamp(220px, 26vw, 340px); margin: 0 0 24px clamp(32px, 6vw, 96px); aspect-ratio: 1; border-radius: var(--radius-lg); background: var(--panel); overflow: hidden; display: grid; place-items: center; color: var(--ink-2); font-size: 0.875rem; }
+.hero .photo { float: right; width: clamp(220px, 26vw, 340px); margin: 0 0 24px clamp(32px, 6vw, 96px); aspect-ratio: 1; border-radius: var(--radius-lg); background: var(--panel); overflow: hidden; display: grid; place-items: center; color: var(--ink-2); }
 .hero .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
 
 /* Case cards */
 .cases { display: grid; gap: 24px; padding-bottom: clamp(64px, 8vw, 120px); }
-.section-title { font-size: 1rem; font-weight: 600; color: var(--ink-2); margin: 0 0 4px; }
+.section-title { font-weight: 600; color: var(--ink-2); margin: 0 0 4px; }
 .case-card {
   display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 56px); align-items: center;
   background: var(--panel); border-radius: var(--radius-lg); padding: clamp(24px, 4vw, 56px);
   text-decoration: none;
 }
-.case-card .client { margin: 0; color: var(--ink-2); font-size: 0.9375rem; }
-.case-card h2 { margin: 8px 0 12px; font-size: clamp(1.75rem, 3.2vw, 2.5rem); line-height: 1.08; font-weight: 700; font-stretch: 88%; letter-spacing: -0.02em; }
+.case-card .client { margin: 0; color: var(--ink-2); }
+.case-card h2 { margin: 8px 0 12px; font-weight: 700; font-stretch: 88%; letter-spacing: -0.02em; }
 .case-card p.summary { margin: 0; color: var(--ink-2); }
 .case-card .btn { margin-top: 28px; }
 .case-card .visual img { border-radius: var(--radius); box-shadow: 0 1px 2px rgb(59 53 53 / 6%), 0 12px 40px -12px rgb(59 53 53 / 18%); }
 .case-card:hover .btn { background: var(--ink); color: var(--paper); }
 
 .roles { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0 0 16px; padding: 0; }
-.roles li { font-size: 0.8125rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink-2); }
+.roles li { padding: 3px 10px; border-radius: 999px; border: 1px solid var(--rule); background: var(--paper); color: var(--ink-2); }
 
 .metrics { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; border-top: 1px solid var(--rule); padding-top: 20px; }
-.metrics b { display: block; font-size: clamp(1.75rem, 3vw, 2.25rem); line-height: 1; font-weight: 650; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; margin-bottom: 8px; }
-.metrics span { display: block; font-size: 0.8125rem; line-height: 1.4; color: var(--ink-2); }
+.metrics b { display: block; font-weight: 650; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; margin-bottom: 8px; }
+.metrics span { display: block; color: var(--ink-2); }
 
 /* Contact block */
 .contact { border-top: 1px solid var(--rule); padding-block: clamp(56px, 8vw, 112px); }
-.contact h2 { margin: 0; font-size: clamp(2rem, 4.5vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em; font-weight: 500; max-width: 18ch; }
+.contact h2 { margin: 0; letter-spacing: -0.03em; font-weight: 500; max-width: 18ch; }
 .contact p { color: var(--ink-2); max-width: 34rem; margin: 16px 0 0; }
 .contact .actions { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
 .contact .actions a:not(.btn) { font-weight: 550; text-underline-offset: 4px; text-decoration-color: var(--rule); }
 .contact .actions a:not(.btn):hover { text-decoration-color: currentColor; }
-.site-footer { padding-block: 24px 40px; color: var(--ink-2); font-size: 0.875rem; }
+.site-footer { padding-block: 24px 40px; color: var(--ink-2); }
 
 /* Case page */
 .case-head { padding-block: clamp(40px, 7vw, 96px) 40px; }
 .case-head .client { margin: 0 0 12px; color: var(--ink-2); }
-.case-head h1 { margin: 0; font-size: clamp(2.5rem, 6vw, 4.75rem); line-height: 1.02; letter-spacing: -0.035em; font-weight: 700; font-stretch: 85%; max-width: 16ch; }
-.case-head .lead { font-size: clamp(1.1875rem, 1.8vw, 1.375rem); line-height: 1.5; max-width: 40rem; margin: 24px 0 0; color: var(--ink); }
+.case-head h1 { margin: 0; letter-spacing: -0.035em; font-weight: 700; font-stretch: 85%; max-width: 16ch; }
+.case-head .lead { max-width: 40rem; margin: 24px 0 0; color: var(--ink); }
 .facts { display: grid; grid-template-columns: repeat(3, minmax(0, max-content)); gap: 12px 48px; margin: 32px 0 0; }
-.facts dt { font-size: 0.8125rem; color: var(--ink-2); }
+.facts dt { color: var(--ink-2); }
 .facts dd { margin: 2px 0 0; font-weight: 550; }
 .case-head .metrics { max-width: 52rem; margin-top: 40px; }
 
 .prose { padding-bottom: 32px; }
 .prose > * { max-width: var(--text); margin-inline: auto; }
-.prose h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.15; letter-spacing: -0.02em; font-weight: 700; font-stretch: 90%; margin-top: 2.6em; margin-bottom: 0.5em; }
+.prose h2 { letter-spacing: -0.02em; font-weight: 700; font-stretch: 90%; margin-top: 2.6em; margin-bottom: 0.5em; }
 .prose p, .prose ul { margin-block: 0 1em; }
 .prose ul { padding-left: 1.2em; }
 .prose li { margin-bottom: 0.3em; }
@@ -134,15 +139,15 @@ a { color: inherit; }
 
 .figure { max-width: 1040px !important; margin: 40px auto 48px; }
 .figure img, .figure video { width: 100%; border-radius: var(--radius); background: var(--panel); }
-.figure figcaption { max-width: var(--text); margin: 12px auto 0; font-size: 0.875rem; color: var(--ink-2); }
-.figure-missing { aspect-ratio: 16 / 9; border-radius: var(--radius); background: var(--panel); border: 1.5px dashed var(--rule); display: grid; place-items: center; color: var(--ink-2); font-size: 0.875rem; }
+.figure figcaption { max-width: var(--text); margin: 12px auto 0; color: var(--ink-2); }
+.figure-missing { aspect-ratio: 16 / 9; border-radius: var(--radius); background: var(--panel); border: 1.5px dashed var(--rule); display: grid; place-items: center; color: var(--ink-2); }
 .figure .zoom { all: unset; display: block; width: 100%; cursor: zoom-in; border-radius: var(--radius); }
 .figure .zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .figure--wide .scroller { overflow-x: auto; border-radius: var(--radius); scrollbar-width: thin; }
 
 .figure-row__items { display: flex; gap: 16px; }
 .figure-row__item { min-width: 0; }
-.figure-row__label { display: block; margin-top: 8px; font-size: 0.875rem; font-weight: 550; }
+.figure-row__label { display: block; margin-top: 8px; font-weight: 550; }
 
 .case-cta { max-width: var(--max); margin: 64px auto 0; }
 
@@ -165,7 +170,7 @@ a { color: inherit; }
   .facts { grid-template-columns: 1fr 1fr; }
   .metrics { grid-template-columns: 1fr; gap: 16px; }
   .metrics li { display: grid; grid-template-columns: 5.5rem 1fr; align-items: baseline; gap: 12px; }
-  .metrics b { margin: 0; font-size: 1.75rem; }
+  .metrics b { margin: 0; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 
@@ -173,11 +178,33 @@ a { color: inherit; }
 .site-header .name, .metrics b, .case-card .client, .case-head .client, .facts dt, .roles li, .figure figcaption, .figure-row__label {
   font-family: var(--font-mono);
 }
-.hero h1 { font-size: clamp(2.25rem, 5.2vw, 4.5rem); letter-spacing: -0.03em; line-height: 0.94; }
-.case-head h1 { font-size: clamp(2.5rem, 6vw, 4.75rem); letter-spacing: -0.035em; font-weight: 700; }
-.case-card h2 { font-size: clamp(1.75rem, 3.2vw, 2.5rem); letter-spacing: -0.025em; font-weight: 700; }
-.prose h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); letter-spacing: -0.02em; font-weight: 700; }
-.contact h2 { font-size: clamp(2rem, 4.5vw, 3.5rem); letter-spacing: -0.03em; font-weight: 500; }
-.metrics b { font-size: clamp(1.5rem, 2.4vw, 1.875rem); letter-spacing: -0.04em; }
-.case-card .client, .case-head .client, .facts dt, .roles li { font-size: 0.75rem; }
-.figure figcaption, .figure-row__label { font-size: 0.75rem; line-height: 1.6; }
+.hero h1 { letter-spacing: -0.03em; }
+.case-head h1 { letter-spacing: -0.035em; font-weight: 700; }
+.case-card h2 { letter-spacing: -0.025em; font-weight: 700; }
+.prose h2 { letter-spacing: -0.02em; font-weight: 700; }
+.contact h2 { letter-spacing: -0.03em; font-weight: 500; }
+.metrics b { letter-spacing: -0.04em; }
+
+/* Where each style is used */
+body { font-size: 1.0625rem; line-height: 1.375rem; }
+.hero h1 { font-size: 4.5rem; line-height: 4.25rem; }
+.case-head h1, .contact h2 { font-size: 3rem; line-height: 3.5rem; }
+.case-card h2 { font-size: 2.125rem; line-height: 2.5625rem; }
+.prose h2, .metrics b { font-size: 1.75rem; line-height: 2.125rem; }
+.hero .lede, .case-head .lead { font-size: 1.25rem; line-height: 1.5625rem; }
+.facts dd { font-size: 1.0625rem; line-height: 1.375rem; font-weight: 600; }
+.case-card p.summary, .contact p { font-size: 1.0625rem; line-height: 1.375rem; }
+.btn, .site-header nav a, .site-header .name, .figure-row__label { font-size: 0.9375rem; line-height: 1.25rem; }
+.figure figcaption, .site-footer, .figure-missing, .metrics span { font-size: 0.8125rem; line-height: 1.125rem; }
+.case-card .client, .case-head .client, .facts dt, .roles li { font-size: 0.75rem; line-height: 1rem; }
+
+@media (max-width: 860px) {
+  .hero h1 { font-size: 2.125rem; line-height: 2rem; }               /* Large Title size, leading tightened like the desktop headline */
+  .case-head h1, .contact h2 { font-size: 2.125rem; line-height: 2.5625rem; }  /* Large Title */
+  .case-card h2 { font-size: 1.75rem; line-height: 2.125rem; }       /* Title 1 */
+  .prose h2, .metrics b { font-size: 1.375rem; line-height: 1.75rem; } /* Title 2 */
+}
+@media (min-width: 861px) and (max-width: 1180px) {
+  .hero h1 { font-size: 3rem; line-height: 2.875rem; }               /* Display 2, tightened */
+  .case-head h1, .contact h2 { font-size: 2.125rem; line-height: 2.5625rem; }
+}
