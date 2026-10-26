@@ -97,12 +97,17 @@ const endings = [
       let visible = false;
       new IntersectionObserver(([e]) => { visible = e.intersectionRatio >= 0.5; }, { threshold: [0, 0.5, 1] }).observe(h1);
 
-      // Height the headline will have with a given ending, measured on an invisible copy.
+      // Height the headline will have with a given ending, measured on an invisible copy placed
+      // right where the headline is, so its lines wrap around the photo exactly like the real ones.
+      // It is inserted and removed in the same frame, so nothing is ever painted.
       const heightWith = (text: string) => {
         const copy = h1.cloneNode(true) as HTMLElement;
-        copy.style.cssText = `position:absolute;visibility:hidden;width:${h1.offsetWidth}px;min-height:0`;
-        copy.querySelector('.flap')!.textContent = text;
-        h1.after(copy);
+        copy.removeAttribute('style');
+        copy.style.visibility = 'hidden';
+        const f = copy.querySelector<HTMLElement>('.flap')!;
+        f.textContent = text;
+        f.style.whiteSpace = 'normal';  // plain text here, so let it wrap at spaces like the letter cells do
+        h1.before(copy);
         const hgt = copy.offsetHeight;
         copy.remove();
         return hgt;
