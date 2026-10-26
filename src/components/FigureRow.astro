@@ -2,6 +2,7 @@
 // Several images in one row at equal height (each grows by its aspect ratio).
 // items: [{ src, label }]. Stacks on narrow screens via CSS.
 import media from '../media.json';
+import { nb } from '../lib/nbsp.mjs';
 import Figure from './Figure.astro';
 const { items, caption } = Astro.props;
 const m = media as Record<string, [number, number]>;
@@ -18,5 +19,5 @@ const m = media as Record<string, [number, number]>;
       );
     })}
   </div>
-  {caption && <figcaption>{caption}</figcaption>}
+  {caption && <figcaption>{nb(caption)}</figcaption>}
 </figure>

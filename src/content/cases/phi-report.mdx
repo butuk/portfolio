@@ -32,7 +32,7 @@ exam. They don't have to type anything or call in an assistant. A perio chart is
 standard dental record of gum health: pocket depths, bleeding, mobility and
 furcation, for every tooth.
 
-<VideoLoop src="/media/phi-report/voice-perio" caption="Voice Perio in a real exam: each spoken command lands in the chart as it's said." />
+<VideoLoop src="/media/phi-report/voice-perio" caption="Voice Perio in a real exam: each spoken command lands in the chart as it's said" />
 
 When the chart is complete, the dentist also gets a **PHI (Periodontal Health Index)
 report**. It's an AI-generated summary of the patient's periodontal condition, key
@@ -65,7 +65,7 @@ My own review added one more problem: the layout itself felt clumsy and unbalanc
 
 So the report needed more data, the same size, and a layout that could adapt to any medium.
 
-<Figure src="/media/phi-report/before" caption="The original report." />
+<Figure src="/media/phi-report/before" caption="The original report" />
 
 ## Decision 1: a selector, not a scale
 
@@ -78,9 +78,9 @@ stages as the new full-mouth visualization, so I merged the two into one block. 
 block works just as well vertically as horizontally, which turned out to matter for
 the layout later.
 
-<Figure src="/media/phi-report/scale-evolution" caption="From scale to selector: the original scale, the first radio-group version, and the final block." />
+<Figure src="/media/phi-report/scale-evolution" caption="From scale to selector: the original scale, the first radio-group version, and the final block" />
 
-<Figure wide src="/media/phi-report/scale-states" caption="The final block in all six states. The patient's stage is highlighted and carries their score." />
+<Figure wide src="/media/phi-report/scale-states" caption="The final block in all six states. The patient's stage is highlighted and carries their score" />
 
 ## Decision 2: put the data inside the tooth chart
 
@@ -93,11 +93,11 @@ teeth, which made it easier for patients to read. The new shapes left room for t
 data, so I placed all six bleeding sites per tooth and every pocket depth of 4 mm or
 more directly on the chart. The block didn't grow at all.
 
-<Figure src="/media/phi-report/tooth-chart" caption="Old and new tooth chart, schematically: each tooth now has room for its six bleeding sites and its pocket depth." />
+<Figure src="/media/phi-report/tooth-chart" caption="Old and new tooth chart, schematically: each tooth now has room for its six bleeding sites and pocket depth" />
 
-<Figure wide src="/media/phi-report/tooth-chart-states" caption="The same chart on real cases: missing teeth, bleeding, deep pockets, plaque, and their combinations." />
+<Figure wide src="/media/phi-report/tooth-chart-states" caption="The same chart on real cases: missing teeth, bleeding, deep pockets, plaque, and their combinations" />
 
-<Figure src="/media/phi-report/before-after" caption="Original vs. new report at the same size." />
+<Figure src="/media/phi-report/before-after" caption="Original vs. new report at the same size" />
 
 The new report has a more confident layout and higher information density. Every
 new element found its place, and the overall footprint stayed the same.
@@ -108,7 +108,7 @@ The report is built from modules that rearrange without changing their content. 
 same structure becomes a wide desktop layout, a single mobile column or a printable
 page, and it can adapt to any other format the same way.
 
-<FigureRow caption="The same report at the workstation, on the phone and on paper." items={[
+<FigureRow caption="The same report at the workstation, on the phone and on paper" items={[
   { src: "/media/phi-report/layout-desktop", label: "Desktop" },
   { src: "/media/phi-report/layout-mobile", label: "Mobile" },
   { src: "/media/phi-report/layout-print", label: "Print" },

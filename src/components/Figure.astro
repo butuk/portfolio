@@ -3,6 +3,7 @@
 // Web versions are produced by scripts/images.py from media-src/.
 // zoom: open full size on click. wide: scroll sideways on small screens instead of shrinking.
 import media from '../media.json';
+import { nb } from '../lib/nbsp.mjs';
 const { src, caption, alt = caption, sizes = '(min-width: 1100px) 1040px, 100vw', bare = false, zoom = true, wide = false, eager = false } = Astro.props;
 const size = (media as Record<string, [number, number]>)[src];
 const w1 = size ? Math.min(960, size[0]) : 0;
@@ -13,7 +14,7 @@ const imgProps = size && {
 };
 ---
 {!size ? (
-  <figure class="figure"><div class="figure-missing">Image pending: {src}</div>{caption && <figcaption>{caption}</figcaption>}</figure>
+  <figure class="figure"><div class="figure-missing">Image pending: {src}</div>{caption && <figcaption>{nb(caption)}</figcaption>}</figure>
 ) : bare ? (
   <img {...imgProps} />
 ) : (
@@ -23,6 +24,6 @@ const imgProps = size && {
         <button type="button" class="zoom" data-full={`${src}-1920.webp`} aria-label={`Enlarge: ${alt}`}><img {...imgProps} /></button>
       ) : <img {...imgProps} />}
     </div>
-    {caption && <figcaption>{caption}</figcaption>}
+    {caption && <figcaption>{nb(caption)}</figcaption>}
   </figure>
 )}

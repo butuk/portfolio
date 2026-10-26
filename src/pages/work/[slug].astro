@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { nb } from '../../lib/nbsp.mjs';
 export async function getStaticPaths() {
   const cases = await getCollection('cases');
   return cases.filter((c) => c.data.format !== 'playground').map((c) => ({ params: { slug: c.id }, props: { entry: c } }));
@@ -14,13 +15,13 @@ const d = entry.data;
     <header class="case-head wrap">
       <p class="client">{d.client}, {d.year}</p>
       <h1>{d.title}</h1>
-      <p class="lead">{d.summary}</p>
+      <p class="lead">{nb(d.summary)}</p>
       <dl class="facts">
         <div><dt>Role</dt><dd>{d.role}</dd></div>
-        {d.team && <div><dt>Team</dt><dd>{d.team}</dd></div>}
+        {d.team && <div><dt>Team</dt><dd>{nb(d.team)}</dd></div>}
         <div><dt>Year</dt><dd>{d.year}</dd></div>
       </dl>
-      <ul class="metrics">{d.metrics.map((m) => <li><b>{m.value}</b><span>{m.label}</span></li>)}</ul>
+      <ul class="metrics">{d.metrics.map((m) => <li><b>{m.value}</b><span>{nb(m.label)}</span></li>)}</ul>
     </header>
     <div class="prose wrap"><Content /></div>
   </article>
