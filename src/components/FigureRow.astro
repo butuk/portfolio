@@ -1,0 +1,22 @@
+---
+// Several images in one row at equal height (each grows by its aspect ratio).
+// items: [{ src, label }]. Stacks on narrow screens via CSS.
+import media from '../media.json';
+import Figure from './Figure.astro';
+const { items, caption } = Astro.props;
+const m = media as Record<string, [number, number]>;
+---
+<figure class="figure figure-row">
+  <div class="figure-row__items">
+    {items.map((it: { src: string; label?: string }) => {
+      const s = m[it.src] ?? [4, 3];
+      return (
+        <div class="figure-row__item" style={`flex: ${s[0] / s[1]} 1 0`}>
+          <Figure src={it.src} alt={it.label} bare sizes="(min-width: 1040px) 480px, 100vw" />
+          {it.label && <span class="figure-row__label">{it.label}</span>}
+        </div>
+      );
+    })}
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

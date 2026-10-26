@@ -1,0 +1,11 @@
+---
+// Muted looping video; subtitles are burned in, so no sound is needed.
+const { src, caption } = Astro.props;
+---
+<figure class="figure">
+  <video autoplay muted loop playsinline preload="metadata" poster={`${src}-poster.jpg`} aria-label={caption}>
+    <source src={`${src}.webm`} type="video/webm" />
+    <source src={`${src}.mp4`} type="video/mp4" />
+  </video>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

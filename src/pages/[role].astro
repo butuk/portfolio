@@ -1,0 +1,9 @@
+---
+import Home from '../components/Home.astro';
+import { roles, type Role } from '../roles';
+export function getStaticPaths() {
+  return Object.keys(roles).map((role) => ({ params: { role } }));
+}
+const role = Astro.params.role as Role;
+---
+<Home role={role} />

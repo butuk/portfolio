@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Figure from './Figure.astro';
+import { site } from '../site';
+const { role } = Astro.props;
+const all = (await getCollection('cases')).sort((a, b) => a.data.order - b.data.order);
+const cases = role ? all.filter((c) => c.data.tags.includes(role)) : all;
+const main = cases.filter((c) => c.data.format === 'full' || c.data.format === 'medium');
+const roleNames = { product: 'Product', ux: 'UX/UI', data: 'Data' } as const;
+const lead = role === 'product' ? 'Senior product designer' : role === 'ux' ? 'Senior UX/UI designer' : role === 'data' ? 'Senior information designer' : 'Senior designer';
+const linkBase = role ? `?from=${role}` : '';
+---
+<Base>
+  <section class="hero wrap">
+    <div>
+      <h1>{lead} who makes <span class="dense">dense information</span> <span class="airy">easy to absorb.</span></h1>
+      <p class="lede">I turn large volumes of information into clear structures, so people get the most value in the least time and space. Fifteen years in product companies, design studios and agencies, now in healthcare AI at Denti.AI.</p>
+      <div class="actions">
+        <a class="btn btn--accent" href={site.calendly}>Book a call</a>
+        <a class="btn" href={site.cv}>Download CV</a>
+      </div>
+    </div>
+    <div class="photo"><Figure src="/media/site/photo" alt="Vitali Yanusheuski" bare sizes="(min-width: 860px) 340px, 160px" /></div>
+  </section>
+  <section class="cases wrap" aria-label="Selected work">
+    {main.map((c) => (
+      <a class="case-card" href={`/work/${c.id}${linkBase}`}>
+        <div>
+          <ul class="roles">{c.data.tags.map((t) => <li>{roleNames[t]}</li>)}</ul>
+          <p class="client">{c.data.client}, {c.data.year}</p>
+          <h2>{c.data.title}</h2>
+          <p class="summary">{c.data.summary}</p>
+          <ul class="metrics">{c.data.metrics.map((m) => <li><b>{m.value}</b><span>{m.label}</span></li>)}</ul>
+          <span class="btn">View case</span>
+        </div>
+        <div class="visual">{c.data.cover && <Figure src={c.data.cover} alt={`${c.data.title} preview`} bare sizes="(min-width: 1100px) 640px, 100vw" />}</div>
+      </a>
+    ))}
+  </section>
+</Base>
