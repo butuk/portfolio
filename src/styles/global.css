@@ -4,8 +4,8 @@
   --panel: #f7f8f9;      /* matches the canvas of case images, so they sit flush */
   --ink: #3b3535;
   --rule: #e3e6ea;
-  --accent: #2c4b7e;
-  --accent-ink: #ffffff;
+  --accent: #d3af37;
+  --accent-ink: #3b3535;  /* ink on gold reads at about 5:1; white on gold would not */
 
   --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;  /* the visitor's own system font: SF Pro, Segoe UI, Roboto */
   --font-mono: var(--font);  /* no separate face: figures and labels use the system font too */
@@ -36,8 +36,8 @@ body {
 }
 img, video { display: block; max-width: 100%; height: auto; }
 a { color: inherit; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
-::selection { background: var(--accent); color: var(--accent-ink); }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+::selection { background: var(--accent); color: var(--ink); }
 
 .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
 
@@ -61,8 +61,9 @@ a { color: inherit; }
   border: 1.5px solid var(--ink); color: var(--ink); background: transparent;
 }
 .btn:hover { background: var(--ink); color: var(--paper); }
-.btn--accent { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.btn--accent:hover { background: var(--ink); border-color: var(--ink); }
+/* Main buttons are ink by default and turn gold on hover. */
+.btn--accent { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.btn--accent:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 
 /* Hero */
 /* Photo floats top-right; the headline and the paragraph flow around it and run under it once they pass its bottom edge. */
@@ -73,7 +74,7 @@ a { color: inherit; }
 /* The one expressive move: the words are set the way they read. */
 /* System fonts have no width axis everywhere, so density is set with weight and tracking. */
 .hero .dense { font-weight: 900; letter-spacing: -0.02em; }
-.hero .airy { font-weight: 300; letter-spacing: 0.03em; color: var(--accent); }
+.hero .airy { font-weight: 100; letter-spacing: 0.03em; }  /* thinnest weight the system font has: SF and Roboto go to 100, Segoe UI stops at Light */
 .hero .lede { margin: 28px 0 0; color: var(--ink); }  /* runs the full width on purpose */
 .hero .actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
 .hero .photo { float: right; width: clamp(74px, 8.65vw, 113px); margin: 0 0 16px 32px; aspect-ratio: 1; border-radius: 50%; background: var(--panel); overflow: hidden; display: grid; place-items: center; color: var(--ink); }
@@ -138,7 +139,7 @@ a { color: inherit; }
 .figure figcaption { max-width: var(--text); margin: 12px auto 0; color: var(--ink); }
 .figure-missing { aspect-ratio: 16 / 9; border-radius: var(--radius); background: var(--panel); border: 1.5px dashed var(--rule); display: grid; place-items: center; color: var(--ink); }
 .figure .zoom { all: unset; display: block; width: 100%; cursor: zoom-in; border-radius: var(--radius); }
-.figure .zoom:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.figure .zoom:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .figure--wide .scroller { overflow-x: auto; border-radius: var(--radius); scrollbar-width: thin; }
 
 .figure-row__items { display: flex; gap: 16px; }
