@@ -13,15 +13,13 @@ const linkBase = role ? `?from=${role}` : '';
 ---
 <Base>
   <section class="hero wrap">
-    <div>
-      <h1>{lead} who makes <span class="dense">dense information</span> <span class="airy">easy to absorb.</span></h1>
-      <p class="lede">I turn large volumes of information into clear structures, so people get the most value in the least time and space. Fifteen years in product companies, design studios and agencies, now in healthcare AI at Denti.AI.</p>
-      <div class="actions">
-        <a class="btn btn--accent" href={site.calendly}>Book a call</a>
-        <a class="btn" href={site.cv}>Download CV</a>
-      </div>
-    </div>
     <div class="photo"><Figure src="/media/site/photo" alt="Vitali Yanusheuski" bare sizes="(min-width: 860px) 340px, 160px" /></div>
+    <h1>{lead} who makes <span class="dense">dense information</span> <span class="airy">easy to absorb.</span></h1>
+    <p class="lede">I turn large volumes of information into clear structures, so people get the most value in the least time and space. Fifteen years in product companies, design studios and agencies, now in healthcare AI at Denti.AI.</p>
+    <div class="actions">
+      <a class="btn btn--accent" href={site.calendly}>Book a call</a>
+      <a class="btn" href={site.cv}>Download CV</a>
+    </div>
   </section>
   <section class="cases wrap" aria-label="Selected work">
     {main.map((c) => (
