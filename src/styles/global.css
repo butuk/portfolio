@@ -257,3 +257,6 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
   .case-card h2 { font-size: 1.75rem; line-height: 2.125rem; }
   .case-card .metrics b { font-size: 1.375rem; line-height: 1.75rem; }
 }
+
+/* The job title next to the name drops out on narrow screens, where the header only has room for the name and the button. */
+@media (max-width: 720px) { .site-header .name .title { display: none; } }

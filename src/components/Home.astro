@@ -8,7 +8,7 @@ const all = (await getCollection('cases')).sort((a, b) => a.data.order - b.data.
 const cases = role ? all.filter((c) => c.data.tags.includes(role)) : all;
 const main = cases.filter((c) => c.data.format === 'full' || c.data.format === 'medium');
 const roleNames = { product: 'Product', ux: 'UX/UI', data: 'Data' } as const;
-const lead = role === 'product' ? 'Senior product designer' : role === 'ux' ? 'Senior UX/UI designer' : role === 'data' ? 'Senior information designer' : 'Senior designer';
+const lead = role === 'product' ? 'Product designer' : role === 'ux' ? 'UX/UI designer' : role === 'data' ? 'Information designer' : 'Designer';
 const linkBase = role ? `?from=${role}` : '';
 // Endings of the main headline, shown one after another like a split-flap board. The first one is the default.
 const endings = [
