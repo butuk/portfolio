@@ -260,3 +260,6 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 
 /* The job title next to the name drops out on narrow screens, where the header only has room for the name and the button. */
 @media (max-width: 720px) { .site-header .name .title { display: none; } }
+
+/* Case card outline */
+.case-card { border: 1px solid #e5e8eb; }
