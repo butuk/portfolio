@@ -63,7 +63,7 @@ a { color: inherit; }
 .btn:hover { background: var(--ink); color: var(--paper); }
 /* Main buttons are ink by default and turn gold on hover. */
 .btn--accent { background: var(--ink); border-color: var(--ink); color: var(--paper); }
-.btn--accent:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn--accent:hover { background: var(--accent); border-color: var(--accent); }  /* text stays white on hover */
 
 /* Hero */
 /* Photo floats top-right; the headline and the paragraph flow around it and run under it once they pass its bottom edge. */
@@ -78,7 +78,7 @@ a { color: inherit; }
 .hero .lede { margin: 28px 0 0; color: var(--ink); }  /* runs the full width on purpose */
 .hero .actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
 .hero .photo { float: right; width: clamp(74px, 8.65vw, 113px); margin: 0 0 16px 32px; aspect-ratio: 1; border-radius: 50%; background: var(--panel); overflow: hidden; display: grid; place-items: center; color: var(--ink); }
-.hero .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+.hero .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
 
 /* Case cards */
 .cases { display: grid; gap: 24px; padding-bottom: clamp(64px, 8vw, 120px); }
