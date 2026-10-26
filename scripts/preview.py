@@ -30,7 +30,7 @@ for f in out.rglob('*.html'):
         s = head.strip() + '\n' + body
     f.write_text(s)
 for c in out.rglob('*.css'):
-    c.write_text(re.sub(r'url\(/_astro/', 'url(./', c.read_text()))
+    c.write_text(re.sub(r'url\(/_astro/', 'url(./', c.read_text()).replace("url(/fonts/", "url(../fonts/"))
 # The Artifact service reserves names starting with "_".
 (out / '_astro').rename(out / 'assets')
 for css in list((out / 'assets').glob('*.css')):

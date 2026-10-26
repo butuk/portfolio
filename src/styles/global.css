@@ -1,5 +1,11 @@
 @import '@fontsource-variable/martian-mono/standard.css';
-@import '@fontsource-variable/roboto-flex/standard.css';
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/satoshi-variable.woff2') format('woff2');
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --paper: #ffffff;
@@ -10,7 +16,7 @@
   --accent: #2c4b7e;
   --accent-ink: #ffffff;
 
-  --font: 'Roboto Flex Variable', 'Roboto', system-ui, sans-serif;  /* reading text */
+  --font: 'Satoshi', system-ui, sans-serif;  /* reading text and the main headline */
   --font-mono: 'Martian Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;  /* headings, numbers, labels */
   --gutter: clamp(16px, 4vw, 48px);
   --max: 1200px;
@@ -69,8 +75,9 @@ a { color: inherit; }
 }
 /* The one expressive move: the words are set the way they read. */
 .hero .dense, .hero .airy { white-space: nowrap; }
-.hero .dense { font-stretch: 75%; font-weight: 800; letter-spacing: -0.04em; }
-.hero .airy { font-stretch: 112.5%; font-weight: 200; letter-spacing: 0.01em; color: var(--accent); }
+/* Satoshi has no width axis, so density is set with weight and tracking. */
+.hero .dense { font-weight: 900; letter-spacing: -0.045em; }
+.hero .airy { font-weight: 300; letter-spacing: 0.03em; color: var(--accent); }
 .hero .lede { margin: 28px 0 0; color: var(--ink-2); font-size: 1.1875rem; }
 .hero .actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
 .hero .photo { float: right; width: clamp(220px, 26vw, 340px); margin: 0 0 24px clamp(32px, 6vw, 96px); aspect-ratio: 1; border-radius: var(--radius-lg); background: var(--panel); overflow: hidden; display: grid; place-items: center; color: var(--ink-2); font-size: 0.875rem; }
@@ -162,13 +169,13 @@ a { color: inherit; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 
-/* Martian Mono carries headings, numbers and small labels; Roboto Flex carries the reading text.
+/* Martian Mono carries headings, numbers and small labels; Satoshi carries the reading text and the main headline.
    Mono letters are wider, so the mono headings run a step smaller. */
-.site-header .name, .hero h1, .case-head h1, .case-card h2, .prose h2, .contact h2,
+.site-header .name, .case-head h1, .case-card h2, .prose h2, .contact h2,
 .metrics b, .case-card .client, .case-head .client, .facts dt, .roles li, .figure figcaption, .figure-row__label {
   font-family: var(--font-mono);
 }
-.hero h1 { font-size: clamp(2rem, 4.2vw, 3.5rem); letter-spacing: -0.04em; line-height: 1.08; }
+.hero h1 { font-size: clamp(2.25rem, 5.2vw, 4.5rem); letter-spacing: -0.03em; line-height: 1.04; }
 .case-head h1 { font-size: clamp(2rem, 4.6vw, 3.75rem); letter-spacing: -0.04em; }
 .case-card h2 { font-size: clamp(1.5rem, 2.6vw, 2.125rem); letter-spacing: -0.03em; }
 .prose h2 { font-size: clamp(1.25rem, 2.1vw, 1.625rem); letter-spacing: -0.02em; }
