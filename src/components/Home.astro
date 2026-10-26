@@ -113,18 +113,34 @@ const endings = [
         return hgt;
       };
 
+      const GLIDE = 450;  // ms
+      const glide = (from: number, to: number) => new Promise<void>((done) => {
+        h1.style.transition = 'none';
+        h1.style.height = `${from}px`;
+        if (from === to) { done(); return; }
+        void h1.offsetHeight;
+        h1.style.transition = `height ${GLIDE}ms cubic-bezier(0.25, 0.7, 0.25, 1)`;
+        h1.style.height = `${to}px`;
+        setTimeout(done, GLIDE);
+      });
+
       let n = 0;
       const loop = async () => {
         if (visible && !document.hidden) {
           const from = endings[n];
           n = (n + 1) % endings.length;
-          // Hold the taller of the two heights while letters flip, so the text below moves at most once:
-          // at the start if the new ending is taller, at the end if it is shorter, not at all if equal.
+          // The headline's height glides instead of jumping, so the text below rides along smoothly:
+          // it grows before the letters flip if the new ending is taller, and shrinks after they settle
+          // if it is shorter. During the flips the height holds the taller of the two.
+          const cur = h1.offsetHeight;
+          const next = heightWith(endings[n]);
+          glide(cur, Math.max(cur, next));
           // Mid-change, an old word tail glued to a new prefix can wrap onto an extra line; that line is
           // clipped (leaving room for descenders) instead of spilling over the text below.
-          h1.style.height = `${Math.max(h1.offsetHeight, heightWith(endings[n]))}px`;
           h1.style.clipPath = 'inset(-0.3em -100vw -0.06em -100vw)';
           await show(from, endings[n]);
+          await glide(Math.max(cur, next), next);
+          h1.style.transition = '';
           h1.style.height = '';
           h1.style.clipPath = '';
           setTimeout(loop, HOLD);
