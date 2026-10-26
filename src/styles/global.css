@@ -169,17 +169,15 @@ a { color: inherit; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 
-/* Martian Mono carries headings, numbers and small labels; Satoshi carries the reading text and the main headline.
-   Mono letters are wider, so the mono headings run a step smaller. */
-.site-header .name, .case-head h1, .case-card h2, .prose h2, .contact h2,
-.metrics b, .case-card .client, .case-head .client, .facts dt, .roles li, .figure figcaption, .figure-row__label {
+/* Satoshi carries the text and all headings; Martian Mono marks data: the name, figures and small labels. */
+.site-header .name, .metrics b, .case-card .client, .case-head .client, .facts dt, .roles li, .figure figcaption, .figure-row__label {
   font-family: var(--font-mono);
 }
-.hero h1 { font-size: clamp(2.25rem, 5.2vw, 4.5rem); letter-spacing: -0.03em; line-height: 1.04; }
-.case-head h1 { font-size: clamp(2rem, 4.6vw, 3.75rem); letter-spacing: -0.04em; }
-.case-card h2 { font-size: clamp(1.5rem, 2.6vw, 2.125rem); letter-spacing: -0.03em; }
-.prose h2 { font-size: clamp(1.25rem, 2.1vw, 1.625rem); letter-spacing: -0.02em; }
-.contact h2 { font-size: clamp(1.75rem, 3.6vw, 2.75rem); letter-spacing: -0.04em; }
+.hero h1 { font-size: clamp(2.25rem, 5.2vw, 4.5rem); letter-spacing: -0.03em; line-height: 0.94; }
+.case-head h1 { font-size: clamp(2.5rem, 6vw, 4.75rem); letter-spacing: -0.035em; font-weight: 700; }
+.case-card h2 { font-size: clamp(1.75rem, 3.2vw, 2.5rem); letter-spacing: -0.025em; font-weight: 700; }
+.prose h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); letter-spacing: -0.02em; font-weight: 700; }
+.contact h2 { font-size: clamp(2rem, 4.5vw, 3.5rem); letter-spacing: -0.03em; font-weight: 500; }
 .metrics b { font-size: clamp(1.5rem, 2.4vw, 1.875rem); letter-spacing: -0.04em; }
 .case-card .client, .case-head .client, .facts dt, .roles li { font-size: 0.75rem; }
 .figure figcaption, .figure-row__label { font-size: 0.75rem; line-height: 1.6; }
