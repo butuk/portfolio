@@ -68,14 +68,12 @@ a { color: inherit; }
 /* Hero */
 /* Photo floats top-right; the headline and the paragraph flow around it and run under it once they pass its bottom edge. */
 .hero { display: flow-root; padding-block: clamp(48px, 9vw, 120px) clamp(48px, 7vw, 96px); }
-.hero h1 {
-  margin: 0; font-weight: 500;  text-wrap: balance;
-}
-/* The one expressive move: the words are set the way they read. */
-/* System fonts have no width axis everywhere, so density is set with weight and tracking. */
+.hero h1 { margin: 0; font-weight: 700; }  /* bold throughout; plain wrapping so lines don't re-balance while letters flip */
 /* Split-flap ending: the whole headline is set alike; letters flip on change. */
-.hero .flap .word { white-space: nowrap; perspective: 600px; }
+.hero .flap { perspective: 600px; white-space: nowrap; }  /* no breaks between letter cells... */
+.hero .flap .sp { white-space: normal; }                  /* ...only at spaces */
 .hero .flap .ch { display: inline-block; transform-origin: 50% 60%; }
+.hero .flap .ch:empty { display: none; }
 .hero .flap .ch.flip { animation: flap 70ms ease-out; }
 @keyframes flap { from { transform: rotateX(-75deg); opacity: 0.35; } to { transform: none; opacity: 1; } }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

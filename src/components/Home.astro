@@ -45,78 +45,69 @@ const endings = [
     ))}
   </section>
   <script>
-    // Split-flap headline: each letter flips through a few random letters before it settles.
+    // Split-flap headline. Letters change strictly left to right, like a departures board:
+    // each position flips through a few letters and lands on the new one; positions to its right
+    // still show the old ending. It only runs while the headline is on screen, so the page height
+    // changes only where the visitor is looking at it.
     const flap = document.querySelector<HTMLElement>('.flap');
     const h1 = flap?.closest('h1');
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (flap && h1 && !still) {
       const endings: string[] = JSON.parse(flap.dataset.endings!);
       const letters = 'abcdefghijklmnopqrstuvwxyz';
-      const random = () => letters[Math.floor(Math.random() * letters.length)];
-      const HOLD = 4000, STEP = 45, STAGGER = 28;
+      const HOLD = 4000;      // how long an ending stays
+      const STAGGER = 40;     // delay between neighbouring positions
+      const STEP = 50;        // one flip
+      const TURNS = 3;        // intermediate letters per position, the same for all so they finish in order
 
-      // Reserve the height of the tallest ending so the page below never jumps.
-      const reserve = () => {
-        h1.style.minHeight = '';
-        const now = flap.textContent;
-        let max = 0;
-        for (const e of endings) { flap.textContent = e; max = Math.max(max, h1.offsetHeight); }
-        flap.textContent = now;
-        h1.style.minHeight = `${max}px`;
-      };
-
-      // Words stay unbreakable; every character is its own flap.
-      const build = (text: string) => {
-        flap.textContent = '';
-        const cells: HTMLSpanElement[] = [];
-        text.split(' ').forEach((word, i) => {
-          if (i) flap.append(' ');
-          const w = document.createElement('span');
-          w.className = 'word';
-          for (const ch of word) {
-            const c = document.createElement('span');
-            c.className = 'ch';
-            c.dataset.to = ch;
-            c.textContent = random();
-            w.append(c);
-            cells.push(c);
-          }
-          flap.append(w);
-        });
-        return cells;
-      };
-
-      const flip = (c: HTMLSpanElement, ch: string) => {
+      let cells: HTMLSpanElement[] = [];
+      const cell = () => { const c = document.createElement('span'); flap.append(c); return c; };
+      const set = (c: HTMLSpanElement, ch: string, animate = true) => {
+        if (ch === ' ') { c.className = 'sp'; c.textContent = ' '; return; }  // a real space, so lines still wrap between words
+        c.className = 'ch';
         c.textContent = ch;
-        c.classList.remove('flip');
-        void c.offsetWidth;
-        c.classList.add('flip');
+        if (animate && ch) { void c.offsetWidth; c.classList.add('flip'); }
       };
+      // Replace the plain text with one cell per character.
+      const first = flap.textContent!;
+      flap.textContent = '';
+      cells = [...first].map((ch) => { const c = cell(); set(c, ch, false); return c; });
 
-      const show = (text: string) => new Promise<void>((done) => {
-        const cells = build(text);
-        let left = cells.length;
-        cells.forEach((c, i) => {
-          let turns = 3 + Math.floor(Math.random() * 4);
+      const show = (from: string, to: string) => new Promise<void>((done) => {
+        const n = Math.max(from.length, to.length);
+        while (cells.length < n) { const c = cell(); set(c, '', false); cells.push(c); }
+        for (let i = 0; i < n; i++) {
+          const a = from[i] ?? '', b = to[i] ?? '';
+          const last = i === n - 1;
+          if (a === b) { if (last) setTimeout(done, i * STAGGER); continue; }
+          // Start the letter from the alphabet position after the old one, as a real flap would.
+          let k = letters.indexOf(a.toLowerCase());
+          let turns = b === ' ' || b === '' ? 1 : TURNS;
           setTimeout(function tick() {
-            if (turns-- > 0) { flip(c, random()); setTimeout(tick, STEP); }
-            else { flip(c, c.dataset.to!); if (--left === 0) done(); }
+            if (turns-- > 0) { k = (k + 1) % letters.length; set(cells[i], letters[k < 0 ? 0 : k]); setTimeout(tick, STEP); }
+            else { set(cells[i], b); if (last) done(); }
           }, i * STAGGER);
-        });
+        }
+      }).then(() => {
+        // Drop cells left over from a longer ending.
+        cells = cells.filter((c) => { if (c.textContent === '') { c.remove(); return false; } return true; });
       });
 
-      let n = 0;
-      const next = async () => {
-        if (!document.hidden) {
-          n = (n + 1) % endings.length;
-          await show(endings[n]);
-        }
-        setTimeout(next, HOLD);
-      };
+      let visible = false;
+      new IntersectionObserver(([e]) => { visible = e.intersectionRatio >= 0.5; }, { threshold: [0, 0.5, 1] }).observe(h1);
 
-      reserve();
-      addEventListener('resize', () => { clearTimeout((reserve as any).t); (reserve as any).t = setTimeout(reserve, 150); });
-      setTimeout(next, HOLD);
+      let n = 0;
+      const loop = async () => {
+        if (visible && !document.hidden) {
+          const from = endings[n];
+          n = (n + 1) % endings.length;
+          await show(from, endings[n]);
+          setTimeout(loop, HOLD);
+        } else {
+          setTimeout(loop, 500);  // off screen: wait, change nothing
+        }
+      };
+      setTimeout(loop, HOLD);
     }
   </script>
 </Base>
