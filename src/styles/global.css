@@ -106,7 +106,7 @@ a { color: inherit; }
 
 /* Contact block */
 .contact { border-top: 1px solid var(--rule); padding-block: clamp(56px, 8vw, 112px); }
-.contact h2 { margin: 0;  font-weight: 500; max-width: 18ch; }
+.contact h2 { margin: 0;  font-weight: 500; max-width: var(--text); }  /* as wide as the text under it */
 .contact p { color: var(--ink); max-width: var(--text); margin: 16px 0 0; }
 .contact .actions { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
 .contact .actions a:not(.btn) { font-weight: 550; text-underline-offset: 4px; text-decoration-color: var(--rule); }
