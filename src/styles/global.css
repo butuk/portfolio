@@ -222,3 +222,9 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
   .facts { flex-wrap: wrap; row-gap: 12px; column-gap: 32px !important; }
   .case-head .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 }
+
+/* Weights after Apple HIG: every style is Regular except Headline (Semibold); emphasis inside Body is Semibold.
+   The display steps follow Large Title and stay Regular. The hero headline keeps its own weights. */
+.case-head h1, .contact h2, .case-card h2, .prose h2, .metrics b,
+.btn, .site-header .name, .figure-row__label { font-weight: 400; }
+.facts dd, .case-card .more, .prose strong { font-weight: 600; }
