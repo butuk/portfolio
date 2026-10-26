@@ -72,13 +72,12 @@ a { color: inherit; }
   margin: 0; font-weight: 500;  text-wrap: balance;
 }
 /* The one expressive move: the words are set the way they read. */
-.hero .dense, .hero .airy { white-space: nowrap; }
 /* System fonts have no width axis everywhere, so density is set with weight and tracking. */
 .hero .dense { font-weight: 900; letter-spacing: -0.02em; }
 .hero .airy { font-weight: 300; letter-spacing: 0.03em; color: var(--accent); }
-.hero .lede { margin: 28px 0 0; max-width: 30em; color: var(--ink-2); }
+.hero .lede { margin: 28px 0 0; color: var(--ink-2); }  /* runs the full width on purpose */
 .hero .actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
-.hero .photo { float: right; width: clamp(147px, 17.3vw, 227px); margin: 0 0 24px clamp(32px, 6vw, 96px); aspect-ratio: 1; border-radius: var(--radius-lg); background: var(--panel); overflow: hidden; display: grid; place-items: center; color: var(--ink-2); }
+.hero .photo { float: right; width: clamp(74px, 8.65vw, 113px); margin: 0 0 16px 32px; aspect-ratio: 1; border-radius: 50%; background: var(--panel); overflow: hidden; display: grid; place-items: center; color: var(--ink-2); }
 .hero .photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
 
 /* Case cards */
@@ -117,11 +116,16 @@ a { color: inherit; }
 .case-head .client { margin: 0 0 12px; color: var(--ink-2); }
 .case-head h1 { margin: 0;  font-weight: 700; font-stretch: 85%; max-width: 16ch; }
 .case-head .lead { max-width: 30em; margin: 24px 0 0; color: var(--ink); }
-.facts { display: grid; grid-template-columns: repeat(3, minmax(0, max-content)); gap: 12px 48px; margin: 32px 0 0; }
+/* Case header shares the article's columns: the second column starts where the article text starts. */
+.case-head, .prose { --inner: min(100vw - 2 * var(--gutter), var(--max) - 2 * var(--gutter)); --aside: calc((var(--inner) - var(--text)) / 2); }
+.facts { display: grid; grid-template-columns: var(--aside) max-content 48px max-content; gap: 12px 0; margin: 32px 0 0; }
+.facts > div:nth-child(3) { grid-column: 4; }
 .facts dt { color: var(--ink-2); }
 .facts dd { margin: 2px 0 0; font-weight: 550; }
 /* Factoids: each column is about as wide as its number, so the figure sits over its label. */
-.case-head .metrics { grid-template-columns: repeat(3, 8.5rem); gap: 20px 40px; margin-top: 40px; width: max-content; max-width: 100%; }
+.case-head .metrics { grid-template-columns: var(--aside) 8.5rem 40px 8.5rem; gap: 20px 0; margin-top: 32px; }
+.case-head .metrics li:nth-child(3) { grid-column: 4; }
+.case-head .metrics li { max-width: 8.5rem; }
 
 .prose { padding-bottom: 32px; }
 .prose > * { max-width: var(--text); margin-inline: auto; }
@@ -152,7 +156,7 @@ a { color: inherit; }
 .lightbox .close { position: fixed; top: 16px; right: 16px; }
 
 @media (max-width: 860px) {
-  .hero .photo { float: none; margin: 0 0 32px; width: 160px; aspect-ratio: 1; border-radius: var(--radius-lg); }
+  .hero .photo { float: none; margin: 0 0 32px; width: 80px; aspect-ratio: 1; border-radius: 50%; }
   .case-card { grid-template-columns: 1fr; }
   .case-card .visual { order: -1; }
   .site-header nav a.hide-sm { display: none; }
@@ -181,7 +185,7 @@ a { color: inherit; }
 
 /* Where each style is used */
 body { font-size: 1.0625rem; line-height: 1.375rem; }
-.hero h1 { font-size: 4.5rem; line-height: 4.25rem; }
+.hero h1 { font-size: 6.75rem; line-height: 6.375rem; }  /* 108 / 102: Display 1 x 1.5 */
 .case-head h1, .contact h2 { font-size: 3rem; line-height: 3.5rem; }
 .case-card h2 { font-size: 2.125rem; line-height: 2.5625rem; }
 .prose h2, .metrics b { font-size: 1.75rem; line-height: 2.125rem; }
@@ -194,17 +198,31 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .case-card .client, .case-head .client, .facts dt, .roles li { font-size: 0.75rem; line-height: 1rem; }
 
 @media (max-width: 860px) {
-  .hero h1 { font-size: 2.125rem; line-height: 2rem; }               /* Large Title size, leading tightened like the desktop headline */
+  .hero h1 { font-size: 3.1875rem; line-height: 3rem; }              /* 51 / 48: Large Title x 1.5, tightened */
   .case-head h1, .contact h2 { font-size: 2.125rem; line-height: 2.5625rem; }  /* Large Title */
   .case-card h2 { font-size: 1.75rem; line-height: 2.125rem; }       /* Title 1 */
   .prose h2, .metrics b { font-size: 1.375rem; line-height: 1.75rem; } /* Title 2 */
 }
 @media (min-width: 861px) and (max-width: 1180px) {
-  .hero h1 { font-size: 3rem; line-height: 2.875rem; }               /* Display 2, tightened */
+  .hero h1 { font-size: 4.5rem; line-height: 4.25rem; }              /* 72 / 68 */
   .case-head h1, .contact h2 { font-size: 2.125rem; line-height: 2.5625rem; }
 }
 @media (max-width: 720px) {
   .case-head .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; width: auto; }
   .case-head .metrics li { display: block; }
   .case-head .metrics b { font-size: 2.125rem; line-height: 2.5625rem; }  /* Large Title */
+}
+
+/* Below 1000px the side column is too narrow: the header and the article text start at the left edge. */
+@media (max-width: 1000px) {
+  .prose > * { margin-inline: 0; }
+  .facts { grid-template-columns: repeat(3, max-content); gap: 12px 40px; }
+  .facts > div:nth-child(3) { grid-column: auto; }
+  .case-head .metrics { grid-template-columns: repeat(3, 8.5rem); gap: 20px 40px; }
+  .case-head .metrics li:nth-child(3) { grid-column: auto; }
+}
+@media (max-width: 720px) {
+  .facts { grid-template-columns: 1fr 1fr; }
+  .case-head .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .case-head .metrics li { max-width: none; }
 }
