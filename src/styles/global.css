@@ -229,11 +229,12 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .btn, .site-header .name, .figure-row__label { font-weight: 400; }
 .facts dd, .case-card .more, .prose strong { font-weight: 600; }
 
-/* Case card on the home page, after Vitali's mockup: text on the left, the report in perspective
-   running off the card's right edge. Text column ~36% of the card. */
-.case-card { position: relative; overflow: hidden; grid-template-columns: minmax(0, 36fr) minmax(0, 64fr); align-items: start; padding-block: clamp(32px, 5vw, 64px); }
+/* Case card on the home page, after Vitali's mockup: text on the left, the report
+   running off the card's right edge; text may overlap the report's empty margin. */
+.case-card { position: relative; overflow: hidden; grid-template-columns: minmax(0, 50fr) minmax(0, 50fr); align-items: start; padding-block: clamp(32px, 5vw, 64px); }
 .case-card > div:first-child { position: relative; z-index: 1; }
-.case-card .visual { position: absolute; top: 3%; bottom: 3%; left: 41%; pointer-events: none; }
+/* The report sits behind the text column's right edge; its lower shadow is cut by the card. */
+.case-card .visual { position: absolute; top: 9%; height: 118%; left: 47%; pointer-events: none; }
 .case-card .visual img { height: 100%; width: auto; max-width: none; border-radius: 0; box-shadow: none; background: none; }
 .case-card .roles { gap: 8px; margin-bottom: 20px; }
 .case-card .roles li { padding: 5px 12px; }
