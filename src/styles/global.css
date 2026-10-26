@@ -1,15 +1,15 @@
-@import '@fontsource-variable/mona-sans/standard.css';
+@import '@fontsource-variable/roboto-flex/standard.css';
 
 :root {
   --paper: #ffffff;
   --panel: #f7f8f9;      /* matches the canvas of case images, so they sit flush */
-  --ink: #14161a;
-  --ink-2: #59616b;
+  --ink: #3b3535;
+  --ink-2: #6f6868;  /* warm grey to match the warm ink */
   --rule: #e3e6ea;
   --accent: #2747d0;
   --accent-ink: #ffffff;
 
-  --font: 'Mona Sans Variable', system-ui, sans-serif;
+  --font: 'Roboto Flex Variable', 'Roboto', system-ui, sans-serif;
   --gutter: clamp(16px, 4vw, 48px);
   --max: 1200px;
   --text: 40rem;
@@ -66,7 +66,7 @@ a { color: inherit; }
 }
 /* The one expressive move: the words are set the way they read. */
 .hero .dense, .hero .airy { white-space: nowrap; }
-.hero .dense { font-stretch: 75%; font-weight: 800; letter-spacing: -0.045em; }
+.hero .dense { font-stretch: 50%; font-weight: 800; letter-spacing: -0.02em; }
 .hero .airy { font-stretch: 125%; font-weight: 300; letter-spacing: 0.01em; color: var(--accent); }
 .hero .lede { margin: 28px 0 0; max-width: 34rem; color: var(--ink-2); font-size: 1.1875rem; }
 .hero .actions { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px; }
@@ -85,7 +85,7 @@ a { color: inherit; }
 .case-card h2 { margin: 8px 0 12px; font-size: clamp(1.75rem, 3.2vw, 2.5rem); line-height: 1.08; font-weight: 700; font-stretch: 88%; letter-spacing: -0.02em; }
 .case-card p.summary { margin: 0; color: var(--ink-2); }
 .case-card .btn { margin-top: 28px; }
-.case-card .visual img { border-radius: var(--radius); box-shadow: 0 1px 2px rgb(20 22 26 / 6%), 0 12px 40px -12px rgb(20 22 26 / 18%); }
+.case-card .visual img { border-radius: var(--radius); box-shadow: 0 1px 2px rgb(59 53 53 / 6%), 0 12px 40px -12px rgb(59 53 53 / 18%); }
 .case-card:hover .btn { background: var(--ink); color: var(--paper); }
 
 .roles { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0 0 16px; padding: 0; }
