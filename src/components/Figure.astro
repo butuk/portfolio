@@ -3,13 +3,13 @@
 // Web versions are produced by scripts/images.py from media-src/.
 // zoom: open full size on click. wide: scroll sideways on small screens instead of shrinking.
 import media from '../media.json';
-const { src, caption, alt = caption, sizes = '(min-width: 1100px) 1040px, 100vw', bare = false, zoom = true, wide = false } = Astro.props;
+const { src, caption, alt = caption, sizes = '(min-width: 1100px) 1040px, 100vw', bare = false, zoom = true, wide = false, eager = false } = Astro.props;
 const size = (media as Record<string, [number, number]>)[src];
 const w1 = size ? Math.min(960, size[0]) : 0;
 const w2 = size ? Math.min(1920, size[0]) : 0;
 const imgProps = size && {
   src: `${src}-1920.webp`, srcset: `${src}-960.webp ${w1}w, ${src}-1920.webp ${w2}w`, sizes,
-  width: size[0], height: size[1], alt, loading: bare && sizes.includes("160px") ? "eager" : "lazy", decoding: 'async',
+  width: size[0], height: size[1], alt, loading: eager ? "eager" : "lazy", decoding: 'async',
 };
 ---
 {!size ? (
