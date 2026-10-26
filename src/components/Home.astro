@@ -74,7 +74,7 @@ const endings = [
       flap.textContent = '';
       cells = [...first].map((ch) => { const c = cell(); set(c, ch, false); return c; });
 
-      const show = (from: string, to: string) => new Promise<void>((done) => {
+      const show = (from: string, to: string): Promise<void> => new Promise<void>((done) => {
         const n = Math.max(from.length, to.length);
         while (cells.length < n) { const c = cell(); set(c, '', false); cells.push(c); }
         for (let i = 0; i < n; i++) {
@@ -97,12 +97,31 @@ const endings = [
       let visible = false;
       new IntersectionObserver(([e]) => { visible = e.intersectionRatio >= 0.5; }, { threshold: [0, 0.5, 1] }).observe(h1);
 
+      // Height the headline will have with a given ending, measured on an invisible copy.
+      const heightWith = (text: string) => {
+        const copy = h1.cloneNode(true) as HTMLElement;
+        copy.style.cssText = `position:absolute;visibility:hidden;width:${h1.offsetWidth}px;min-height:0`;
+        copy.querySelector('.flap')!.textContent = text;
+        h1.after(copy);
+        const hgt = copy.offsetHeight;
+        copy.remove();
+        return hgt;
+      };
+
       let n = 0;
       const loop = async () => {
         if (visible && !document.hidden) {
           const from = endings[n];
           n = (n + 1) % endings.length;
+          // Hold the taller of the two heights while letters flip, so the text below moves at most once:
+          // at the start if the new ending is taller, at the end if it is shorter, not at all if equal.
+          // Mid-change, an old word tail glued to a new prefix can wrap onto an extra line; that line is
+          // clipped (leaving room for descenders) instead of spilling over the text below.
+          h1.style.height = `${Math.max(h1.offsetHeight, heightWith(endings[n]))}px`;
+          h1.style.clipPath = 'inset(-0.3em -100vw -0.06em -100vw)';
           await show(from, endings[n]);
+          h1.style.height = '';
+          h1.style.clipPath = '';
           setTimeout(loop, HOLD);
         } else {
           setTimeout(loop, 500);  // off screen: wait, change nothing
