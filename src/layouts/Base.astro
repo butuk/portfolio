@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+import { site } from '../site';
+const { title = `${site.name}, designer`, description = 'Senior designer who makes dense information easy to absorb.' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="name" href="/">{site.name}</a>
+        <nav aria-label="Main">
+          <a href={site.cv} class="hide-sm">CV</a>
+          <a href={site.linkedin} class="hide-sm">LinkedIn</a>
+          <a href={`mailto:${site.email}`} class="hide-sm">Email</a>
+          <a class="btn btn--accent" href={site.calendly}>Book a call</a>
+        </nav>
+      </div>
+    </header>
+    <main><slot /></main>
+    <section class="contact wrap" aria-labelledby="contact-title">
+      <h2 id="contact-title">Looking for a senior designer in Kraków?</h2>
+      <p>I'm open to full-time roles, in the office or hybrid. A 20-minute call is the quickest way to see if we fit.</p>
+      <div class="actions">
+        <a class="btn btn--accent" href={site.calendly}>Book a call</a>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <a href={site.phoneHref}>{site.phone}</a>
+      </div>
+    </section>
+    <footer class="site-footer wrap">© {new Date().getFullYear()} {site.name}</footer>
+    <dialog class="lightbox" aria-label="Enlarged image">
+      <button class="btn close" type="button">Close</button>
+      <img alt="" />
+    </dialog>
+    <script>
+      const dlg = document.querySelector<HTMLDialogElement>('.lightbox')!;
+      const big = dlg.querySelector('img')!;
+      document.addEventListener('click', (e) => {
+        const btn = (e.target as Element).closest<HTMLButtonElement>('.zoom');
+        if (btn) {
+          big.src = btn.dataset.full!;
+          big.alt = btn.querySelector('img')?.alt ?? '';
+          dlg.showModal();
+        } else if (dlg.open && (e.target as Element).closest('.lightbox')) {
+          dlg.close();
+        }
+      });
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.querySelectorAll('video[autoplay]').forEach((v) => { (v as HTMLVideoElement).pause(); (v as HTMLVideoElement).controls = true; });
+      }
+    </script>
+  </body>
+</html>
