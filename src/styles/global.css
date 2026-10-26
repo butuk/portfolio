@@ -117,7 +117,7 @@ a { color: inherit; }
 .case-head { padding-block: clamp(40px, 7vw, 96px) 40px; }
 .case-head .client { margin: 0 0 12px; color: var(--ink); }
 .case-head h1 { margin: 0;  font-weight: 700; font-stretch: 85%; max-width: 16ch; }
-.case-head .lead { max-width: 30em; margin: 24px 0 0; color: var(--ink); }
+.case-head .lead { max-width: none; margin: 24px 0 0; color: var(--ink); }
 /* Case header shares the article's columns: the second column starts where the article text starts. */
 .case-head, .prose { --text: 40rem; --inner: min(100vw - 2 * var(--gutter), var(--max) - 2 * var(--gutter)); --aside: calc((var(--inner) - var(--text)) / 2); }
 /* Blocks in a row keep equal gaps; the gap grows with the screen so the second block lands on the article column.
