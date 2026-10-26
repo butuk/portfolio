@@ -1,0 +1,8 @@
+// Cloudflare Workers config: the site is static, so the Worker only serves the built files in dist/.
+{
+  "name": "portfolio",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}
