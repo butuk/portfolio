@@ -4,5 +4,7 @@
   "compatibility_date": "2025-09-01",
   "assets": {
     "directory": "./dist"
-  }
+  },
+  // Needed by `wrangler preview`, which builds the dev branch at dev-portfolio.*.workers.dev
+  "previews": {}
 }
