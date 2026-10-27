@@ -24,10 +24,10 @@ const endings = [
 <Base>
   <section class="hero wrap">
     <script is:inline>
-      // Hide the hero before it is painted so the intro can reveal it; never longer than 3 s.
+      // Hide the hero before it is painted so the intro can reveal it; never longer than 4 s.
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
         document.documentElement.classList.add('intro');
-        setTimeout(() => document.documentElement.classList.remove('intro'), 3000);
+        setTimeout(() => document.documentElement.classList.remove('intro'), 4000);
       }
     </script>
     <div class="photo"><Figure src="/media/site/photo" alt="Vitali Yanusheuski" bare eager sizes="(min-width: 860px) 113px, 80px" /></div>
@@ -167,8 +167,8 @@ const endings = [
     }
   </script>
   <script>
-    // Intro: the avatar fades in at the left edge of the headline, then glides to its place
-    // on the right while the headline, the text and the buttons fade in.
+    // Intro: the avatar fades in at the left edge of the headline and glides to its place
+    // on the right; once it has arrived, the headline, the text and the buttons fade in.
     const root = document.documentElement;
     if (root.classList.contains('intro')) {
       const photo = document.querySelector<HTMLElement>('.hero .photo')!;
@@ -182,11 +182,15 @@ const endings = [
       void photo.offsetWidth;
       photo.style.transition = `opacity ${FADE}ms ease-out`;
       photo.style.opacity = '1';
+      const TEXT = 600;
       setTimeout(() => {
         photo.style.transition = `transform ${MOVE}ms ${EASE}`;
         photo.style.transform = '';
-        for (const el of text) { el.style.transition = `opacity ${MOVE}ms ease-in-out`; el.style.opacity = '1'; }
-        setTimeout(() => { for (const el of [photo, ...text]) { el.style.transition = ''; el.style.opacity = ''; } }, MOVE);
+        // The text fades in only once the avatar has arrived.
+        setTimeout(() => {
+          for (const el of text) { el.style.transition = `opacity ${TEXT}ms ease-out`; el.style.opacity = '1'; }
+          setTimeout(() => { for (const el of [photo, ...text]) { el.style.transition = ''; el.style.opacity = ''; } }, TEXT);
+        }, MOVE);
       }, FADE + 100);
     }
   </script>
