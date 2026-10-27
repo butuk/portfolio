@@ -60,10 +60,10 @@ a { color: inherit; }
   font-weight: 600; text-decoration: none;
   border: 1.5px solid var(--ink); color: var(--ink); background: transparent;
 }
-.btn:hover { background: var(--ink); color: var(--paper); }
+/* Every button looks the same on hover: filled with the accent, white text. */
+.btn:hover, .btn:focus-visible { background: var(--accent); border-color: var(--accent); color: var(--paper); }
 /* Main buttons are ink by default and turn gold on hover. */
 .btn--accent { background: var(--ink); border-color: var(--ink); color: var(--paper); }
-.btn--accent:hover { background: var(--accent); border-color: var(--accent); }  /* text stays white on hover */
 
 /* Hero */
 /* Photo floats top-right; the headline and the paragraph flow around it and run under it once they pass its bottom edge. */
