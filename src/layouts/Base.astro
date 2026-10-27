@@ -10,6 +10,13 @@ const { title = `${site.name}, designer`, description = 'Senior designer who mak
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <script is:inline>
+      // A new accent on every load: OKLCH with fixed lightness 0.7 and chroma 0.11, random hue.
+      // Browsers without OKLCH keep the default accent from the stylesheet.
+      if (CSS.supports('color', 'oklch(0.7 0.11 0)')) {
+        document.documentElement.style.setProperty('--accent', `oklch(0.7 0.11 ${Math.floor(Math.random() * 360)})`);
+      }
+    </script>
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
