@@ -269,3 +269,6 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .stream__item { break-inside: avoid; margin-bottom: 16px; border-radius: var(--radius); overflow: hidden; }
 .stream__item img { width: 100%; height: 100%; object-fit: cover; }
 @media (max-width: 860px) { .stream { columns: 2; column-gap: 12px; } .stream__item { margin-bottom: 12px; } }
+
+/* Intro on load: the hero stays hidden until the intro script takes over (see Home.astro). */
+.intro .hero .photo, .intro .hero h1, .intro .hero .lede, .intro .hero .actions { opacity: 0; }

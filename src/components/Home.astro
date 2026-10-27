@@ -23,6 +23,13 @@ const endings = [
 ---
 <Base>
   <section class="hero wrap">
+    <script is:inline>
+      // Hide the hero before it is painted so the intro can reveal it; never longer than 3 s.
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('intro');
+        setTimeout(() => document.documentElement.classList.remove('intro'), 3000);
+      }
+    </script>
     <div class="photo"><Figure src="/media/site/photo" alt="Vitali Yanusheuski" bare eager sizes="(min-width: 860px) 113px, 80px" /></div>
     <h1>{lead} who <span class="sr-only">{endings[0]}</span><span class="flap" aria-hidden="true" data-endings={JSON.stringify(endings)}>{endings[0]}</span></h1>
     <p class="lede">I turn large volumes of information into clear structures, so people get the most value in the least time and space. 10+ years in product companies, design studios and agencies, now in healthcare AI at Denti.AI. Based in Kraków.</p>
@@ -157,6 +164,30 @@ const endings = [
         }
       };
       setTimeout(loop, HOLD);
+    }
+  </script>
+  <script>
+    // Intro: the avatar fades in at the left edge of the headline, then glides to its place
+    // on the right while the headline, the text and the buttons fade in.
+    const root = document.documentElement;
+    if (root.classList.contains('intro')) {
+      const photo = document.querySelector<HTMLElement>('.hero .photo')!;
+      const h1 = document.querySelector<HTMLElement>('.hero h1')!;
+      const text = [...document.querySelectorAll<HTMLElement>('.hero h1, .hero .lede, .hero .actions')];
+      const dx = h1.getBoundingClientRect().left - photo.getBoundingClientRect().left;
+      const FADE = 500, MOVE = 900, EASE = 'cubic-bezier(0.65, 0, 0.35, 1)';
+      photo.style.transform = `translateX(${dx}px)`;
+      for (const el of [photo, ...text]) el.style.opacity = '0';
+      root.classList.remove('intro');
+      void photo.offsetWidth;
+      photo.style.transition = `opacity ${FADE}ms ease-out`;
+      photo.style.opacity = '1';
+      setTimeout(() => {
+        photo.style.transition = `transform ${MOVE}ms ${EASE}`;
+        photo.style.transform = '';
+        for (const el of text) { el.style.transition = `opacity ${MOVE}ms ease-in-out`; el.style.opacity = '1'; }
+        setTimeout(() => { for (const el of [photo, ...text]) { el.style.transition = ''; el.style.opacity = ''; } }, MOVE);
+      }, FADE + 100);
     }
   </script>
 </Base>
