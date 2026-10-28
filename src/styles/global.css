@@ -35,7 +35,9 @@ body {
   font-optical-sizing: auto;
 }
 img, video { display: block; max-width: 100%; height: auto; }
-a { color: inherit; }
+/* Links: no underline; they turn the accent colour on hover. */
+a { color: inherit; text-decoration: none; }
+a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { color: var(--accent); }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 3px; }
 ::selection { background: var(--accent); color: var(--ink); }
 
@@ -52,7 +54,6 @@ a { color: inherit; }
 .site-header .name { font-weight: 650; font-stretch: 90%; text-decoration: none;  }
 .site-header nav { display: flex; align-items: center; gap: 4px; }
 .site-header nav a:not(.btn) { text-decoration: none; color: var(--ink); padding: 8px 10px; border-radius: var(--radius-sm); }
-.site-header nav a:not(.btn):hover { color: var(--ink); background: var(--panel); }
 
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
@@ -109,8 +110,7 @@ a { color: inherit; }
 .contact h2 { margin: 0;  font-weight: 500; max-width: var(--text); }  /* as wide as the text under it */
 .contact p { color: var(--ink); max-width: var(--text); margin: 16px 0 0; }
 .contact .actions { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
-.contact .actions a:not(.btn) { font-weight: 550; text-underline-offset: 4px; text-decoration-color: var(--rule); }
-.contact .actions a:not(.btn):hover { text-decoration-color: currentColor; }
+.contact .actions a:not(.btn) { font-weight: 550; }
 .site-footer { padding-block: 24px 40px; color: var(--ink); }
 
 /* Case page */
