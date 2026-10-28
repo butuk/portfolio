@@ -12,9 +12,9 @@
   --gutter: clamp(16px, 4vw, 48px);
   --max: 1200px;
   --text: 36rem;  /* reading column: about ten average words per line of body text */
-  --radius-lg: 14px;
-  --radius: 8px;
-  --radius-sm: 4px;
+  --radius-lg: 3px;
+  --radius: 3px;
+  --radius-sm: 3px;
 }
 
 /* Type scale after Apple HIG (iOS Dynamic Type, default size), size / leading in px:
@@ -36,7 +36,7 @@ body {
 }
 img, video { display: block; max-width: 100%; height: auto; }
 a { color: inherit; }
-:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 3px; }
 ::selection { background: var(--accent); color: var(--ink); }
 
 .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
