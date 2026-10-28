@@ -4,7 +4,6 @@ import Base from '../layouts/Base.astro';
 import Figure from './Figure.astro';
 import { site } from '../site';
 import { nb } from '../lib/nbsp.mjs';
-import { gallery } from '../gallery';
 const { role } = Astro.props;
 const all = (await getCollection('cases')).sort((a, b) => a.data.order - b.data.order);
 const cases = role ? all.filter((c) => c.data.tags.includes(role)) : all;
@@ -51,13 +50,6 @@ const endings = [
         </div>
         <div class="visual">{c.data.cover && <Figure src={c.data.cover} alt={`${c.data.title} preview`} bare sizes="(min-width: 1100px) 640px, 100vw" />}</div>
       </a>
-    ))}
-  </section>
-  <section class="stream wrap" aria-label="More work">
-    {gallery.map((g) => (
-      <div class="stream__item" style={`aspect-ratio: ${g.ratio}; background: ${g.color ?? 'var(--panel)'}`}>
-        {g.src && <Figure src={g.src} alt={g.alt ?? ''} bare sizes="(min-width: 1100px) 360px, 50vw" />}
-      </div>
     ))}
   </section>
   <script>
