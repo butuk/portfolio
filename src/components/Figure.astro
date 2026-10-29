@@ -2,9 +2,10 @@
 // src is a base path like /media/phi-report/before (no extension).
 // Web versions are produced by scripts/images.py from media-src/.
 // zoom: open full size on click. wide: scroll sideways on small screens instead of shrinking.
+// clear: the image has its own transparent background; no grey panel behind it.
 import media from '../media.json';
 import { nb } from '../lib/nbsp.mjs';
-const { src, caption, alt = caption, sizes = '(min-width: 1200px) 1104px, 100vw', bare = false, zoom = true, wide = false, eager = false } = Astro.props;
+const { src, caption, alt = caption, sizes = '(min-width: 1200px) 1104px, 100vw', bare = false, zoom = true, wide = false, eager = false, clear = false } = Astro.props;
 const size = (media as Record<string, [number, number]>)[src];
 const w1 = size ? Math.min(960, size[0]) : 0;
 const w2 = size ? Math.min(1920, size[0]) : 0;
@@ -18,7 +19,7 @@ const imgProps = size && {
 ) : bare ? (
   <img {...imgProps} />
 ) : (
-  <figure class:list={['figure', wide && 'figure--wide']}>
+  <figure class:list={['figure', wide && 'figure--wide', clear && 'figure--clear']}>
     <div class="scroller">
       {zoom ? (
         <button type="button" class="zoom" data-full={`${src}-1920.webp`} aria-label={`Enlarge: ${alt}`}><img {...imgProps} /></button>

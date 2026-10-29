@@ -156,6 +156,7 @@ a[aria-current="page"]:not(.btn):not(.case-card):hover, a[aria-current="page"]:n
 .figure img, .figure video { width: 100%; border-radius: var(--radius); background: var(--panel); }
 .figure figcaption { max-width: var(--text); margin: 12px auto 0; color: var(--ink); }
 .figure-missing { aspect-ratio: 16 / 9; border-radius: var(--radius); background: var(--panel); border: 1.5px dashed var(--rule); display: grid; place-items: center; color: var(--ink); }
+.figure--clear img { background: none; }
 .figure .zoom { all: unset; display: block; width: 100%; cursor: zoom-in; border-radius: var(--radius); }
 .figure .zoom:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .figure--wide .scroller { overflow-x: auto; border-radius: var(--radius); scrollbar-width: thin; }
