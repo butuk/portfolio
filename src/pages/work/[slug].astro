@@ -40,9 +40,7 @@ const d = entry.data;
     addEventListener('resize', fit);
 
     // Trial: the page background moves through Vitali's six colours, red to green, as you scroll.
-    // Each is his swatch made darker and richer in OKLCH, same hue, so white text stays at 4.6:1 or more.
-    // Swatches: #ec623f #e67d2f #f2ab45 #e5d245 #c6c856 #5db366
-    const stops = ['#d93b06', '#b85c08', '#a16902', '#837607', '#787800', '#11872e']
+    const stops = ['#ec623f', '#e67d2f', '#f2ab45', '#e5d245', '#c6c856', '#5db366']
       .map((h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)));
     const paint = () => {
       const max = document.documentElement.scrollHeight - innerHeight;
