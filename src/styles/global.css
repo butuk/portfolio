@@ -4,6 +4,7 @@
   --panel: #f7f8f9;      /* matches the canvas of case images, so they sit flush */
   --ink: #252a2d;
   --rule: #e3e6ea;
+  --line: #878d92;  /* dividers and main-button outlines: mid lightness, 3.4:1 on white and 3.2:1 on the card, above the WCAG 3:1 minimum for non-text */
   --accent: #d3af37;
   --accent-ink: #252a2d;  /* ink on gold reads at about 5:1; white on gold would not */
 
@@ -67,7 +68,7 @@ a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { c
 /* Trial: main buttons are outlined only; secondary ones have no fill and no outline.
    Both fill with the accent on hover (rule above). */
 .btn { border-color: transparent; }
-.btn--accent { background: transparent; border-color: var(--ink); color: var(--ink); }
+.btn--accent { background: transparent; border-color: var(--line); color: var(--ink); }
 
 /* Hero */
 /* Photo floats top-right; the headline and the paragraph flow around it and run under it once they pass its bottom edge. */
@@ -104,12 +105,12 @@ a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { c
 .roles { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0 0 16px; padding: 0; }
 .roles li { padding: 3px 10px; border-radius: var(--radius-sm); border: 1px solid var(--rule); background: var(--paper); color: var(--ink); }
 
-.metrics { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; border-top: 1px solid var(--rule); padding-top: 20px; }
+.metrics { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; border-top: 1px solid var(--line); padding-top: 20px; }
 .metrics b { display: block; font-weight: 650; font-variant-numeric: tabular-nums;  margin-bottom: 8px; }
 .metrics span { display: block; color: var(--ink); }
 
 /* Contact block */
-.contact { border-top: 1px solid var(--rule); padding-block: clamp(56px, 8vw, 112px); }
+.contact { border-top: 1px solid var(--line); padding-block: clamp(56px, 8vw, 112px); }
 .contact h2 { margin: 0;  font-weight: 500; max-width: var(--text); }  /* as wide as the text under it */
 .contact p { color: var(--ink); max-width: var(--text); margin: 16px 0 0; }
 .contact .actions { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
@@ -282,9 +283,8 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .linkish { all: unset; cursor: pointer; }
 .linkish:hover, .linkish:focus-visible { color: var(--accent); }
 
-/* Trial: main buttons as pills. Side padding clearly larger than the space above and below the label
+/* Trial: side padding clearly larger than the space above and below the label
    (the line box adds ~4px above and below the letters, so vertical padding stays small). */
 .btn { padding: 8px 22px; }
 .btn--small { padding: 4px 16px; }
-.btn--accent { border-radius: 999px; }
 .roles li, .case-card .roles li { padding: 2px 14px; }
