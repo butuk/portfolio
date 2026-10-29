@@ -78,7 +78,8 @@ a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { t
 .hero .flap .sp { white-space: normal; }                  /* ...only at spaces */
 .hero .flap .ch { display: inline-block; transform-origin: 50% 60%; }
 .hero .flap .ch:empty { display: none; }
-.hero .flap .ch.it { font-style: italic; }
+/* The marked letters (A and I in "an Actual Individual"): the system serif, italic. */
+.hero .flap .ch.it { font-family: ui-serif, "New York", Georgia, Cambria, "Times New Roman", serif; font-style: italic; }
 .hero .flap .ch.flip { animation: flap 70ms ease-out; }
 @keyframes flap { from { transform: rotateX(-75deg); opacity: 0.35; } to { transform: none; opacity: 1; } }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
