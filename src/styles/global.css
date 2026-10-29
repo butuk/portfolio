@@ -5,8 +5,6 @@
   --ink: #252a2d;
   --rule: #e3e6ea;
   --line: #878d92;  /* dividers and main-button outlines: mid lightness, 3.4:1 on white and 3.2:1 on the card, above the WCAG 3:1 minimum for non-text */
-  --accent: #d3af37;
-  --accent-ink: #252a2d;  /* ink on gold reads at about 5:1; white on gold would not */
 
   --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;  /* the visitor's own system font: SF Pro, Segoe UI, Roboto */
   --font-mono: var(--font);  /* no separate face: figures and labels use the system font too */
@@ -36,11 +34,11 @@ body {
   font-optical-sizing: auto;
 }
 img, video { display: block; max-width: 100%; height: auto; }
-/* Links: no underline; they turn the accent colour on hover. */
+/* Links: no underline; underlined on hover. */
 a { color: inherit; text-decoration: none; }
-a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { color: var(--accent); }
+a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { text-decoration: underline; text-underline-offset: 0.2em; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 3px; }
-::selection { background: var(--accent); color: var(--ink); }
+::selection { background: #252a2d; color: #ffffff; }
 
 .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
 
@@ -62,13 +60,13 @@ a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { c
   font-weight: 600; text-decoration: none;
   border: 1.5px solid var(--ink); color: var(--ink); background: transparent;
 }
-/* Every button looks the same on hover: filled with the accent, white text. */
-.btn:hover, .btn:focus-visible { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+/* Every button looks the same on hover: filled with #252A2D, white text (14:1). */
+.btn:hover, .btn:focus-visible { background: #252a2d; border-color: #252a2d; color: #ffffff; }
 /* Main buttons are ink by default and turn gold on hover. */
 /* Trial: main buttons are outlined only; secondary ones have no fill and no outline.
-   Both fill with the accent on hover (rule above). */
+   Both fill with #252A2D on hover (rule above). */
 .btn { border-color: transparent; }
-.btn--accent { background: transparent; border-color: var(--line); color: var(--ink); }
+.btn--primary { background: transparent; border-color: var(--line); color: var(--ink); }
 
 /* Hero */
 /* Photo floats top-right; the headline and the paragraph flow around it and run under it once they pass its bottom edge. */
@@ -100,7 +98,6 @@ a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { c
 .case-card p.summary { margin: 0; color: var(--ink); }
 .case-card .more { display: inline-block; margin-top: 28px; font-weight: 600; }
 .case-card .visual img { border-radius: var(--radius); box-shadow: 0 1px 2px rgb(37 42 45 / 6%), 0 12px 40px -12px rgb(37 42 45 / 18%); }
-.case-card:hover .more, .case-card:focus-visible .more { color: var(--accent); }
 
 .roles { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0 0 16px; padding: 0; }
 .roles li { padding: 3px 10px; border-radius: var(--radius-sm); border: 1px solid var(--rule); background: var(--paper); color: var(--ink); }
@@ -281,7 +278,7 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .consent__actions { display: flex; gap: 8px; }
 .btn--small { padding: 6px 14px; font-size: 0.8125rem; line-height: 1.125rem; }
 .linkish { all: unset; cursor: pointer; }
-.linkish:hover, .linkish:focus-visible { color: var(--accent); }
+.linkish:hover, .linkish:focus-visible { text-decoration: underline; text-underline-offset: 0.2em; }
 
 /* Trial: side padding clearly larger than the space above and below the label
    (the line box adds ~4px above and below the letters, so vertical padding stays small). */
