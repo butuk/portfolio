@@ -4,8 +4,7 @@
   --panel: #f7f8f9;      /* matches the canvas of case images, so they sit flush */
   --ink: #252a2d;
   --rule: #e3e6ea;
-  --accent: #d3af37;
-  --accent-ink: #252a2d;  /* ink on gold reads at about 5:1; white on gold would not */
+  --line: #878d92;  /* dividers and main-button outlines: mid lightness, 3.4:1 on white and 3.2:1 on the card, above the WCAG 3:1 minimum for non-text */
 
   --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;  /* the visitor's own system font: SF Pro, Segoe UI, Roboto */
   --font-mono: var(--font);  /* no separate face: figures and labels use the system font too */
@@ -35,11 +34,13 @@ body {
   font-optical-sizing: auto;
 }
 img, video { display: block; max-width: 100%; height: auto; }
-/* Links: no underline; they turn the accent colour on hover. */
+/* Links: no underline; underlined on hover. */
 a { color: inherit; text-decoration: none; }
-a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { color: var(--accent); }
+a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { text-decoration: underline; text-underline-offset: 0.2em; }
+/* A link to the page you are on stays plain. */
+a[aria-current="page"]:hover, a[aria-current="page"]:focus-visible { text-decoration: none; cursor: default; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 3px; }
-::selection { background: var(--accent); color: var(--ink); }
+::selection { background: #252a2d; color: #ffffff; }
 
 .wrap { max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
 
@@ -61,10 +62,13 @@ a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { c
   font-weight: 600; text-decoration: none;
   border: 1.5px solid var(--ink); color: var(--ink); background: transparent;
 }
-/* Every button looks the same on hover: filled with the accent, white text. */
-.btn:hover, .btn:focus-visible { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+/* Every button looks the same on hover: filled with #252A2D, white text (14:1). */
+.btn:hover, .btn:focus-visible { background: #252a2d; border-color: #252a2d; color: #ffffff; }
 /* Main buttons are ink by default and turn gold on hover. */
-.btn--accent { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+/* Trial: main buttons are outlined only; secondary ones have no fill and no outline.
+   Both fill with #252A2D on hover (rule above). */
+.btn { border-color: transparent; }
+.btn--primary { background: transparent; border-color: var(--line); color: var(--ink); }
 
 /* Hero */
 /* Photo floats top-right; the headline and the paragraph flow around it and run under it once they pass its bottom edge. */
@@ -99,17 +103,16 @@ a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { c
 .case-card p.summary { margin: 0; color: var(--ink); }
 .case-card .more { display: inline-block; margin-top: 28px; font-weight: 600; }
 .case-card .visual img { border-radius: var(--radius); box-shadow: 0 1px 2px rgb(37 42 45 / 6%), 0 12px 40px -12px rgb(37 42 45 / 18%); }
-.case-card:hover .more, .case-card:focus-visible .more { color: var(--accent); }
 
 .roles { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0 0 16px; padding: 0; }
 .roles li { padding: 3px 10px; border-radius: var(--radius-sm); border: 1px solid var(--rule); background: var(--paper); color: var(--ink); }
 
-.metrics { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; border-top: 1px solid var(--rule); padding-top: 20px; }
+.metrics { list-style: none; padding: 0; margin: 28px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; border-top: 1px solid var(--line); padding-top: 20px; }
 .metrics b { display: block; font-weight: 650; font-variant-numeric: tabular-nums;  margin-bottom: 8px; }
 .metrics span { display: block; color: var(--ink); }
 
 /* Contact block */
-.contact { border-top: 1px solid var(--rule); padding-block: clamp(56px, 8vw, 112px); }
+.contact { border-top: 1px solid var(--line); padding-block: clamp(56px, 8vw, 112px); }
 .contact h2 { margin: 0;  font-weight: 500; max-width: var(--text); }  /* as wide as the text under it */
 .contact p { color: var(--ink); max-width: var(--text); margin: 16px 0 0; }
 .contact .actions { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
@@ -297,4 +300,39 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 @media (max-width: 860px) { .consent { flex-direction: column; justify-content: center; text-align: center; } }
 .btn--small { padding: 6px 14px; font-size: 0.8125rem; line-height: 1.125rem; }
 .linkish { all: unset; cursor: pointer; }
-.linkish:hover, .linkish:focus-visible { color: var(--accent); }
+.linkish:hover, .linkish:focus-visible { text-decoration: underline; text-underline-offset: 0.2em; }
+
+/* Trial: side padding clearly larger than the space above and below the label
+   (the line box adds ~4px above and below the letters, so vertical padding stays small). */
+.btn { padding: 8px 22px; }
+.btn--small { padding: 4px 16px; }
+.roles li, .case-card .roles li { padding: 2px 14px; }
+
+/* Trial: case card on a gradient #FF7655 → #FF5C35 with dark text #0A0B0B:
+   6.4–7.5:1, more under the lighter hover veil.
+   Tags: white at 30% with the same dark text, 8.7:1 or more. Divider: the text colour. */
+.case-card { --card-ink: #0a0b0b; background: linear-gradient(180deg, #ff7655, #ff5c35); border: 0; color: var(--card-ink); }
+.case-card .client, .case-card p.summary, .case-card .metrics span { color: var(--card-ink); }
+.case-card .roles li { background: rgb(255 255 255 / 0.3); border-color: transparent; color: var(--card-ink); }
+.case-card .metrics { border-top-color: var(--card-ink); }
+/* On hover a 10% white veil fades in over the background (gradients can't transition directly);
+   the dark text only gains contrast. The cover slides a little left; above the text, it grows a little. */
+.case-card { transition: box-shadow 400ms ease; }
+.case-card:hover, .case-card:focus-visible { box-shadow: inset 0 0 0 100vmax rgb(255 255 255 / 0.1); }
+.case-card .visual img { transition: transform 500ms cubic-bezier(0.25, 0.7, 0.25, 1); }
+.case-card:hover .visual img, .case-card:focus-visible .visual img { transform: translateX(-24px); }
+@media (max-width: 860px) {
+  .case-card .visual img { transform-origin: 50% 40%; }
+  .case-card:hover .visual img, .case-card:focus-visible .visual img { transform: scale(1.04); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .case-card, .case-card .visual img { transition: none; }
+  .case-card:hover .visual img, .case-card:focus-visible .visual img { transform: none; }
+}
+
+/* Trial: case page on a scrolling colour background (set by the page script); the header stays a white strip.
+   Text and dividers are dark #0D0E0F: 7.3:1 at the weakest point (the green end), up to 13:1 on the yellow. */
+.tinted { --ink: #0d0e0f; --line: #0d0e0f; --rule: rgb(0 0 0 / 0.3); }
+.tinted .site-header, .tinted .lightbox, .tinted .consent { --ink: #252a2d; --line: #878d92; --rule: #e3e6ea; }
+.tinted .site-header, .tinted .lightbox, .tinted .consent { color: var(--ink); }
+.tinted .site-header { background: #ffffff; }
