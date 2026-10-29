@@ -78,6 +78,7 @@ a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { t
 .hero .flap .sp { white-space: normal; }                  /* ...only at spaces */
 .hero .flap .ch { display: inline-block; transform-origin: 50% 60%; }
 .hero .flap .ch:empty { display: none; }
+.hero .flap .ch.it { font-style: italic; }
 .hero .flap .ch.flip { animation: flap 70ms ease-out; }
 @keyframes flap { from { transform: rotateX(-75deg); opacity: 0.35; } to { transform: none; opacity: 1; } }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -264,12 +265,12 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 @media (max-width: 860px) {
   .case-card { grid-template-columns: 1fr; }
   /* Image above the text, scaled down to fit the card whole, with equal margins left and right. */
-  /* The report runs edge to edge of the card. In the cover file the report spans the middle 83.3% of the width
-     (8.3% shadow each side), so the image is 120% of the card and shifted 10% left. The visual spans the card's
-     full width (content + both paddings). The bottom 18.2% of the image is only shadow: the text starts 32px
-     under the report (the grid row gap, equal to --pad, is taken back too). Percent margins refer to the content width. */
+  /* The report spans the card's content width, so its margins equal the card padding (between the old
+     inset look and edge to edge). In the cover file the report is the middle 83.3% of the width (8.3% shadow
+     each side): the image is 120% wide and shifted 10% left. Its bottom 18.2% is only shadow: the text starts
+     32px under the report (the grid row gap, equal to --pad, is taken back too). */
   .case-card { --pad: clamp(24px, 4vw, 56px); }
-  .case-card .visual { position: static; order: -1; margin: 0 calc(-1 * var(--pad)) calc(32px - 21.84% - 1.4368 * var(--pad)); }
+  .case-card .visual { position: static; order: -1; margin: 0 0 calc(32px - 21.84% - var(--pad)); }
   .case-card .visual img { height: auto; width: 120%; max-width: none; margin-left: -10%; }
   .case-card h2 { font-size: 1.75rem; line-height: 2.125rem; }
   .case-card .metrics b { font-size: 1.375rem; line-height: 1.75rem; }
