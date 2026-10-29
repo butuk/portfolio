@@ -55,6 +55,8 @@ const { title = `${site.name}, designer`, description = 'Senior designer who mak
       const GA_ID = 'G-WPTZQMD0ZG';
       const KEY = 'consent-analytics';
       const banner = document.querySelector<HTMLElement>('.consent')!;
+      // While the banner shows, the page gets room for it at the bottom, so it never covers the footer.
+      new ResizeObserver(() => document.documentElement.style.setProperty('--consent-h', `${banner.offsetHeight}px`)).observe(banner);
       const read = () => { try { return localStorage.getItem(KEY); } catch { return null; } };
       const save = (v: string) => { try { localStorage.setItem(KEY, v); } catch {} };
       let loaded = false;
