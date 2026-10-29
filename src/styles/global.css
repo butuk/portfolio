@@ -288,3 +288,9 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .btn { padding: 8px 22px; }
 .btn--small { padding: 4px 16px; }
 .roles li, .case-card .roles li { padding: 2px 14px; }
+
+/* Trial: case card in Dusk (Pantone 316 C, #0F3538). Light text 12:1; lines and tag outlines 3.6:1. */
+.case-card { --card-ink: #f2f5f5; --card-line: #6a8b8d; background: #0f3538; border-color: #0f3538; color: var(--card-ink); }
+.case-card .client, .case-card p.summary, .case-card .metrics span { color: var(--card-ink); }
+.case-card .roles li { background: transparent; border-color: var(--card-line); color: var(--card-ink); }
+.case-card .metrics { border-top-color: var(--card-line); }
