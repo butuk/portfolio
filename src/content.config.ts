@@ -14,6 +14,8 @@ const cases = defineCollection({
     order: z.number().default(99),
     selfInitiated: z.boolean().default(false),
     summary: z.string(),
+    seoTitle: z.string().optional(),        // <title> and og:title; defaults to "Title, Name"
+    seoDescription: z.string().optional(),  // meta description, up to ~155 characters; defaults to the summary
     metrics: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
     cover: z.string().optional(),
   }),

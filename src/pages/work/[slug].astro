@@ -10,7 +10,7 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 ---
-<Base title={`${d.title}, Vitali Yanusheuski`} description={d.summary} bodyClass="tinted">
+<Base title={d.seoTitle ?? `${d.title}, Vitali Yanusheuski`} description={(d.seoDescription ?? d.summary).trim()} bodyClass="tinted">
   <article>
     <header class="case-head wrap">
       <p class="client">{d.client}, {d.year}</p>
