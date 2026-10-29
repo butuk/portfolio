@@ -155,6 +155,9 @@ a[aria-current="page"]:not(.btn):not(.case-card):hover, a[aria-current="page"]:n
 .figure { max-width: none !important; margin: 40px auto 48px; }
 .figure img, .figure video { width: 100%; border-radius: var(--radius); background: var(--panel); }
 .figure figcaption { max-width: var(--text); margin: 12px auto 0; color: var(--ink); }
+/* Between these widths the text column sits at the left while captions sit centred under the image:
+   centre the caption text too, so it does not look like a misaligned paragraph. */
+@media (min-width: 697px) and (max-width: 1100px) { .figure figcaption { text-align: center; } }
 .figure-missing { aspect-ratio: 16 / 9; border-radius: var(--radius); background: var(--panel); border: 1.5px dashed var(--rule); display: grid; place-items: center; color: var(--ink); }
 .figure--clear img { background: none; }
 .figure .zoom { all: unset; display: block; width: 100%; cursor: zoom-in; border-radius: var(--radius); }
