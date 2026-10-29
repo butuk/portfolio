@@ -35,8 +35,11 @@ for c in out.rglob('*.css'):
 (out / '_astro').rename(out / 'assets')
 for css in list((out / 'assets').glob('*.css')):
     css.rename(css.with_name('site.css'))
+# The stylesheet keeps one name across versions, so a version tag stops browsers from showing a cached old one.
+import hashlib
+ver = hashlib.sha1((out / 'assets' / 'site.css').read_bytes()).hexdigest()[:8]
 for f in out.rglob('*.html'):
     t = f.read_text()
-    t = re.sub(r'_astro/[^"]*\.css', 'assets/site.css', t).replace('_astro/', 'assets/')
+    t = re.sub(r'_astro/[^"]*\.css', f'assets/site.css?v={ver}', t).replace('_astro/', 'assets/')
     f.write_text(t)
 print('ok', sum(1 for _ in out.rglob('*') if _.is_file()), 'files')
