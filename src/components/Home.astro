@@ -39,7 +39,10 @@ const parsed = endings.map((e) => {
   <section class="hero wrap">
     <script is:inline>
       // Hide the hero before it is painted so the intro can reveal it; never longer than 4 s.
-      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // The intro plays once per visit: coming back to the main page from a case shows it at once.
+      let seen = false;
+      try { seen = sessionStorage.getItem('intro-seen') === '1'; sessionStorage.setItem('intro-seen', '1'); } catch {}
+      if (!seen && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
         document.documentElement.classList.add('intro');
         setTimeout(() => document.documentElement.classList.remove('intro'), 4000);
       }
