@@ -49,7 +49,53 @@ const { title = `${site.name}, designer`, description = 'Senior designer who mak
         <a href={site.phoneHref}>{site.phone}</a>
       </div>
     </section>
-    <footer class="site-footer wrap">© {new Date().getFullYear()} {site.name}</footer>
+    <footer class="site-footer wrap">© {new Date().getFullYear()} {site.name} · <button type="button" class="linkish" data-consent-open>Cookie settings</button></footer>
+    <div class="consent" role="region" aria-label="Cookie consent" hidden>
+      <p>I use Google Analytics cookies to see how visitors use this site. Nothing is collected until you agree.</p>
+      <div class="consent__actions">
+        <button type="button" class="btn btn--small" data-consent="denied">Reject</button>
+        <button type="button" class="btn btn--small btn--accent" data-consent="granted">Accept</button>
+      </div>
+    </div>
+    <script>
+      // Google Analytics (GA4) loads only after the visitor accepts cookies; the choice is remembered.
+      const GA_ID = 'G-WPTZQMD0ZG';
+      const KEY = 'consent-analytics';
+      const banner = document.querySelector<HTMLElement>('.consent')!;
+      const read = () => { try { return localStorage.getItem(KEY); } catch { return null; } };
+      const save = (v: string) => { try { localStorage.setItem(KEY, v); } catch {} };
+      let loaded = false;
+      const w = window as any;
+      const loadGA = () => {
+        if (loaded) return;
+        loaded = true;
+        w.dataLayer = w.dataLayer || [];
+        w.gtag = function () { w.dataLayer.push(arguments); };
+        w.gtag('js', new Date());
+        w.gtag('config', GA_ID);
+        const sc = document.createElement('script');
+        sc.async = true;
+        sc.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+        document.head.append(sc);
+      };
+      const choice = read();
+      if (choice === 'granted') loadGA();
+      else if (choice !== 'denied') banner.hidden = false;
+      banner.addEventListener('click', (e) => {
+        const v = (e.target as HTMLElement).closest<HTMLElement>('[data-consent]')?.dataset.consent;
+        if (!v) return;
+        save(v);
+        banner.hidden = true;
+        if (v === 'granted') loadGA();
+        else if (loaded) location.reload();  // withdraw: reload without analytics
+      });
+      document.querySelector('[data-consent-open]')?.addEventListener('click', () => { banner.hidden = false; });
+      // Count clicks on "Book a call" as an event (only when analytics is on).
+      document.addEventListener('click', (e) => {
+        const a = (e.target as HTMLElement).closest('a[href*="calendly.com"]');
+        if (a && loaded) w.gtag('event', 'book_call', { link_url: (a as HTMLAnchorElement).href });
+      });
+    </script>
     <dialog class="lightbox" aria-label="Enlarged image">
       <button class="btn close" type="button">Close</button>
       <img alt="" />
