@@ -112,7 +112,9 @@ a[aria-current="page"]:hover, a[aria-current="page"]:focus-visible { text-decora
 .metrics span { display: block; color: var(--ink); }
 
 /* Contact block */
-.contact { border-top: 1px solid var(--line); padding-block: clamp(56px, 8vw, 112px); }
+/* The divider above the contact block spans the content width only, not the side gutters. */
+.contact { padding-block: clamp(56px, 8vw, 112px);
+  background: linear-gradient(var(--line), var(--line)) no-repeat var(--gutter) 0 / calc(100% - 2 * var(--gutter)) 1px; }
 .contact h2 { margin: 0;  font-weight: 500; max-width: var(--text); }  /* as wide as the text under it */
 .contact p { color: var(--ink); max-width: var(--text); margin: 16px 0 0; }
 .contact .actions { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
@@ -149,7 +151,8 @@ a[aria-current="page"]:hover, a[aria-current="page"]:focus-visible { text-decora
 .prose li { margin-bottom: 0.3em; }
 .prose strong { font-weight: 650; }
 
-.figure { max-width: 1040px !important; margin: 40px auto 48px; }
+/* Images and videos in a case run the full content width, like the case header. */
+.figure { max-width: none !important; margin: 40px auto 48px; }
 .figure img, .figure video { width: 100%; border-radius: var(--radius); background: var(--panel); }
 .figure figcaption { max-width: var(--text); margin: 12px auto 0; color: var(--ink); }
 .figure-missing { aspect-ratio: 16 / 9; border-radius: var(--radius); background: var(--panel); border: 1.5px dashed var(--rule); display: grid; place-items: center; color: var(--ink); }

@@ -13,7 +13,7 @@ const m = media as Record<string, [number, number]>;
       const s = m[it.src] ?? [4, 3];
       return (
         <div class="figure-row__item" style={`flex: ${s[0] / s[1]} 1 0`}>
-          <Figure src={it.src} alt={it.label} bare sizes="(min-width: 1040px) 480px, 100vw" />
+          <Figure src={it.src} alt={it.label} bare sizes="(min-width: 1200px) 520px, 100vw" />
           {it.label && <span class="figure-row__label">{it.label}</span>}
         </div>
       );

@@ -4,7 +4,7 @@
 // zoom: open full size on click. wide: scroll sideways on small screens instead of shrinking.
 import media from '../media.json';
 import { nb } from '../lib/nbsp.mjs';
-const { src, caption, alt = caption, sizes = '(min-width: 1100px) 1040px, 100vw', bare = false, zoom = true, wide = false, eager = false } = Astro.props;
+const { src, caption, alt = caption, sizes = '(min-width: 1200px) 1104px, 100vw', bare = false, zoom = true, wide = false, eager = false } = Astro.props;
 const size = (media as Record<string, [number, number]>)[src];
 const w1 = size ? Math.min(960, size[0]) : 0;
 const w2 = size ? Math.min(1920, size[0]) : 0;
