@@ -38,7 +38,7 @@ img, video { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
 a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { text-decoration: underline; text-underline-offset: 0.2em; }
 /* A link to the page you are on stays plain. */
-a[aria-current="page"]:hover, a[aria-current="page"]:focus-visible { text-decoration: none; cursor: default; }
+a[aria-current="page"]:not(.btn):not(.case-card):hover, a[aria-current="page"]:not(.btn):not(.case-card):focus-visible { text-decoration: none; cursor: default; }  /* as specific as the hover rule above */
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 3px; }
 ::selection { background: #252a2d; color: #ffffff; }
 
@@ -298,6 +298,8 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
   box-shadow: 0 -4px 16px rgb(37 42 45 / 6%); font-size: 0.8125rem; line-height: 1.125rem; }
 .consent[hidden] { display: none; }
 body:has(.consent:not([hidden])) { padding-bottom: var(--consent-h, 0px); }
+/* "Cookie settings" in the footer appears only once the banner has been answered and closed. */
+body:has(.consent:not([hidden])) .cookie-settings { display: none; }
 .consent p { margin: 0; max-width: 60rem; }
 .consent__actions { display: flex; gap: 8px; }
 /* Where the buttons would drop under the text, centre both. */

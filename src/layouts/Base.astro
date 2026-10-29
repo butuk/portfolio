@@ -42,7 +42,7 @@ const { title = `${site.name}, designer`, description = 'Senior designer who mak
         <a href={site.phoneHref}>{site.phone}</a>
       </div>
     </section>
-    <footer class="site-footer wrap">© {new Date().getFullYear()} {site.name} · <button type="button" class="linkish" data-consent-open>Cookie settings</button></footer>
+    <footer class="site-footer wrap">© {new Date().getFullYear()} {site.name}<span class="cookie-settings"> · <button type="button" class="linkish" data-consent-open>Cookie settings</button></span></footer>
     <div class="consent" role="region" aria-label="Cookie consent" hidden>
       <p>I use Google Analytics cookies to see how visitors use this site. Nothing is collected until you agree.</p>
       <div class="consent__actions">
