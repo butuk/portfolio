@@ -289,9 +289,10 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .btn--small { padding: 4px 16px; }
 .roles li, .case-card .roles li { padding: 2px 14px; }
 
-/* Trial: case card in deep green #2E6A62 with aqua #62C9BB (from Vitali's swatch).
-   White text 6.2:1; aqua lines and tag outlines 3.1:1, above the WCAG 3:1 minimum. */
-.case-card { --card-ink: #ffffff; --card-line: #62c9bb; background: #2e6a62; border-color: #2e6a62; color: var(--card-ink); }
+/* Trial: case card in green #367B69 (sampled from Vitali's swatch). White text 5.0:1.
+   Tags: white at 65% with ink text, 9.0:1 for the words and 3.1:1 for the tag shape against the card.
+   Divider: the same white at 65%, 3.1:1. */
+.case-card { --card-ink: #ffffff; --card-tint: rgb(255 255 255 / 0.65); background: #367b69; border-color: #367b69; color: var(--card-ink); }
 .case-card .client, .case-card p.summary, .case-card .metrics span { color: var(--card-ink); }
-.case-card .roles li { background: transparent; border-color: var(--card-line); color: var(--card-ink); }
-.case-card .metrics { border-top-color: var(--card-line); }
+.case-card .roles li { background: var(--card-tint); border-color: transparent; color: var(--ink); }
+.case-card .metrics { border-top-color: var(--card-tint); }
