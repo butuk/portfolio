@@ -304,9 +304,10 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .case-card:hover, .case-card:focus-visible { box-shadow: inset 0 0 0 100vmax rgb(0 0 0 / 0.1); }
 @media (prefers-reduced-motion: reduce) { .case-card { transition: none; } }
 
-/* Trial: case page on a scrolling colour background (set by the page script).
-   Text and dividers turn white; the header stays a white strip on top. */
-.tinted { --ink: #ffffff; --line: #ffffff; --rule: rgb(255 255 255 / 0.5); }
+/* Trial: case page on a scrolling colour background (set by the page script); the header stays a white strip.
+   White text never reaches 4.5:1 on these colours (3.3:1 at best, on the red), so text and dividers are dark
+   all the way: #1A1D1F is 5.2:1 at the weakest point (the red) and up to 11:1 on the yellow. */
+.tinted { --ink: #1a1d1f; --line: #1a1d1f; --rule: rgb(0 0 0 / 0.3); }
 .tinted .site-header, .tinted .lightbox, .tinted .consent { --ink: #252a2d; --line: #878d92; --rule: #e3e6ea; }
 .tinted .site-header, .tinted .lightbox, .tinted .consent { color: var(--ink); }
 .tinted .site-header { background: #ffffff; }
