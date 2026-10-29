@@ -296,3 +296,8 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .case-card .client, .case-card p.summary, .case-card .metrics span { color: var(--card-ink); }
 .case-card .roles li { background: rgb(0 0 0 / 0.2); border-color: transparent; color: var(--card-ink); }
 .case-card .metrics { border-top-color: var(--card-tint); }
+/* Trial: on hover the card background glides to #5DB366 (Vitali's swatch).
+   Note: white text on it is 2.6:1, below WCAG 4.5:1; ink text would be 5.6:1. */
+.case-card { transition: background-color 400ms ease, border-color 400ms ease; }
+.case-card:hover, .case-card:focus-visible { background: #5db366; border-color: #5db366; }
+@media (prefers-reduced-motion: reduce) { .case-card { transition: none; } }
