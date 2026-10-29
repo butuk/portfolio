@@ -114,7 +114,12 @@ a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { t
 .contact .actions { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
 .contact .actions a:not(.btn) { font-weight: 550; }
 /* Where the phone would wrap on its own, stack all three: the button, then email and phone under it. */
-@media (max-width: 520px) { .contact .actions { flex-direction: column; align-items: flex-start; gap: 12px; } .contact .actions .btn { margin-bottom: 12px; } }
+@media (max-width: 520px) {
+  .contact .actions { flex-direction: column; align-items: center; gap: 12px; } .contact .actions .btn { margin-bottom: 12px; }
+  /* ...and then everything at the bottom is centred: heading, text, links and the footer line. */
+  .contact, .site-footer { text-align: center; }
+  .contact h2, .contact p { margin-inline: auto; }
+}
 .site-footer { padding-block: 24px 40px; color: var(--ink); }
 
 /* Case page */
