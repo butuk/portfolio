@@ -23,7 +23,7 @@ const { title = `${site.name}, designer`, description = 'Senior designer who mak
   <body class={bodyClass}>
     <header class="site-header">
       <div class="wrap">
-        <a class="name" href="/">{site.name}<span class="title"> • Senior UX / UI / Product Designer</span></a>
+        <a class="name" href="/" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>{site.name}<span class="title"> • Senior UX / UI / Product Designer</span></a>
         <nav aria-label="Main">
           <a href={site.cv} class="hide-sm">CV</a>
           <a href={site.linkedin} class="hide-sm">LinkedIn</a>
