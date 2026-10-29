@@ -289,17 +289,14 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .btn--small { padding: 4px 16px; }
 .roles li, .case-card .roles li { padding: 2px 14px; }
 
-/* Trial: case card with white text (colour and hover below).
-   Tags: black at 20% with white text, 7.0:1.
-   Divider: the same white at 65%, 3.1:1. */
-.case-card { --card-ink: #ffffff; --card-tint: rgb(255 255 255 / 0.65); background: linear-gradient(180deg, #ec6947, #da625c); border: 0; color: var(--card-ink); }
+/* Trial: case card on a gradient #FF7655 → #FF5C35 with dark text #0A0B0B:
+   6.4–7.5:1, and 5.3–6.1:1 under the 10% hover veil.
+   Tags: white at 30% with the same dark text, 8.7:1 or more. Divider: the text colour. */
+.case-card { --card-ink: #0a0b0b; background: linear-gradient(180deg, #ff7655, #ff5c35); border: 0; color: var(--card-ink); }
 .case-card .client, .case-card p.summary, .case-card .metrics span { color: var(--card-ink); }
-.case-card .roles li { background: rgb(0 0 0 / 0.2); border-color: transparent; color: var(--card-ink); }
-.case-card .metrics { border-top-color: var(--card-tint); }
-/* Trial: coral gradient #EC6947 → #DA625C top to bottom (Vitali's swatch).
-   On hover a 10% black veil fades in over the background (gradients can't transition directly).
-   Note: white text is 3.1–3.6:1 (3.8–4.3:1 on hover): fine for the large title and figures (3:1),
-   below 4.5:1 for the smaller text. */
+.case-card .roles li { background: rgb(255 255 255 / 0.3); border-color: transparent; color: var(--card-ink); }
+.case-card .metrics { border-top-color: var(--card-ink); }
+/* On hover a 10% black veil fades in over the background (gradients can't transition directly). */
 .case-card { transition: box-shadow 400ms ease; }
 .case-card:hover, .case-card:focus-visible { box-shadow: inset 0 0 0 100vmax rgb(0 0 0 / 0.1); }
 @media (prefers-reduced-motion: reduce) { .case-card { transition: none; } }
