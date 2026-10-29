@@ -175,13 +175,18 @@ const endings = [
       photo.style.transition = `opacity ${FADE}ms ease-out`;
       photo.style.opacity = '1';
       const TEXT = 600;
-      setTimeout(() => {
+      const done = () => setTimeout(() => { for (const el of [photo, ...text]) { el.style.transition = ''; el.style.opacity = ''; } }, TEXT);
+      // Where the avatar sits above the text (narrow screens) it has nowhere to fly: everything fades in at once.
+      if (Math.abs(dx) < 1) {
+        for (const el of text) { el.style.transition = `opacity ${TEXT}ms ease-out`; el.style.opacity = '1'; }
+        done();
+      } else setTimeout(() => {
         photo.style.transition = `transform ${MOVE}ms ${EASE}`;
         photo.style.transform = '';
         // The text fades in only once the avatar has arrived.
         setTimeout(() => {
           for (const el of text) { el.style.transition = `opacity ${TEXT}ms ease-out`; el.style.opacity = '1'; }
-          setTimeout(() => { for (const el of [photo, ...text]) { el.style.transition = ''; el.style.opacity = ''; } }, TEXT);
+          done();
         }, MOVE);
       }, FADE + 100);
     }

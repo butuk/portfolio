@@ -113,6 +113,8 @@ a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { t
 .contact p { color: var(--ink); max-width: var(--text); margin: 16px 0 0; }
 .contact .actions { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
 .contact .actions a:not(.btn) { font-weight: 550; }
+/* Where the phone would wrap on its own, stack all three: the button, then email and phone under it. */
+@media (max-width: 520px) { .contact .actions { flex-direction: column; align-items: flex-start; gap: 12px; } .contact .actions .btn { margin-bottom: 12px; } }
 .site-footer { padding-block: 24px 40px; color: var(--ink); }
 
 /* Case page */
@@ -149,6 +151,8 @@ a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { t
 .figure-row__items { display: flex; gap: 16px; }
 .figure-row__item { min-width: 0; }
 .figure-row__label { display: block; margin-top: 8px; font-weight: 550; }
+.figure-grid__items { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 720px) { .figure-grid__items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } }
 
 .case-cta { max-width: var(--max); margin: 64px auto 0; }
 
@@ -254,8 +258,10 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .case-card .roles li, .case-card .client, .case-card .metrics span { font-size: 0.9375rem; line-height: 1.25rem; }
 @media (max-width: 860px) {
   .case-card { grid-template-columns: 1fr; }
-  .case-card .visual { position: static; order: -1; margin: -8px calc(-1 * clamp(24px, 4vw, 56px)) 8px 0; overflow: hidden; }
-  .case-card .visual img { height: auto; width: 130%; }
+  /* Image above the text, scaled down to fit the card whole, with equal margins left and right. */
+  /* The cover's bottom 18.2% (of its width) is only the soft shadow: pull the text up over it, 32px below the report. */
+  .case-card .visual { position: static; order: -1; margin: 0 0 calc(32px - 18.2%); }
+  .case-card .visual img { height: auto; width: 100%; max-width: 100%; }
   .case-card h2 { font-size: 1.75rem; line-height: 2.125rem; }
   .case-card .metrics b { font-size: 1.375rem; line-height: 1.75rem; }
 }
@@ -277,6 +283,8 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .consent[hidden] { display: none; }
 .consent p { margin: 0; max-width: 60rem; }
 .consent__actions { display: flex; gap: 8px; }
+/* Where the buttons would drop under the text, centre both. */
+@media (max-width: 860px) { .consent { flex-direction: column; justify-content: center; text-align: center; } }
 .btn--small { padding: 6px 14px; font-size: 0.8125rem; line-height: 1.125rem; }
 .linkish { all: unset; cursor: pointer; }
 .linkish:hover, .linkish:focus-visible { text-decoration: underline; text-underline-offset: 0.2em; }

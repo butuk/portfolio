@@ -24,6 +24,7 @@ cover: /media/phi-report/cover
 import Figure from '../../components/Figure.astro';
 import VideoLoop from '../../components/VideoLoop.astro';
 import FigureRow from '../../components/FigureRow.astro';
+import FigureGrid from '../../components/FigureGrid.astro';
 
 ## Context
 
@@ -95,7 +96,14 @@ more directly on the chart. The block didn't grow at all.
 
 <Figure src="/media/phi-report/tooth-chart" caption="Old and new tooth chart, schematically: each tooth now has room for its six bleeding sites and pocket depth" />
 
-<Figure wide src="/media/phi-report/tooth-chart-states" caption="The same chart on real cases: missing teeth, bleeding, deep pockets, plaque, and their combinations" />
+<FigureGrid caption="The same chart on real cases: missing teeth, bleeding, deep pockets, plaque, and their combinations" items={[
+  { src: "/media/phi-report/tooth-states-1", alt: "Tooth chart with several missing teeth" },
+  { src: "/media/phi-report/tooth-states-2", alt: "Tooth chart with bleeding at many sites" },
+  { src: "/media/phi-report/tooth-states-3", alt: "Tooth chart with deep pockets" },
+  { src: "/media/phi-report/tooth-states-4", alt: "Tooth chart with plaque and pockets" },
+  { src: "/media/phi-report/tooth-states-5", alt: "Tooth chart with most teeth missing" },
+  { src: "/media/phi-report/tooth-states-6", alt: "Tooth chart with bleeding, pockets and plaque combined" },
+]} />
 
 <Figure src="/media/phi-report/before-after" caption="Original vs. new report at the same size" />
 
