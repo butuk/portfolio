@@ -1,0 +1,23 @@
+---
+// A grid of small images, each opens full size on click (shares the lightbox with <Figure>).
+// items: [{ src, alt }]. Three columns, two on narrow screens.
+import media from '../media.json';
+import { nb } from '../lib/nbsp.mjs';
+const { items, caption } = Astro.props;
+const m = media as Record<string, [number, number]>;
+---
+<figure class="figure figure-grid">
+  <div class="figure-grid__items">
+    {items.map((it: { src: string; alt?: string }) => {
+      const s = m[it.src];
+      const w1 = Math.min(960, s[0]);
+      return (
+        <button type="button" class="zoom" data-full={`${it.src}-1920.webp`} aria-label={`Enlarge: ${it.alt ?? ''}`}>
+          <img src={`${it.src}-1920.webp`} srcset={`${it.src}-960.webp ${w1}w`} sizes="(min-width: 1100px) 340px, 50vw"
+            width={s[0]} height={s[1]} alt={it.alt ?? ''} loading="lazy" decoding="async" />
+        </button>
+      );
+    })}
+  </div>
+  {caption && <figcaption>{nb(caption)}</figcaption>}
+</figure>
