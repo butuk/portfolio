@@ -73,7 +73,8 @@ a:not(.btn):not(.case-card):hover, a:not(.btn):not(.case-card):focus-visible { t
 .hero { display: flow-root; padding-block: clamp(48px, 9vw, 120px) clamp(48px, 7vw, 96px); }
 .hero h1 { margin: 0; font-weight: 700; }  /* bold throughout; plain wrapping so lines don't re-balance while letters flip */
 /* Split-flap ending: the whole headline is set alike; letters flip on change. */
-.hero .flap { perspective: 600px; white-space: nowrap; }  /* no breaks between letter cells... */
+.hero .flap { perspective: 600px; }
+.hero .flap.cells { white-space: nowrap; }  /* once split into letter cells: no breaks between them... */
 .hero .flap .sp { white-space: normal; }                  /* ...only at spaces */
 .hero .flap .ch { display: inline-block; transform-origin: 50% 60%; }
 .hero .flap .ch:empty { display: none; }

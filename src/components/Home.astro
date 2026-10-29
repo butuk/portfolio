@@ -78,6 +78,7 @@ const endings = [
       // Replace the plain text with one cell per character.
       const first = flap.textContent!;
       flap.textContent = '';
+      flap.classList.add('cells');
       cells = [...first].map((ch) => { const c = cell(); set(c, ch, false); return c; });
 
       const show = (from: string, to: string): Promise<void> => new Promise<void>((done) => {
