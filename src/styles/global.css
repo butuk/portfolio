@@ -303,3 +303,10 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .case-card { transition: box-shadow 400ms ease; }
 .case-card:hover, .case-card:focus-visible { box-shadow: inset 0 0 0 100vmax rgb(0 0 0 / 0.1); }
 @media (prefers-reduced-motion: reduce) { .case-card { transition: none; } }
+
+/* Trial: case page on a scrolling colour background (set by the page script).
+   Text and dividers turn white; the header stays a white strip on top. */
+.tinted { --ink: #ffffff; --line: #ffffff; --rule: rgb(255 255 255 / 0.5); }
+.tinted .site-header, .tinted .lightbox, .tinted .consent { --ink: #252a2d; --line: #878d92; --rule: #e3e6ea; }
+.tinted .site-header, .tinted .lightbox, .tinted .consent { color: var(--ink); }
+.tinted .site-header { background: #ffffff; }
