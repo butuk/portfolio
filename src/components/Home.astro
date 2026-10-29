@@ -12,13 +12,23 @@ const roleNames = { product: 'Product', ux: 'UX/UI', data: 'Data' } as const;
 const lead = role === 'product' ? 'Product designer' : role === 'ux' ? 'UX/UI designer' : role === 'data' ? 'Information designer' : 'Designer';
 const linkBase = role ? `?from=${role}` : '';
 // Endings of the main headline, shown one after another like a split-flap board. The first one is the default.
+// An underscore marks the next letter as italic.
 const endings = [
   'makes dense information easy to absorb',
   'makes the complex simple',
   'is all about meaning',
-  'is Actual Individual',
+  'is an _Actual _Individual',
   'fights entropy',
 ];
+const parsed = endings.map((e) => {
+  let text = '';
+  const italic: number[] = [];
+  for (let i = 0; i < e.length; i++) {
+    if (e[i] === '_') { italic.push(text.length); i++; }
+    text += e[i];
+  }
+  return { text, italic };
+});
 ---
 <Base>
   <section class="hero wrap">
@@ -30,7 +40,7 @@ const endings = [
       }
     </script>
     <div class="photo"><Figure src="/media/site/photo" alt="Vitali Yanusheuski" bare eager sizes="(min-width: 860px) 113px, 80px" /></div>
-    <h1>{lead} who <span class="sr-only">{endings[0]}</span><span class="flap" aria-hidden="true" data-endings={JSON.stringify(endings)}>{endings[0]}</span></h1>
+    <h1>{lead} who <span class="sr-only">{parsed[0].text}</span><span class="flap" aria-hidden="true" data-endings={JSON.stringify(parsed.map((p) => p.text))} data-italic={JSON.stringify(parsed.map((p) => p.italic))}>{parsed[0].text}</span></h1>
     <p class="lede">I turn large volumes of information into clear structures, so people get the most value in the least time and space. 10+ years in product companies, design studios and agencies, now in healthcare AI at Denti.AI. Based in Kraków.</p>
     <div class="actions">
       <a class="btn btn--accent" href={site.calendly}>Book a call</a>
@@ -62,6 +72,7 @@ const endings = [
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (flap && h1 && !still) {
       const endings: string[] = JSON.parse(flap.dataset.endings!);
+      const italic: number[][] = JSON.parse(flap.dataset.italic!);  // per ending: positions of italic letters
       const letters = 'abcdefghijklmnopqrstuvwxyz';
       const HOLD = 4000;      // how long an ending stays
       const STAGGER = 40;     // delay between neighbouring positions
@@ -70,9 +81,9 @@ const endings = [
 
       let cells: HTMLSpanElement[] = [];
       const cell = () => { const c = document.createElement('span'); flap.append(c); return c; };
-      const set = (c: HTMLSpanElement, ch: string, animate = true) => {
+      const set = (c: HTMLSpanElement, ch: string, animate = true, it = false) => {
         if (ch === ' ') { c.className = 'sp'; c.textContent = ' '; return; }  // a real space, so lines still wrap between words
-        c.className = 'ch';
+        c.className = it ? 'ch it' : 'ch';
         c.textContent = ch;
         if (animate && ch) { void c.offsetWidth; c.classList.add('flip'); }
       };
@@ -80,21 +91,22 @@ const endings = [
       const first = flap.textContent!;
       flap.textContent = '';
       flap.classList.add('cells');
-      cells = [...first].map((ch) => { const c = cell(); set(c, ch, false); return c; });
+      cells = [...first].map((ch, i) => { const c = cell(); set(c, ch, false, italic[0].includes(i)); return c; });
 
-      const show = (from: string, to: string): Promise<void> => new Promise<void>((done) => {
+      const show = (from: string, to: string, toItalic: number[]): Promise<void> => new Promise<void>((done) => {
         const n = Math.max(from.length, to.length);
         while (cells.length < n) { const c = cell(); set(c, '', false); cells.push(c); }
         for (let i = 0; i < n; i++) {
           const a = from[i] ?? '', b = to[i] ?? '';
           const last = i === n - 1;
-          if (a === b) { if (last) setTimeout(done, i * STAGGER); continue; }
+          const it = toItalic.includes(i);
+          if (a === b) { cells[i]?.classList.toggle('it', it && b !== ' '); if (last) setTimeout(done, i * STAGGER); continue; }
           // Start the letter from the alphabet position after the old one, as a real flap would.
           let k = letters.indexOf(a.toLowerCase());
           let turns = b === ' ' || b === '' ? 1 : TURNS;
           setTimeout(function tick() {
             if (turns-- > 0) { k = (k + 1) % letters.length; set(cells[i], letters[k < 0 ? 0 : k]); setTimeout(tick, STEP); }
-            else { set(cells[i], b); if (last) done(); }
+            else { set(cells[i], b, true, it); if (last) done(); }
           }, i * STAGGER);
         }
       }).then(() => {
@@ -146,7 +158,7 @@ const endings = [
           // Mid-change, an old word tail glued to a new prefix can wrap onto an extra line; that line is
           // clipped (leaving room for descenders) instead of spilling over the text below.
           h1.style.clipPath = 'inset(-0.3em -100vw -0.06em -100vw)';
-          await show(from, endings[n]);
+          await show(from, endings[n], italic[n]);
           await glide(Math.max(cur, next), next);
           h1.style.transition = '';
           h1.style.height = '';
