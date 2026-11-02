@@ -13,6 +13,25 @@ const abs = (p: string) => new URL(p, Astro.site).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {lang === 'en' && (
+      <script is:inline>
+        // A visitor whose browser is set to Polish lands on the Polish version, unless they have picked a language
+        // with the switcher before. The page stays hidden for the moment it takes, so English never flashes.
+        (function () {
+          var choice = null;
+          try { choice = localStorage.getItem('lang-choice'); } catch (e) {}
+          var first = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+          if (choice || !/^pl\b/i.test(first)) return;
+          document.documentElement.style.visibility = 'hidden';
+          document.addEventListener('DOMContentLoaded', function () {
+            var pl = document.querySelector('.site-footer .lang a[hreflang="pl"]');
+            if (pl) location.replace(pl.href + location.search + location.hash);
+            else document.documentElement.style.visibility = '';
+          });
+          setTimeout(function () { document.documentElement.style.visibility = ''; }, 3000);
+        })();
+      </script>
+    )}
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
@@ -56,6 +75,12 @@ const abs = (p: string) => new URL(p, Astro.site).href;
       <nav class="lang" aria-label={t.langLabel}>
         {langs.map((l) => <a href={pathIn(Astro.url.pathname, l)} hreflang={l} lang={l} aria-current={l === lang ? 'page' : undefined}>{l.toUpperCase()}</a>)}
       </nav>
+      <script is:inline>
+        // A language picked with the switcher is remembered, so the automatic choice never overrides it.
+        document.querySelectorAll('.site-footer .lang a').forEach(function (a) {
+          a.addEventListener('click', function () { try { localStorage.setItem('lang-choice', a.getAttribute('hreflang')); } catch (e) {} });
+        });
+      </script>
     </footer>
     <div class="consent" role="region" aria-label={t.cookieRegion} hidden>
       <p>{t.cookieText}</p>
