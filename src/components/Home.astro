@@ -15,16 +15,16 @@ const title = role ? `${site.name} — ${roleTitles[role as keyof typeof roleTit
 const lead = role === 'product' ? 'Product designer' : role === 'ux' ? 'UX/UI designer' : role === 'data' ? 'Information designer' : 'Designer';
 const linkBase = role ? `?from=${role}` : '';
 // Endings of the main headline, shown one after another like a split-flap board. The first one is the default (also what
-// screen readers and visitors without motion get); the rest go from the shortest to the longest, then back to the first.
+// screen readers and visitors without motion get). They go from the longest to the shortest, then back to the first.
 // An underscore marks the next letter as italic.
 const endings = [
   'makes dense information easy to absorb',
-  'fights entropy',
-  'explains the why',
-  'is all about meaning',
-  'invents new patterns',
-  'is an _Actual _Individual',
   'lets visuals carry more',
+  'is an _Actual _Individual',
+  'invents new patterns',
+  'is all about meaning',
+  'explains the why',
+  'fights entropy',
 ];
 const parsed = endings.map((e) => {
   let text = '';
