@@ -238,7 +238,9 @@ const parsed = endings.map((e) => {
       const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
       const target = () => work.getBoundingClientRect().top + scrollY - OFFSET;
       let lockUntil = 0;
-      const inFirst = () => scrollY < target() - 2;
+      // Only where the avatar sits beside the headline (wider than 860px); on narrower screens scrolling is plain.
+      const wide = matchMedia('(min-width: 861px)');
+      const inFirst = () => wide.matches && scrollY < target() - 2;
       const jump = () => {
         lockUntil = performance.now() + 900;  // swallow the rest of a trackpad flick while the page glides
         scrollTo({ top: target(), behavior: smooth ? 'smooth' : 'auto' });

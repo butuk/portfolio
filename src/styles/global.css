@@ -355,6 +355,8 @@ html { scroll-behavior: smooth; }
   background: var(--ink); animation: scroll-hint 1.8s ease-in-out infinite; }
 @keyframes scroll-hint { 0% { transform: translateY(0); opacity: 0; } 25% { opacity: 1; } 70% { transform: translateY(12px); opacity: 0; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .scroll-hint span { animation: none; } }
+/* No mouse on narrow screens (avatar above the headline): touch screens, and scrolling there is plain. */
+@media (max-width: 860px) { .scroll-hint { display: none; } }
 .intro .hero .scroll-hint { opacity: 0; }
 /* While the cookie banner shows, the mouse sits above it. */
 body:has(.consent:not([hidden])) .scroll-hint { bottom: calc(32px + var(--consent-h, 0px)); }
