@@ -141,20 +141,6 @@ const parsed = endings.map((e) => {
         return hgt;
       };
 
-      // Trial: the first screen is as tall as the window, or as tall as its tallest ending needs, whichever is more,
-      // so the block keeps one height whichever ending is showing.
-      const hero = h1.closest<HTMLElement>('.hero')!;
-      const fitHero = () => {
-        hero.style.minHeight = '0px';
-        const base = hero.offsetHeight - h1.offsetHeight;
-        hero.style.minHeight = '';
-        const tallest = Math.max(...endings.map(heightWith));
-        hero.style.setProperty('--hero-fit', `${base + tallest}px`);
-      };
-      fitHero();
-      let resizeTimer = 0;
-      addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(fitHero, 150); });
-
       const GLIDE = 450;  // ms
       const glide = (from: number, to: number) => new Promise<void>((done) => {
         h1.style.transition = 'none';
@@ -191,6 +177,45 @@ const parsed = endings.map((e) => {
         }
       };
       setTimeout(loop, HOLD);
+    }
+  </script>
+  <script>
+    // Trial: the first screen fills the window under the header. Its content is centred vertically, sized for the
+    // tallest headline ending, so neither the block nor the headline's top moves while the endings change
+    // (only the text under a shorter ending rides up a little). If the content is taller than the window,
+    // the block grows to fit it.
+    const fhero = document.querySelector<HTMLElement>('.hero');
+    const fh1 = fhero?.querySelector<HTMLElement>('h1');
+    const fflap = fh1?.querySelector<HTMLElement>('.flap');
+    if (fhero && fh1 && fflap) {
+      const all: string[] = JSON.parse(fflap.dataset.endings!);
+      const endings = matchMedia('(prefers-reduced-motion: reduce)').matches ? [all[0]] : all;
+      const h1With = (text: string) => {
+        const copy = fh1.cloneNode(true) as HTMLElement;
+        copy.removeAttribute('style');
+        copy.style.visibility = 'hidden';
+        const f = copy.querySelector<HTMLElement>('.flap')!;
+        f.textContent = text;
+        f.style.whiteSpace = 'normal';
+        fh1.before(copy);
+        const hgt = copy.offsetHeight;
+        copy.remove();
+        return hgt;
+      };
+      const fit = () => {
+        fhero.style.minHeight = '0px';
+        fhero.style.paddingTop = '';
+        const cs = getComputedStyle(fhero);
+        const padTop = parseFloat(cs.paddingTop), padBottom = parseFloat(cs.paddingBottom);
+        const content = fhero.offsetHeight - padTop - padBottom - fh1.offsetHeight + Math.max(...endings.map(h1With));
+        const avail = innerHeight - 64;
+        const top = Math.max(32, (avail - content) / 2);
+        fhero.style.paddingTop = `${top}px`;
+        fhero.style.minHeight = `${Math.max(avail, top + content + padBottom)}px`;
+      };
+      fit();
+      let t = 0;
+      addEventListener('resize', () => { clearTimeout(t); t = setTimeout(fit, 150); });
     }
   </script>
   <script>

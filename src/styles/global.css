@@ -345,7 +345,7 @@ body:has(.consent:not([hidden])) .cookie-settings { display: none; }
 /* Trial: the first screen (headline, text, buttons) fills the window under the header. Its height stays put
    while the headline changes; it only grows if its content is taller than the window (short screens). */
 html { scroll-behavior: smooth; }
-.hero { position: relative; min-height: max(calc(100svh - 64px), var(--hero-fit, 0px)); padding-bottom: 112px; }
+.hero { position: relative; min-height: calc(100svh - 64px); padding-bottom: 112px; }  /* the script centres the content and fixes the height */
 #work { scroll-margin-top: 88px; }  /* header 64px + 24px air when "Works" scrolls here */
 /* Mouse at the bottom of the first screen: the wheel dot slides down, a hint to scroll. Click scrolls to the work. */
 .scroll-hint { position: absolute; left: 50%; bottom: 32px; width: 24px; height: 38px; margin-left: -12px;
@@ -356,3 +356,9 @@ html { scroll-behavior: smooth; }
 @keyframes scroll-hint { 0% { transform: translateY(0); opacity: 0; } 25% { opacity: 1; } 70% { transform: translateY(12px); opacity: 0; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .scroll-hint span { animation: none; } }
 .intro .hero .scroll-hint { opacity: 0; }
+/* While the cookie banner shows, the mouse sits above it. */
+body:has(.consent:not([hidden])) .scroll-hint { bottom: calc(32px + var(--consent-h, 0px)); }
+/* Trial: headline twice as large; capped by the screen width so the longest word ("information") still fits a line. */
+.hero h1 { font-size: min(13.5rem, calc((min(100vw, var(--max)) - 2 * var(--gutter)) / 5.8)); line-height: 0.935; }
+@media (min-width: 861px) and (max-width: 1180px) { .hero h1 { font-size: min(9rem, calc((min(100vw, var(--max)) - 2 * var(--gutter)) / 5.8)); } }
+@media (max-width: 860px) { .hero h1 { font-size: min(6.375rem, calc((min(100vw, var(--max)) - 2 * var(--gutter)) / 5.8)); line-height: 0.92; } }
