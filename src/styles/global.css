@@ -358,7 +358,7 @@ html { scroll-behavior: smooth; }
 .intro .hero .scroll-hint { opacity: 0; }
 /* While the cookie banner shows, the mouse sits above it. */
 body:has(.consent:not([hidden])) .scroll-hint { bottom: calc(32px + var(--consent-h, 0px)); }
-/* Trial: headline twice as large; capped by the screen width so the longest word ("information") still fits a line. */
-.hero h1 { font-size: min(13.5rem, calc((min(100vw, var(--max)) - 2 * var(--gutter)) / 5.8)); line-height: 0.935; }
-@media (min-width: 861px) and (max-width: 1180px) { .hero h1 { font-size: min(9rem, calc((min(100vw, var(--max)) - 2 * var(--gutter)) / 5.8)); } }
-@media (max-width: 860px) { .hero h1 { font-size: min(6.375rem, calc((min(100vw, var(--max)) - 2 * var(--gutter)) / 5.8)); line-height: 0.92; } }
+/* Trial: headline 1.4x (151px desktop, between the original 108 and the 2x try at 190); capped by the screen width so the longest word ("information") still fits a line. */
+.hero h1 { font-size: min(9.45rem, calc((min(100vw, var(--max)) - 2 * var(--gutter)) / 5.8)); line-height: 0.935; }
+@media (min-width: 861px) and (max-width: 1180px) { .hero h1 { font-size: min(6.3rem, calc((min(100vw, var(--max)) - 2 * var(--gutter)) / 5.8)); } }
+@media (max-width: 860px) { .hero h1 { font-size: min(4.4625rem, calc((min(100vw, var(--max)) - 2 * var(--gutter)) / 5.8)); line-height: 0.92; } }
