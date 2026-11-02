@@ -358,3 +358,7 @@ html { scroll-behavior: smooth; }
 .intro .hero .scroll-hint { opacity: 0; }
 /* While the cookie banner shows, the mouse sits above it. */
 body:has(.consent:not([hidden])) .scroll-hint { bottom: calc(32px + var(--consent-h, 0px)); }
+/* Trial: main headline 20% larger (130/121, tablet 86/80, phone 61/56; on narrow phones capped so "information" fits). */
+.hero h1 { font-size: 8.1rem; line-height: 7.575rem; }
+@media (min-width: 861px) and (max-width: 1180px) { .hero h1 { font-size: 5.4rem; line-height: 5.025rem; } }
+@media (max-width: 860px) { .hero h1 { font-size: min(3.825rem, calc((100vw - 2 * var(--gutter)) / 5.8)); line-height: 0.92; } }
