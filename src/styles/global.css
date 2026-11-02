@@ -173,7 +173,13 @@ a[aria-current="page"]:not(.btn):not(.case-card):hover, a[aria-current="page"]:n
 /* Grid of small images that join into one panel: no gaps, rounded only at the panel's outer corners. */
 .figure-grid__items { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-radius: var(--radius); overflow: hidden; }
 .figure-grid__items .zoom, .figure-grid__items img { border-radius: 0; }
-@media (max-width: 720px) { .figure-grid__items { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* On phones the grid becomes a sideways strip: about one and a half images in view, so it's clear there is more. */
+@media (max-width: 720px) {
+  .figure-grid__items { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+  .figure-grid__items::-webkit-scrollbar { display: none; }
+  .figure-grid__items .zoom { flex: 0 0 66%; scroll-snap-align: start; }
+}
 
 .case-cta { max-width: var(--max); margin: 64px auto 0; }
 
