@@ -8,12 +8,13 @@ shutil.rmtree(out, ignore_errors=True); shutil.copytree(src, out)
 def rel(url, depth):
     if not url.startswith('/') or url.startswith('//'):
         return url
+    url, hsh, frag = url.partition('#')
     path, _, q = url.partition('?')
     if path.endswith('/'):
         path += 'index.html'
     elif '.' not in path.rsplit('/', 1)[-1]:
         path += '/index.html'
-    return '../' * depth + path.lstrip('/')
+    return '../' * depth + path.lstrip('/') + hsh + frag
 
 for f in out.rglob('*.html'):
     depth = len(f.relative_to(out).parts) - 1
