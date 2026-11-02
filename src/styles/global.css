@@ -82,6 +82,9 @@ a[aria-current="page"]:not(.btn):not(.case-card):hover, a[aria-current="page"]:n
 .hero .flap .ch:empty { display: none; }
 /* The marked letters (A and I in "an Actual Individual"): the system serif, italic. */
 .hero .flap .ch.it { font-family: ui-serif, "New York", Georgia, Cambria, "Times New Roman", serif; font-style: italic; }
+/* The serif has taller vertical metrics than the sans; with its own line height it would make that line taller and
+   nudge the text below. A zero line height keeps the letter on the baseline without adding to the line. */
+.hero .flap .ch.it { line-height: 0; }
 .hero .flap .ch.flip { animation: flap 70ms ease-out; }
 @keyframes flap { from { transform: rotateX(-75deg); opacity: 0.35; } to { transform: none; opacity: 1; } }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
