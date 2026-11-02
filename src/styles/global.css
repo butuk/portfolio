@@ -349,7 +349,7 @@ html { scroll-behavior: smooth; }
 #work { scroll-margin-top: 88px; }  /* header 64px + 24px air when "Works" scrolls here */
 /* Mouse at the bottom of the first screen: the wheel dot slides down, a hint to scroll. Click scrolls to the work. */
 .scroll-hint { position: absolute; left: 50%; bottom: 32px; width: 24px; height: 38px; margin-left: -12px;
-  border: 2px solid var(--ink); border-radius: 12px; opacity: 0.55; transition: opacity 200ms; }
+  border: 2px solid var(--ink); border-radius: 12px; opacity: 0.5; transition: opacity 200ms; }  /* ink at 50% on white = #929496, 3.04:1, the lightest that keeps WCAG's 3:1 for controls */
 .scroll-hint:hover, .scroll-hint:focus-visible { opacity: 1; }
 .scroll-hint span { position: absolute; left: 50%; top: 7px; width: 4px; height: 8px; margin-left: -2px; border-radius: 2px;
   background: var(--ink); animation: scroll-hint 1.8s ease-in-out infinite; }
