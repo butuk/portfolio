@@ -260,7 +260,7 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 /* The report sits behind the text column's right edge; its lower shadow is cut by the card. */
 .case-card .visual { position: absolute; top: 9%; height: 118%; left: 47%; pointer-events: none; }
 .case-card .visual img { height: 100%; width: auto; max-width: none; border-radius: 0; box-shadow: none; background: none; }
-.case-card .roles { gap: 8px; margin-bottom: 20px; }
+.case-card .roles { gap: 8px; margin: 32px 0 0; }  /* tags close the card, under the text */
 .case-card .roles li { padding: 5px 12px; }
 .case-card .client { margin-top: 0; }
 .case-card h2 { margin: 12px 0 20px; }

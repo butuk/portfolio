@@ -59,11 +59,11 @@ const parsed = endings.map((e) => {
     {main.map((c) => (
       <a class="case-card" href={`/work/${c.id}${linkBase}`}>
         <div>
-          <ul class="roles">{c.data.tags.map((t) => <li>{roleNames[t]}</li>)}</ul>
           <p class="client">{c.data.client}, {c.data.year}</p>
           <h2>{c.data.title}</h2>
           <p class="summary">{nb(c.data.summary)}</p>
           <ul class="metrics">{c.data.metrics.map((m) => <li><b>{m.value}</b><span>{nb(m.label)}</span></li>)}</ul>
+          <ul class="roles">{c.data.tags.map((t) => <li>{roleNames[t]}</li>)}</ul>
         </div>
         <div class="visual">{c.data.cover && <Figure src={c.data.cover} alt={`${c.data.title} preview`} bare sizes="(min-width: 1100px) 640px, 100vw" />}</div>
       </a>
