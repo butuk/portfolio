@@ -1,6 +1,6 @@
 ---
 // Before/after comparison: two images stacked, a vertical divider shows the "before" on its left and the "after"
-// on its right. The divider follows the pointer with a little lag and bends like a rope while it moves, then
+// on its right. The divider is dragged by its round handle, follows it with a little lag and bends like a rope while it moves, then
 // straightens. Drag on touch screens; arrow keys move it from the keyboard (it is a slider for screen readers).
 // before, after: base paths like /media/case/name (no extension), same size.
 import media from '../media.json';
@@ -90,9 +90,19 @@ const set = (src: string) => ({
     new ResizeObserver(measure).observe(box);
 
     const at = (e: PointerEvent) => (e.clientX - box.getBoundingClientRect().left) / W;
-    // Mouse: the divider follows the pointer, no click needed. Touch and pen: drag.
-    box.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse' || box.hasPointerCapture(e.pointerId)) go(at(e)); });
-    box.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') { box.setPointerCapture(e.pointerId); go(at(e)); } });
+    // The divider moves only while the round handle is dragged (mouse, touch or pen); the rest of the block
+    // is just the pictures, so scrolling over it on a phone never moves the divider by accident.
+    let grab = 0;  // where on the handle it was grabbed, so the handle doesn't jump to the pointer
+    handle.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      handle.setPointerCapture(e.pointerId);
+      grab = at(e) - target;
+      handle.classList.add('is-dragging');
+    });
+    handle.addEventListener('pointermove', (e) => { if (handle.hasPointerCapture(e.pointerId)) go(at(e) - grab); });
+    const drop = () => handle.classList.remove('is-dragging');
+    handle.addEventListener('pointerup', drop);
+    handle.addEventListener('pointercancel', drop);
     handle.addEventListener('keydown', (e) => {
       const step = e.shiftKey ? 0.25 : 0.05;
       if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { e.preventDefault(); go(target - step); }
