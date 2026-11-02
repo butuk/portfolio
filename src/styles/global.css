@@ -341,3 +341,24 @@ body:has(.consent:not([hidden])) .cookie-settings { display: none; }
 
 /* Tags on the case card are pills. */
 .case-card .roles li { border-radius: 999px; }
+
+/* Trial: the first screen (headline, text, buttons) fills the window under the header. Its height stays put
+   while the headline changes; it only grows if its content is taller than the window (short screens). */
+html { scroll-behavior: smooth; }
+.hero { position: relative; min-height: calc(100svh - 64px); padding-bottom: 112px; }  /* the script centres the content and fixes the height */
+#work { scroll-margin-top: 88px; }  /* header 64px + 24px air when "Works" scrolls here */
+/* Mouse at the bottom of the first screen: the wheel dot slides down, a hint to scroll. Purely decorative: not a link,
+   hidden from screen readers, so it can be light (ink at 27.5% on white = #c3c4c5). */
+.scroll-hint { position: absolute; left: 50%; bottom: 32px; width: 24px; height: 38px; margin-left: -12px;
+  border: 2px solid var(--ink); border-radius: 12px; opacity: 0.275; pointer-events: none; }
+.scroll-hint span { position: absolute; left: 50%; top: 7px; width: 4px; height: 8px; margin-left: -2px; border-radius: 2px;
+  background: var(--ink); animation: scroll-hint 1.8s ease-in-out infinite; }
+@keyframes scroll-hint { 0% { transform: translateY(0); opacity: 0; } 25% { opacity: 1; } 70% { transform: translateY(12px); opacity: 0; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .scroll-hint span { animation: none; } }
+.intro .hero .scroll-hint { opacity: 0; }
+/* While the cookie banner shows, the mouse sits above it. */
+body:has(.consent:not([hidden])) .scroll-hint { bottom: calc(32px + var(--consent-h, 0px)); }
+/* Trial: main headline 10% larger (119/111, tablet 79/74, phone 56/52; on narrow phones capped so "information" fits). */
+.hero h1 { font-size: 7.425rem; line-height: 6.94375rem; }
+@media (min-width: 861px) and (max-width: 1180px) { .hero h1 { font-size: 4.95rem; line-height: 4.60625rem; } }
+@media (max-width: 860px) { .hero h1 { font-size: min(3.50625rem, calc((100vw - 2 * var(--gutter)) / 5.8)); line-height: 0.92; } }

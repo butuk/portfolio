@@ -54,8 +54,9 @@ const parsed = endings.map((e) => {
       <a class="btn btn--primary" href={site.calendly}>Book a call</a>
       <a class="btn" href={site.cv}>Download CV</a>
     </div>
+    <span class="scroll-hint" aria-hidden="true"><span></span></span>
   </section>
-  <section class="cases wrap" aria-label="Selected work">
+  <section class="cases wrap" id="work" aria-label="Selected work">
     {main.map((c) => (
       <a class="case-card" href={`/work/${c.id}${linkBase}`}>
         <div>
@@ -176,6 +177,88 @@ const parsed = endings.map((e) => {
         }
       };
       setTimeout(loop, HOLD);
+    }
+  </script>
+  <script>
+    // Trial: the first screen fills the window under the header. Its content is centred vertically, sized for the
+    // tallest headline ending, so neither the block nor the headline's top moves while the endings change
+    // (only the text under a shorter ending rides up a little). If the content is taller than the window,
+    // the block grows to fit it.
+    const fhero = document.querySelector<HTMLElement>('.hero');
+    const fh1 = fhero?.querySelector<HTMLElement>('h1');
+    const fflap = fh1?.querySelector<HTMLElement>('.flap');
+    if (fhero && fh1 && fflap) {
+      const all: string[] = JSON.parse(fflap.dataset.endings!);
+      const endings = matchMedia('(prefers-reduced-motion: reduce)').matches ? [all[0]] : all;
+      const h1With = (text: string) => {
+        const copy = fh1.cloneNode(true) as HTMLElement;
+        copy.removeAttribute('style');
+        copy.style.visibility = 'hidden';
+        const f = copy.querySelector<HTMLElement>('.flap')!;
+        f.textContent = text;
+        f.style.whiteSpace = 'normal';
+        fh1.before(copy);
+        const hgt = copy.offsetHeight;
+        // Width of its longest line: the furthest right edge of the text, from the headline's left edge.
+        const range = document.createRange();
+        range.selectNodeContents(f);
+        const left = copy.getBoundingClientRect().left;
+        const wid = Math.max(...[...range.getClientRects()].map((r) => r.right - left), 0);
+        copy.remove();
+        return { hgt, wid };
+      };
+      const lede = fhero.querySelector<HTMLElement>('.lede');
+      const fit = () => {
+        fhero.style.minHeight = '0px';
+        fhero.style.paddingTop = '';
+        // The text under the headline is as wide as the headline's longest line across all endings,
+        // so it keeps one width (and doesn't jump) while the endings change.
+        const sizes = endings.map(h1With);
+        if (lede) lede.style.maxWidth = `${Math.ceil(Math.max(...sizes.map((s) => s.wid)))}px`;
+        const cs = getComputedStyle(fhero);
+        const padTop = parseFloat(cs.paddingTop), padBottom = parseFloat(cs.paddingBottom);
+        const content = fhero.offsetHeight - padTop - padBottom - fh1.offsetHeight + Math.max(...sizes.map((s) => s.hgt));
+        const avail = innerHeight - 64;
+        const top = Math.max(32, (avail - content) / 2);
+        fhero.style.paddingTop = `${top}px`;
+        fhero.style.minHeight = `${Math.max(avail, top + content + padBottom)}px`;
+      };
+      fit();
+      let t = 0;
+      addEventListener('resize', () => { clearTimeout(t); t = setTimeout(fit, 150); });
+    }
+  </script>
+  <script>
+    // Trial: from the first screen, the first scroll down (wheel, trackpad, swipe or keyboard) carries the page
+    // straight to the work; from there on scrolling is normal. Scrolling back up into the first screen and down
+    // again jumps again.
+    const work = document.getElementById('work');
+    if (work) {
+      const OFFSET = 88;  // under the 64px header, with 24px of air (as #work's scroll-margin-top)
+      const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const target = () => work.getBoundingClientRect().top + scrollY - OFFSET;
+      let lockUntil = 0;
+      const inFirst = () => scrollY < target() - 2;
+      const jump = () => {
+        lockUntil = performance.now() + 900;  // swallow the rest of a trackpad flick while the page glides
+        scrollTo({ top: target(), behavior: smooth ? 'smooth' : 'auto' });
+      };
+      addEventListener('wheel', (e) => {
+        if (performance.now() < lockUntil) { e.preventDefault(); return; }
+        if (e.deltaY > 0 && inFirst() && !e.ctrlKey) { e.preventDefault(); jump(); }
+      }, { passive: false });
+      let touchY = 0;
+      addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; }, { passive: true });
+      addEventListener('touchmove', (e) => {
+        if (performance.now() < lockUntil) { e.preventDefault(); return; }
+        if (touchY - e.touches[0].clientY > 8 && inFirst()) { e.preventDefault(); jump(); }
+      }, { passive: false });
+      addEventListener('keydown', (e) => {
+        const t = e.target as HTMLElement;
+        if (t.closest('input, textarea, select, [contenteditable]')) return;
+        const down = e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey);
+        if (down && inFirst()) { e.preventDefault(); jump(); }
+      });
     }
   </script>
   <script>
