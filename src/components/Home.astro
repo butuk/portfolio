@@ -54,8 +54,9 @@ const parsed = endings.map((e) => {
       <a class="btn btn--primary" href={site.calendly}>Book a call</a>
       <a class="btn" href={site.cv}>Download CV</a>
     </div>
+    <a class="scroll-hint" href="#work" aria-label="Scroll to work"><span></span></a>
   </section>
-  <section class="cases wrap" aria-label="Selected work">
+  <section class="cases wrap" id="work" aria-label="Selected work">
     {main.map((c) => (
       <a class="case-card" href={`/work/${c.id}${linkBase}`}>
         <div>
@@ -139,6 +140,20 @@ const parsed = endings.map((e) => {
         copy.remove();
         return hgt;
       };
+
+      // Trial: the first screen is as tall as the window, or as tall as its tallest ending needs, whichever is more,
+      // so the block keeps one height whichever ending is showing.
+      const hero = h1.closest<HTMLElement>('.hero')!;
+      const fitHero = () => {
+        hero.style.minHeight = '0px';
+        const base = hero.offsetHeight - h1.offsetHeight;
+        hero.style.minHeight = '';
+        const tallest = Math.max(...endings.map(heightWith));
+        hero.style.setProperty('--hero-fit', `${base + tallest}px`);
+      };
+      fitHero();
+      let resizeTimer = 0;
+      addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(fitHero, 150); });
 
       const GLIDE = 450;  // ms
       const glide = (from: number, to: number) => new Promise<void>((done) => {
