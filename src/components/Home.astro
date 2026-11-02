@@ -199,15 +199,25 @@ const parsed = endings.map((e) => {
         f.style.whiteSpace = 'normal';
         fh1.before(copy);
         const hgt = copy.offsetHeight;
+        // Width of its longest line: the furthest right edge of the text, from the headline's left edge.
+        const range = document.createRange();
+        range.selectNodeContents(f);
+        const left = copy.getBoundingClientRect().left;
+        const wid = Math.max(...[...range.getClientRects()].map((r) => r.right - left), 0);
         copy.remove();
-        return hgt;
+        return { hgt, wid };
       };
+      const lede = fhero.querySelector<HTMLElement>('.lede');
       const fit = () => {
         fhero.style.minHeight = '0px';
         fhero.style.paddingTop = '';
+        // The text under the headline is as wide as the headline's longest line across all endings,
+        // so it keeps one width (and doesn't jump) while the endings change.
+        const sizes = endings.map(h1With);
+        if (lede) lede.style.maxWidth = `${Math.ceil(Math.max(...sizes.map((s) => s.wid)))}px`;
         const cs = getComputedStyle(fhero);
         const padTop = parseFloat(cs.paddingTop), padBottom = parseFloat(cs.paddingBottom);
-        const content = fhero.offsetHeight - padTop - padBottom - fh1.offsetHeight + Math.max(...endings.map(h1With));
+        const content = fhero.offsetHeight - padTop - padBottom - fh1.offsetHeight + Math.max(...sizes.map((s) => s.hgt));
         const avail = innerHeight - 64;
         const top = Math.max(32, (avail - content) / 2);
         fhero.style.paddingTop = `${top}px`;
