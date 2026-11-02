@@ -5,7 +5,7 @@
 // before, after: base paths like /media/case/name (no extension), same size.
 import media from '../media.json';
 import { nb } from '../lib/nbsp.mjs';
-const { before, after, caption, beforeLabel = 'Before', afterLabel = 'After', alt = 'Before and after', clear = false } = Astro.props;  // clear: images with their own transparent background
+const { before, after, caption, beforeLabel = 'Before', afterLabel = 'After', alt = 'Before and after', clear = false, width } = Astro.props;  // width: cap the block's width in px (e.g. a tall phone)  // clear: images with their own transparent background
 const m = media as Record<string, [number, number]>;
 const [w, h] = m[after] ?? [4, 3];
 const set = (src: string) => ({
@@ -15,7 +15,7 @@ const set = (src: string) => ({
   width: w, height: h, loading: 'lazy' as const, decoding: 'async' as const,
 });
 ---
-<figure class="figure compare-figure">
+<figure class="figure compare-figure" style={width ? `--compare-w: ${width}px` : undefined}>
   <div class:list={['compare', clear && 'compare--clear']} style={`aspect-ratio: ${w} / ${h}`} data-compare>
     <img {...set(after)} alt={`${afterLabel}: ${alt}`} class="compare__after" />
     <img {...set(before)} alt={`${beforeLabel}: ${alt}`} class="compare__before" />
@@ -34,6 +34,7 @@ const set = (src: string) => ({
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.querySelectorAll<HTMLElement>('[data-compare]').forEach((box) => {
     const before = box.querySelector<HTMLElement>('.compare__before')!;
+    const after = box.querySelector<HTMLElement>('.compare__after')!;
     const path = box.querySelector<SVGPathElement>('.compare__line path')!;
     const svg = box.querySelector<SVGSVGElement>('.compare__line')!;
     const handle = box.querySelector<HTMLElement>('.compare__handle')!;
@@ -60,6 +61,8 @@ const set = (src: string) => ({
       const curve = `C${xe} ${a} ${xm} ${a} ${xm} ${hy} C${xm} ${b} ${xe} ${b} ${xe} ${H}`;
       path.setAttribute('d', `M${xe} 0 ${curve}`);
       before.style.clipPath = `path('M0 0 L${xe} 0 ${curve} L0 ${H} Z')`;
+      // The after image is cut to the other side, so with transparent images it never shows through the before.
+      after.style.clipPath = `path('M${W} 0 L${xe} 0 ${curve} L${W} ${H} Z')`;
       handle.style.left = `${xm}px`;
       handle.style.top = `${hy}px`;
       handle.setAttribute('aria-valuenow', String(Math.round(x * 100)));
