@@ -5,7 +5,7 @@
 // before, after: base paths like /media/case/name (no extension), same size.
 import media from '../media.json';
 import { nb } from '../lib/nbsp.mjs';
-const { before, after, caption, beforeLabel = 'Before', afterLabel = 'After', alt = 'Before and after' } = Astro.props;
+const { before, after, caption, beforeLabel = 'Before', afterLabel = 'After', alt = 'Before and after', clear = false } = Astro.props;  // clear: images with their own transparent background
 const m = media as Record<string, [number, number]>;
 const [w, h] = m[after] ?? [4, 3];
 const set = (src: string) => ({
@@ -16,7 +16,7 @@ const set = (src: string) => ({
 });
 ---
 <figure class="figure compare-figure">
-  <div class="compare" style={`aspect-ratio: ${w} / ${h}`} data-compare>
+  <div class:list={['compare', clear && 'compare--clear']} style={`aspect-ratio: ${w} / ${h}`} data-compare>
     <img {...set(after)} alt={`${afterLabel}: ${alt}`} class="compare__after" />
     <img {...set(before)} alt={`${beforeLabel}: ${alt}`} class="compare__before" />
     <svg class="compare__line" aria-hidden="true"><path /></svg>
