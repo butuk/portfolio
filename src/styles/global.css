@@ -346,3 +346,6 @@ body:has(.consent:not([hidden])) .cookie-settings { display: none; }
 .tinted .site-header, .tinted .lightbox, .tinted .consent { --ink: #252a2d; --line: #878d92; --rule: #e3e6ea; }
 .tinted .site-header, .tinted .lightbox, .tinted .consent { color: var(--ink); }
 .tinted .site-header { background: #ffffff; }
+
+/* Tags on the case card are pills. */
+.case-card .roles li { border-radius: 999px; }
