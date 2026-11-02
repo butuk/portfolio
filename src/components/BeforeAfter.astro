@@ -1,0 +1,101 @@
+---
+// Before/after comparison: two images stacked, a vertical divider shows the "before" on its left and the "after"
+// on its right. The divider follows the pointer with a little lag and bends like a rope while it moves, then
+// straightens. Drag on touch screens; arrow keys move it from the keyboard (it is a slider for screen readers).
+// before, after: base paths like /media/case/name (no extension), same size.
+import media from '../media.json';
+import { nb } from '../lib/nbsp.mjs';
+const { before, after, caption, beforeLabel = 'Before', afterLabel = 'After', alt = 'Before and after' } = Astro.props;
+const m = media as Record<string, [number, number]>;
+const [w, h] = m[after] ?? [4, 3];
+const set = (src: string) => ({
+  src: `${src}-1920.webp`,
+  srcset: `${src}-960.webp 960w, ${src}-1920.webp ${Math.min(1920, m[src]?.[0] ?? 1920)}w`,
+  sizes: '(min-width: 1200px) 1104px, 100vw',
+  width: w, height: h, loading: 'lazy' as const, decoding: 'async' as const,
+});
+---
+<figure class="figure compare-figure">
+  <div class="compare" style={`aspect-ratio: ${w} / ${h}`} data-compare>
+    <img {...set(after)} alt={`${afterLabel}: ${alt}`} class="compare__after" />
+    <img {...set(before)} alt={`${beforeLabel}: ${alt}`} class="compare__before" />
+    <svg class="compare__line" aria-hidden="true"><path /></svg>
+    <span class="compare__label compare__label--before" aria-hidden="true">{beforeLabel}</span>
+    <span class="compare__label compare__label--after" aria-hidden="true">{afterLabel}</span>
+    <button type="button" class="compare__handle" role="slider" aria-label={`${beforeLabel} and ${afterLabel}: share of ${beforeLabel.toLowerCase()} shown`}
+      aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5" /></svg>
+    </button>
+  </div>
+  {caption && <figcaption>{nb(caption)}</figcaption>}
+</figure>
+
+<script>
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('[data-compare]').forEach((box) => {
+    const before = box.querySelector<HTMLElement>('.compare__before')!;
+    const path = box.querySelector<SVGPathElement>('.compare__line path')!;
+    const svg = box.querySelector<SVGSVGElement>('.compare__line')!;
+    const handle = box.querySelector<HTMLElement>('.compare__handle')!;
+    const labelB = box.querySelector<HTMLElement>('.compare__label--before')!;
+    const labelA = box.querySelector<HTMLElement>('.compare__label--after')!;
+
+    let W = 1, H = 1;
+    let target = 0.5;      // where the pointer is, 0..1
+    let x = 0.5;           // where the middle of the divider is (it eases toward the target)
+    let ends = 0.5;        // where its top and bottom are (they trail the middle, so it bends)
+    let raf = 0;
+
+    // The handle sits in the middle of the part of the block that is on screen (the block can be taller than the
+    // window); the divider bends around it: two smooth curves from the top and bottom ends to the handle.
+    let hy = 0;
+    const placeHandle = () => {
+      const r = box.getBoundingClientRect();
+      const top = Math.max(0, -r.top), bottom = Math.min(H, innerHeight - r.top);
+      hy = bottom > top ? Math.max(44, Math.min(H - 44, (top + bottom) / 2)) : H / 2;
+    };
+    const draw = () => {
+      const xm = x * W, xe = ends * W;
+      const a = hy / 2, b = hy + (H - hy) / 2;
+      const curve = `C${xe} ${a} ${xm} ${a} ${xm} ${hy} C${xm} ${b} ${xe} ${b} ${xe} ${H}`;
+      path.setAttribute('d', `M${xe} 0 ${curve}`);
+      before.style.clipPath = `path('M0 0 L${xe} 0 ${curve} L0 ${H} Z')`;
+      handle.style.left = `${xm}px`;
+      handle.style.top = `${hy}px`;
+      handle.setAttribute('aria-valuenow', String(Math.round(x * 100)));
+      // Labels fade as the divider reaches them.
+      const fade = (dist: number) => String(Math.max(0, Math.min(1, dist / 80)));
+      labelB.style.opacity = fade(xm - (labelB.offsetLeft + labelB.offsetWidth) - 12);
+      labelA.style.opacity = fade(labelA.offsetLeft - xm - 12);
+    };
+    const tick = () => {
+      if (still) { x = ends = target; draw(); raf = 0; return; }
+      x += (target - x) * 0.2;
+      ends += (x - ends) * 0.12;
+      draw();
+      if (Math.abs(target - x) > 0.0005 || Math.abs(x - ends) > 0.0005) raf = requestAnimationFrame(tick);
+      else { x = ends = target; draw(); raf = 0; }
+    };
+    const go = (t: number) => { target = Math.max(0, Math.min(1, t)); if (!raf) raf = requestAnimationFrame(tick); };
+    addEventListener('scroll', () => { placeHandle(); draw(); }, { passive: true });
+    const measure = () => {
+      W = box.clientWidth; H = box.clientHeight;
+      placeHandle();
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      draw();
+    };
+    new ResizeObserver(measure).observe(box);
+
+    const at = (e: PointerEvent) => (e.clientX - box.getBoundingClientRect().left) / W;
+    // Mouse: the divider follows the pointer, no click needed. Touch and pen: drag.
+    box.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse' || box.hasPointerCapture(e.pointerId)) go(at(e)); });
+    box.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') { box.setPointerCapture(e.pointerId); go(at(e)); } });
+    handle.addEventListener('keydown', (e) => {
+      const step = e.shiftKey ? 0.25 : 0.05;
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { e.preventDefault(); go(target - step); }
+      else if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { e.preventDefault(); go(target + step); }
+      else if (e.key === 'Home') { e.preventDefault(); go(0); }
+      else if (e.key === 'End') { e.preventDefault(); go(1); }
+    });
+  });
+</script>

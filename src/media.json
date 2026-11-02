@@ -1,11 +1,15 @@
 {
-  "/media/phi-report/before-after": [
-    1920,
-    1440
-  ],
   "/media/phi-report/before": [
     1920,
     1440
+  ],
+  "/media/phi-report/compare-after": [
+    2000,
+    2584
+  ],
+  "/media/phi-report/compare-before": [
+    2000,
+    2584
   ],
   "/media/phi-report/cover": [
     968,

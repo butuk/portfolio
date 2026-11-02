@@ -29,6 +29,7 @@ import Figure from '../../components/Figure.astro';
 import VideoLoop from '../../components/VideoLoop.astro';
 import FigureRow from '../../components/FigureRow.astro';
 import FigureGrid from '../../components/FigureGrid.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
 
 ## Context
 
@@ -109,7 +110,7 @@ more directly on the chart. The block didn't grow at all.
   { src: "/media/phi-report/tooth-states-6", alt: "Tooth chart with bleeding, pockets and plaque combined" },
 ]} />
 
-<Figure src="/media/phi-report/before-after" caption="Original vs. new report at the same size" />
+<BeforeAfter before="/media/phi-report/compare-before" after="/media/phi-report/compare-after" alt="the PHI report" caption="Original vs. new report at the same size" />
 
 The new report has a more confident layout and higher information density. Every
 new element found its place, and the overall footprint stayed the same.
