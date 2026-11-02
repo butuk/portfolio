@@ -170,8 +170,10 @@ a[aria-current="page"]:not(.btn):not(.case-card):hover, a[aria-current="page"]:n
 .figure-row__items { display: flex; gap: 16px; }
 .figure-row__item { min-width: 0; }
 .figure-row__label { display: block; margin-top: 8px; font-weight: 550; }
-.figure-grid__items { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-@media (max-width: 720px) { .figure-grid__items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; } }
+/* Grid of small images that join into one panel: no gaps, rounded only at the panel's outer corners. */
+.figure-grid__items { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-radius: var(--radius); overflow: hidden; }
+.figure-grid__items .zoom, .figure-grid__items img { border-radius: 0; }
+@media (max-width: 720px) { .figure-grid__items { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 .case-cta { max-width: var(--max); margin: 64px auto 0; }
 
