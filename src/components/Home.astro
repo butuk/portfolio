@@ -65,7 +65,7 @@ const parsed = endings.map((e) => {
           <ul class="metrics">{c.data.metrics.map((m) => <li><b>{m.value}</b><span>{nb(m.label)}</span></li>)}</ul>
           <ul class="roles">{c.data.tags.map((t) => <li>{roleNames[t]}</li>)}</ul>
         </div>
-        <div class="visual">{c.data.cover && <Figure src={c.data.cover} alt={`${c.data.title} preview`} bare sizes="(min-width: 1100px) 640px, 100vw" />}</div>
+        <div class="visual">{c.data.cover && <Figure src={c.data.cover} alt={`${c.data.title} preview`} bare sizes="(min-width: 861px) 510px, 100vw" />}</div>
       </a>
     ))}
   </section>

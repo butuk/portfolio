@@ -258,8 +258,9 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .case-card { position: relative; overflow: hidden; grid-template-columns: minmax(0, 50fr) minmax(0, 50fr); align-items: start; padding-block: clamp(32px, 5vw, 64px); }
 .case-card > div:first-child { position: relative; z-index: 1; }
 /* The report sits behind the text column's right edge; its lower shadow is cut by the card. */
-.case-card .visual { position: absolute; top: 9%; height: 118%; left: 47%; pointer-events: none; }
-.case-card .visual img { height: 100%; width: auto; max-width: none; border-radius: 0; box-shadow: none; background: none; }
+/* The cover photo is flush with the card's top, right and bottom edges; it is cropped to fit, never stretched. */
+.case-card .visual { position: absolute; top: 0; right: 0; bottom: 0; width: 46%; overflow: hidden; pointer-events: none; }
+.case-card .visual img { width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 50% 50%; border-radius: 0; box-shadow: none; background: none; }
 .case-card .roles { gap: 8px; margin: 32px 0 0; }  /* tags close the card, under the text */
 .case-card .roles li { padding: 5px 12px; }
 .case-card .client { margin-top: 0; }
@@ -274,14 +275,9 @@ body { font-size: 1.0625rem; line-height: 1.375rem; }
 .case-card .roles li, .case-card .client, .case-card .metrics span { font-size: 0.9375rem; line-height: 1.25rem; }
 @media (max-width: 860px) {
   .case-card { grid-template-columns: 1fr; }
-  /* Image above the text, scaled down to fit the card whole, with equal margins left and right. */
-  /* The report spans the card's content width, so its margins equal the card padding (between the old
-     inset look and edge to edge). In the cover file the report is the middle 83.3% of the width (8.3% shadow
-     each side): the image is 120% wide and shifted 10% left. Its bottom 18.2% is only shadow: the text starts
-     32px under the report (the grid row gap, equal to --pad, is taken back too). */
+  /* Above the text, the photo runs edge to edge across the top of the card (no margins left, right or top). */
   .case-card { --pad: clamp(24px, 4vw, 56px); }
-  .case-card .visual { position: static; order: -1; margin: 0 0 calc(32px - 21.84% - var(--pad)); }
-  .case-card .visual img { height: auto; width: 120%; max-width: none; margin-left: -10%; }
+  .case-card .visual { position: static; order: -1; width: auto; margin: calc(-1 * clamp(32px, 5vw, 64px)) calc(-1 * var(--pad)) 0; aspect-ratio: 4 / 5; }
   .case-card h2 { font-size: 1.75rem; line-height: 2.125rem; }
   .case-card .metrics b { font-size: 1.375rem; line-height: 1.75rem; }
 }
@@ -326,15 +322,11 @@ body:has(.consent:not([hidden])) .cookie-settings { display: none; }
 .case-card .roles li { background: rgb(255 255 255 / 0.3); border-color: transparent; color: var(--card-ink); }
 .case-card .metrics { border-top-color: var(--card-ink); }
 /* On hover a 10% white veil fades in over the background (gradients can't transition directly);
-   the dark text only gains contrast. The cover slides a little left; above the text, it grows a little. */
+   the dark text only gains contrast. The cover photo grows a little inside its frame. */
 .case-card { transition: box-shadow 400ms ease; }
 .case-card:hover, .case-card:focus-visible { box-shadow: inset 0 0 0 100vmax rgb(255 255 255 / 0.1); }
 .case-card .visual img { transition: transform 500ms cubic-bezier(0.25, 0.7, 0.25, 1); }
-.case-card:hover .visual img, .case-card:focus-visible .visual img { transform: translateX(-24px); }
-@media (max-width: 860px) {
-  .case-card .visual img { transform-origin: 50% 40%; }
-  .case-card:hover .visual img, .case-card:focus-visible .visual img { transform: scale(1.04); }
-}
+.case-card:hover .visual img, .case-card:focus-visible .visual img { transform: scale(1.04); }
 @media (prefers-reduced-motion: reduce) {
   .case-card, .case-card .visual img { transition: none; }
   .case-card:hover .visual img, .case-card:focus-visible .visual img { transform: none; }
