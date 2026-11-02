@@ -337,7 +337,7 @@ body:has(.consent:not([hidden])) .cookie-settings { display: none; }
 .tinted { --ink: #0d0e0f; --line: #0d0e0f; --rule: rgb(0 0 0 / 0.3); }
 .tinted .site-header, .tinted .lightbox, .tinted .consent { --ink: #252a2d; --line: #878d92; --rule: #e3e6ea; }
 .tinted .site-header, .tinted .lightbox, .tinted .consent { color: var(--ink); }
-.tinted .site-header { background: #ffffff; }
+/* The header on a case page is frosted glass like on the main page (88% white with a blur), so the colour shows through. */
 
 /* Tags on the case card are pills. */
 .case-card .roles li { border-radius: 999px; }
