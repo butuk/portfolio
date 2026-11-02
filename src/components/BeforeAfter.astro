@@ -22,7 +22,7 @@ const set = (src: string) => ({
     <svg class="compare__line" aria-hidden="true"><path /></svg>
     <span class="compare__label compare__label--before" aria-hidden="true">{beforeLabel}</span>
     <span class="compare__label compare__label--after" aria-hidden="true">{afterLabel}</span>
-    <button type="button" class="compare__handle" role="slider" aria-label={`${beforeLabel} and ${afterLabel}: share of ${beforeLabel.toLowerCase()} shown`}
+    <button type="button" class="compare__handle" role="slider" aria-label={`${beforeLabel} / ${afterLabel}`}
       aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5" /></svg>
     </button>

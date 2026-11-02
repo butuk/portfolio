@@ -1,14 +1,15 @@
 ---
 import '../styles/global.css';
 import { site } from '../site';
-const {
-  title = `${site.name} — Senior UX/UI & Product Designer, Kraków`,
-  description = 'I make dense information easy to absorb. Senior UX/UI and product designer in Kraków, 10+ years, now in healthcare AI. Open to full-time roles.',
-  bodyClass,
-} = Astro.props;
+import { ui, langOf, pathIn, localPath, langs } from '../i18n';
+const lang = langOf(Astro.url.pathname);
+const t = ui[lang];
+const { title = t.title, description = t.description, bodyClass } = Astro.props;
+const home = localPath(lang, '/');
+const abs = (p: string) => new URL(p, Astro.site).href;
 ---
 <!doctype html>
-<html lang="en">
+<html lang={t.htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,36 +24,44 @@ const {
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:locale" content={t.ogLocale} />
+    {langs.map((l) => <link rel="alternate" hreflang={l} href={abs(pathIn(Astro.url.pathname, l))} />)}
+    <link rel="alternate" hreflang="x-default" href={abs(pathIn(Astro.url.pathname, 'en'))} />
   </head>
   <body class={bodyClass}>
     <header class="site-header">
       <div class="wrap">
-        <a class="name" href="/" aria-current={Astro.url.pathname === '/' ? 'page' : undefined}>{site.name}<span class="title"> • Senior UX / UI / Product Designer</span></a>
-        <nav aria-label="Main">
-          <a href="/#work">Works</a>
-          <a href={site.cv} class="hide-sm">CV</a>
+        <a class="name" href={home} aria-current={Astro.url.pathname === home ? 'page' : undefined}>{site.name}<span class="title"> • Senior UX / UI / Product Designer</span></a>
+        <nav aria-label={t.navLabel}>
+          <a href={`${home}#work`}>{t.works}</a>
+          <a href={site.cv} class="hide-sm">{t.cv}</a>
           <a href={site.linkedin} class="hide-sm">LinkedIn</a>
-          <a href={`mailto:${site.email}`} class="hide-sm">Email</a>
-          <a class="btn btn--primary" href={site.calendly}>Book a call</a>
+          <a href={`mailto:${site.email}`} class="hide-sm">{t.email}</a>
+          <a class="btn btn--primary" href={site.calendly}>{t.bookCall}</a>
         </nav>
       </div>
     </header>
     <main><slot /></main>
     <section class="contact wrap" aria-labelledby="contact-title">
-      <h2 id="contact-title">Senior UX / UI / Product Designer in Kraków. Open to Work</h2>
-      <p>I'm open to full-time roles, in the office or hybrid. A short conversation is the quickest way to see if we fit.</p>
+      <h2 id="contact-title">{t.contactTitle}</h2>
+      <p>{t.contactText}</p>
       <div class="actions">
-        <a class="btn btn--primary" href={site.calendly}>Book a call</a>
+        <a class="btn btn--primary" href={site.calendly}>{t.bookCall}</a>
         <a href={`mailto:${site.email}`}>{site.email}</a>
         <a href={site.phoneHref}>{site.phone}</a>
       </div>
     </section>
-    <footer class="site-footer wrap">© {new Date().getFullYear()} {site.name}<span class="cookie-settings"> · <button type="button" class="linkish" data-consent-open>Cookie settings</button></span></footer>
-    <div class="consent" role="region" aria-label="Cookie consent" hidden>
-      <p>I use Google Analytics cookies to see how visitors use this site. Nothing is collected until you agree.</p>
+    <footer class="site-footer wrap">
+      <span>© {new Date().getFullYear()} {site.name}<span class="cookie-settings"> · <button type="button" class="linkish" data-consent-open>{t.cookieSettings}</button></span></span>
+      <nav class="lang" aria-label={t.langLabel}>
+        {langs.map((l) => <a href={pathIn(Astro.url.pathname, l)} hreflang={l} lang={l} aria-current={l === lang ? 'page' : undefined}>{l.toUpperCase()}</a>)}
+      </nav>
+    </footer>
+    <div class="consent" role="region" aria-label={t.cookieRegion} hidden>
+      <p>{t.cookieText}</p>
       <div class="consent__actions">
-        <button type="button" class="btn btn--small" data-consent="denied">Reject</button>
-        <button type="button" class="btn btn--small btn--primary" data-consent="granted">Accept</button>
+        <button type="button" class="btn btn--small" data-consent="denied">{t.reject}</button>
+        <button type="button" class="btn btn--small btn--primary" data-consent="granted">{t.accept}</button>
       </div>
     </div>
     <script>
@@ -96,8 +105,8 @@ const {
         if (a && loaded) w.gtag('event', 'book_call', { link_url: (a as HTMLAnchorElement).href });
       });
     </script>
-    <dialog class="lightbox" aria-label="Enlarged image">
-      <button class="btn close" type="button">Close</button>
+    <dialog class="lightbox" aria-label={t.enlarged}>
+      <button class="btn close" type="button">{t.close}</button>
       <img alt="" />
     </dialog>
     <script>

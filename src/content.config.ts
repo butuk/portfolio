@@ -1,9 +1,7 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const cases = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/cases' }),
-  schema: z.object({
+const schema = z.object({
     title: z.string(),
     client: z.string(),
     year: z.union([z.number(), z.string()]),
@@ -18,7 +16,10 @@ const cases = defineCollection({
     seoDescription: z.string().optional(),  // meta description, up to ~155 characters; defaults to the summary
     metrics: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
     cover: z.string().optional(),
-  }),
 });
 
-export const collections = { cases };
+// English cases in content/cases, their Polish versions (same file names) in content/cases-pl.
+const cases = defineCollection({ loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/cases' }), schema });
+const casesPl = defineCollection({ loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/cases-pl' }), schema });
+
+export const collections = { cases, casesPl };

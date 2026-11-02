@@ -4,29 +4,19 @@ import Base from '../layouts/Base.astro';
 import Figure from './Figure.astro';
 import { site } from '../site';
 import { nb } from '../lib/nbsp.mjs';
-const { role } = Astro.props;
-const all = (await getCollection('cases')).sort((a, b) => a.data.order - b.data.order);
+import { ui, localPath, type Lang } from '../i18n';
+const { role, lang = 'en' } = Astro.props as { role?: 'product' | 'ux' | 'data'; lang?: Lang };
+const t = ui[lang];
+const all = (await getCollection(lang === 'pl' ? 'casesPl' : 'cases')).sort((a, b) => a.data.order - b.data.order);
 const cases = role ? all.filter((c) => c.data.tags.includes(role)) : all;
 const main = cases.filter((c) => c.data.format === 'full' || c.data.format === 'medium');
-const roleNames = { product: 'Product', ux: 'UX/UI', data: 'Data' } as const;
 // Page title for the role versions; the main page uses the default from Base.
-const roleTitles = { product: 'Product Designer', ux: 'UX/UI Designer', data: 'Information Designer' } as const;
-const title = role ? `${site.name} — ${roleTitles[role as keyof typeof roleTitles]}, Kraków` : undefined;
-const lead = role === 'product' ? 'Product designer' : role === 'ux' ? 'UX/UI designer' : role === 'data' ? 'Information designer' : 'Designer';
+const title = role ? `${site.name} — ${t.roleTitles[role]}, Kraków` : undefined;
+const lead = t.lead[role ?? 'none'];
 const linkBase = role ? `?from=${role}` : '';
-// Endings of the main headline, shown one after another like a split-flap board. The first one is the default (also what
-// screen readers and visitors without motion get). They go from the longest to the shortest, then back to the first.
-// An underscore marks the next letter as italic.
-const endings = [
-  'makes dense information easy to absorb',
-  'lets visuals carry more',
-  'is an _Actual _Individual',
-  'invents new patterns',
-  'is all about meaning',
-  'explains the why',
-  'fights entropy',
-];
-const parsed = endings.map((e) => {
+// Endings of the main headline (src/i18n.ts), shown one after another like a split-flap board. The first one is the
+// default (also what screen readers and visitors without motion get). An underscore marks the next letter as italic.
+const parsed = t.endings.map((e) => {
   let text = '';
   const italic: number[] = [];
   for (let i = 0; i < e.length; i++) {
@@ -49,25 +39,25 @@ const parsed = endings.map((e) => {
       }
     </script>
     <div class="photo"><Figure src="/media/site/photo" alt="Vitali Yanusheuski" bare eager sizes="(min-width: 860px) 113px, 80px" /></div>
-    <h1>{lead} who <span class="sr-only">{parsed[0].text}</span><span class="flap" aria-hidden="true" data-endings={JSON.stringify(parsed.map((p) => p.text))} data-italic={JSON.stringify(parsed.map((p) => p.italic))}>{parsed[0].text}</span></h1>
-    <p class="lede">I turn large volumes of information into clear structures, so people get the most value in the least time and space. 10+ years in product companies, design studios and agencies, now in healthcare AI at Denti.AI. Based in Kraków.</p>
+    <h1>{lead}{t.who}<span class="sr-only">{parsed[0].text}</span><span class="flap" aria-hidden="true" data-endings={JSON.stringify(parsed.map((p) => p.text))} data-italic={JSON.stringify(parsed.map((p) => p.italic))}>{parsed[0].text}</span></h1>
+    <p class="lede">{nb(t.lede)}</p>
     <div class="actions">
-      <a class="btn btn--primary" href={site.calendly}>Book a call</a>
-      <a class="btn" href={site.cv}>Download CV</a>
+      <a class="btn btn--primary" href={site.calendly}>{t.bookCall}</a>
+      <a class="btn" href={site.cv}>{t.downloadCv}</a>
     </div>
     <span class="scroll-hint" aria-hidden="true"><span></span></span>
   </section>
-  <section class="cases wrap" id="work" aria-label="Selected work">
+  <section class="cases wrap" id="work" aria-label={t.selectedWork}>
     {main.map((c) => (
-      <a class="case-card" href={`/work/${c.id}${linkBase}`}>
+      <a class="case-card" href={localPath(lang, `/work/${c.id}${linkBase}`)}>
         <div>
           <p class="client">{c.data.client}, {c.data.year}</p>
           <h2>{c.data.title}</h2>
           <p class="summary">{nb(c.data.summary)}</p>
           <ul class="metrics">{c.data.metrics.map((m) => <li><b>{m.value}</b><span>{nb(m.label)}</span></li>)}</ul>
-          <ul class="roles">{c.data.tags.map((t) => <li>{roleNames[t]}</li>)}</ul>
+          <ul class="roles">{c.data.tags.map((tag) => <li>{t.tags[tag]}</li>)}</ul>
         </div>
-        <div class="visual">{c.data.cover && <Figure src={c.data.cover} alt={`${c.data.title} preview`} bare sizes="(min-width: 861px) 510px, 100vw" />}</div>
+        <div class="visual">{c.data.cover && <Figure src={c.data.cover} alt={`${c.data.title}: ${t.preview}`} bare sizes="(min-width: 861px) 510px, 100vw" />}</div>
       </a>
     ))}
   </section>

@@ -1,0 +1,150 @@
+---
+title: Redesign raportu PHI
+client: Denti.AI
+year: 2025
+role: Product Designer
+team: CTO jako lider projektu, jeden frontend developer
+format: full
+tags: [product, ux, data]
+order: 1
+summary: >
+  Kliniki chciały więcej danych w generowanym przez AI raporcie periodontologicznym — ale
+  bez powiększania go. Zmieściłem 192 punkty krwawienia, dwa nowe wskaźniki i widok
+  stadium całej jamy ustnej na tej samej powierzchni, a raport dopasowuje się do każdego
+  ekranu i do papieru.
+metrics:
+  - value: "0 px"
+    label: dodanych do raportu, choć zyskał 192 punkty danych i widok stadium całej jamy ustnej
+  - value: "84%"
+    label: klinik zostało przy nowym projekcie bez żadnej zachęty
+  - value: "+5%"
+    label: wzrostu użycia Voice Perio po wdrożeniu
+cover: /media/phi-report/cover
+seoTitle: Redesign raportu PHI dla Denti.AI — Vitali Yanusheuski
+seoDescription: >
+  Więcej danych, ten sam rozmiar: redesign raportu periodontologicznego AI, który działa
+  na każdym ekranie i na papierze. 84% klinik przy nim zostało.
+---
+
+import Figure from '../../components/Figure.astro';
+import VideoLoop from '../../components/VideoLoop.astro';
+import FigureRow from '../../components/FigureRow.astro';
+import FigureGrid from '../../components/FigureGrid.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+
+## Kontekst
+
+Denti.AI Voice Perio pozwala dentystom wypełniać kartę periodontologiczną głosem w trakcie
+badania. Nie muszą niczego wpisywać ani wołać asystentki. Karta periodontologiczna to
+standardowy zapis stanu dziąseł: głębokość kieszonek, krwawienie, ruchomość i zajęcie
+furkacji, dla każdego zęba.
+
+<VideoLoop src="/media/phi-report/voice-perio" caption="Voice Perio podczas prawdziwego badania: każde wypowiedziane polecenie od razu trafia do karty" />
+
+Po wypełnieniu karty dentysta dostaje też **raport PHI (Periodontal Health Index)**. To
+generowane przez AI podsumowanie stanu przyzębia pacjenta, najważniejszych wyników,
+czynników ryzyka i zaleceń leczenia. Jego główne zadanie to pomóc pacjentowi zrozumieć
+stan własnych zębów.
+
+W momencie tego redesignu Voice Perio miało za sobą **ponad milion kart
+periodontologicznych** w klinikach w USA i Kanadzie. Denti.AI współpracuje bezpośrednio
+z poszczególnymi klinikami, więc opinie stale docierają do zespołu. Gdy uwag dotyczących
+jakiejś funkcji robi się dość dużo, zespół ją przerabia. Ten case to właśnie taki etap
+w życiu raportu PHI.
+
+## Problem
+
+Zadanie polegało na naprawieniu kluczowych problemów raportu i uczynieniu go bardziej
+edukacyjnym dla pacjentów, **przy zachowaniu dotychczasowego formatu**.
+
+Oto co mówiły kliniki:
+
+- „Za mało miejsca na informacje”
+- „Za dużo pustej przestrzeni”
+- „Chcemy też widzieć wskaźniki ropienia i płytki”
+
+Mówiły też, że raportu nie da się używać na telefonach i tabletach, a chciały, żeby równie
+dobrze wyglądał w druku, jako wygenerowany PDF. Do tego poprosiły o dwie nowe rzeczy:
+punkty krwawienia dla każdego zęba (6 miejsc × 32 zęby = **192 punkty**) i wizualizację
+stadium dla całej jamy ustnej.
+
+Moja własna analiza dodała jeszcze jeden problem: sam układ był niezgrabny i niewyważony.
+
+Raport potrzebował więc więcej danych, tego samego rozmiaru i układu, który dopasuje się
+do każdego nośnika.
+
+<Figure clear src="/media/phi-report/before" caption="Pierwotny raport" />
+
+## Decyzja 1: wybór, a nie skala
+
+Stary raport pokazywał stan jamy ustnej na poziomej, sześciostopniowej skali. Przy bliższym
+spojrzeniu nie była to wcale skala, tylko wybór jednej z sześciu stałych wartości, a poziomy
+układ zajmował miejsce, nie dodając znaczenia.
+
+Zastąpiłem ją kompaktową grupą przycisków radiowych. Sześć stadiów zdrowia to te same
+stadia, co w nowej wizualizacji całej jamy ustnej, więc połączyłem je w jeden blok. Blok
+działa równie dobrze pionowo, jak poziomo, co później okazało się ważne dla układu.
+
+<Figure clear src="/media/phi-report/scale-evolution" caption="Od skali do wyboru: pierwotna skala, pierwsza wersja z przyciskami radiowymi i finalny blok" />
+
+<FigureGrid caption="Finalny blok we wszystkich sześciu stanach. Stadium pacjenta jest wyróżnione i pokazuje jego wynik" items={[
+  { src: "/media/phi-report/scale-state-1", alt: "Wybrane stadium: zdrowie, wynik 0/0" },
+  { src: "/media/phi-report/scale-state-2", alt: "Wybrane stadium: zapalenie dziąseł, wynik 0/112" },
+  { src: "/media/phi-report/scale-state-3", alt: "Wybrane stadium: zapalenie przyzębia I, wynik 1/0" },
+  { src: "/media/phi-report/scale-state-4", alt: "Wybrane stadium: zapalenie przyzębia II, wynik 29/0" },
+  { src: "/media/phi-report/scale-state-5", alt: "Wybrane stadium: zapalenie przyzębia III, wynik 57/105" },
+  { src: "/media/phi-report/scale-state-6", alt: "Wybrane stadium: zapalenie przyzębia IV, wynik 62/102" },
+]} />
+
+## Decyzja 2: dane wewnątrz diagramu zębów
+
+Nie było oczywistego sposobu, żeby dodać 192 punkty krwawienia do raportu, któremu już
+brakowało miejsca. Każdy nowy blok powiększyłby raport, a właśnie tego kliniki nie chciały.
+
+Zacząłem więc od samego diagramu zębów. Przerysowałem go tak, żeby zęby wyglądały jak
+prawdziwe zęby, dzięki czemu pacjentom łatwiej go czytać. Nowe kształty zostawiły miejsce
+na dane, więc umieściłem wszystkie sześć punktów krwawienia na każdym zębie i każdą
+głębokość kieszonki od 4 mm bezpośrednio na diagramie. Blok w ogóle nie urósł.
+
+<BeforeAfter before="/media/phi-report/tooth-before" after="/media/phi-report/tooth-after" beforeLabel="Przed" afterLabel="Po" alt="diagram zębów" caption="Stary i nowy diagram zębów, schematycznie: każdy ząb ma teraz miejsce na swoje sześć punktów krwawienia i głębokość kieszonki" />
+
+<FigureGrid caption="Ten sam diagram na prawdziwych przypadkach: brakujące zęby, krwawienie, głębokie kieszonki, płytka i ich połączenia" items={[
+  { src: "/media/phi-report/tooth-states-1", alt: "Diagram z kilkoma brakującymi zębami" },
+  { src: "/media/phi-report/tooth-states-2", alt: "Diagram z krwawieniem w wielu miejscach" },
+  { src: "/media/phi-report/tooth-states-3", alt: "Diagram z głębokimi kieszonkami" },
+  { src: "/media/phi-report/tooth-states-4", alt: "Diagram z płytką i kieszonkami" },
+  { src: "/media/phi-report/tooth-states-5", alt: "Diagram z brakiem większości zębów" },
+  { src: "/media/phi-report/tooth-states-6", alt: "Diagram z krwawieniem, kieszonkami i płytką jednocześnie" },
+]} />
+
+<BeforeAfter before="/media/phi-report/compare-before" after="/media/phi-report/compare-after" beforeLabel="Przed" afterLabel="Po" alt="raport PHI" caption="Pierwotny i nowy raport w tym samym rozmiarze" />
+
+Nowy raport ma pewniejszy układ i większą gęstość informacji. Każdy nowy element znalazł
+swoje miejsce, a całkowita powierzchnia pozostała taka sama.
+
+## Decyzja 3: jedna struktura na każdy nośnik
+
+Raport składa się z modułów, które zmieniają układ bez zmiany treści. Ta sama struktura
+staje się szerokim układem na komputer, jedną kolumną na telefonie albo stroną do druku
+i w ten sam sposób może dopasować się do każdego innego formatu.
+
+<BeforeAfter before="/media/phi-report/desktop-before" after="/media/phi-report/desktop-after" beforeLabel="Przed" afterLabel="Po" alt="raport PHI na komputerze w klinice, obok karty periodontologicznej" caption="Pierwotny i nowy raport na komputerze w klinice, obok karty periodontologicznej" />
+
+<FigureRow caption="Ten sam raport przy komputerze, na telefonie i na papierze" items={[
+  { src: "/media/phi-report/layout-desktop", label: "Komputer" },
+  { src: "/media/phi-report/layout-mobile", label: "Telefon" },
+  { src: "/media/phi-report/layout-print", label: "Druk" },
+]} />
+
+## Wyniki
+
+Po dwóch tygodniach z nowym projektem **84% klinik przy nim zostało** bez żadnej zachęty.
+Tylko 16% wróciło do starej wersji. W tym samym czasie użycie PHI wzrosło o 2%, a Voice
+Perio o 5%.
+
+Sam raport niesie teraz wyraźnie więcej użytecznych informacji na jednostkę powierzchni:
+192 punkty krwawienia, wskaźniki ropienia i płytki oraz widok stadium całej jamy ustnej,
+a wszystko na pierwotnej powierzchni.
+
+To potwierdziło słuszność podejścia, a nowy projekt raportu wdrożono we wszystkich
+produktach Denti.AI.
