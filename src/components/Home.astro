@@ -219,6 +219,39 @@ const parsed = endings.map((e) => {
     }
   </script>
   <script>
+    // Trial: from the first screen, the first scroll down (wheel, trackpad, swipe or keyboard) carries the page
+    // straight to the work; from there on scrolling is normal. Scrolling back up into the first screen and down
+    // again jumps again.
+    const work = document.getElementById('work');
+    if (work) {
+      const OFFSET = 88;  // under the 64px header, with 24px of air (as #work's scroll-margin-top)
+      const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const target = () => work.getBoundingClientRect().top + scrollY - OFFSET;
+      let lockUntil = 0;
+      const inFirst = () => scrollY < target() - 2;
+      const jump = () => {
+        lockUntil = performance.now() + 900;  // swallow the rest of a trackpad flick while the page glides
+        scrollTo({ top: target(), behavior: smooth ? 'smooth' : 'auto' });
+      };
+      addEventListener('wheel', (e) => {
+        if (performance.now() < lockUntil) { e.preventDefault(); return; }
+        if (e.deltaY > 0 && inFirst() && !e.ctrlKey) { e.preventDefault(); jump(); }
+      }, { passive: false });
+      let touchY = 0;
+      addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; }, { passive: true });
+      addEventListener('touchmove', (e) => {
+        if (performance.now() < lockUntil) { e.preventDefault(); return; }
+        if (touchY - e.touches[0].clientY > 8 && inFirst()) { e.preventDefault(); jump(); }
+      }, { passive: false });
+      addEventListener('keydown', (e) => {
+        const t = e.target as HTMLElement;
+        if (t.closest('input, textarea, select, [contenteditable]')) return;
+        const down = e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey);
+        if (down && inFirst()) { e.preventDefault(); jump(); }
+      });
+    }
+  </script>
+  <script>
     // Intro: the avatar fades in at the left edge of the headline and glides to its place
     // on the right; once it has arrived, the headline, the text and the buttons fade in.
     const root = document.documentElement;
