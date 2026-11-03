@@ -13,6 +13,8 @@ const abs = (p: string) => new URL(p, Astro.site).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Colour Safari (and mobile browsers) give their toolbar; without it Safari samples the page background. -->
+    <meta name="theme-color" content="#ffffff" />
     {lang === 'en' && (
       <script is:inline>
         // A visitor whose browser is set to Polish lands on the Polish version, unless they have picked a language
