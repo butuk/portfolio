@@ -106,5 +106,9 @@
   "/media/site/photo": [
     600,
     600
+  ],
+  "/media/suite-setup/cover": [
+    2160,
+    2700
   ]
 }
