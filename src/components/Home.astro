@@ -49,7 +49,7 @@ const parsed = t.endings.map((e) => {
   </section>
   <section class="cases wrap" id="work" aria-label={t.selectedWork}>
     {main.map((c) => (
-      <a class:list={['case-card', c.data.bg && 'case-card--themed']} style={c.data.bg ? `--card-bg: ${c.data.bg}; --card-ink: ${c.data.ink ?? '#ffffff'}` : undefined} href={localPath(lang, `/work/${c.id}${linkBase}`)}>
+      <a class:list={['case-card', c.data.bg && 'case-card--themed', c.data.hoverTint === false && 'case-card--flat']} style={c.data.bg ? `--card-bg: ${c.data.bg}; --card-ink: ${c.data.ink ?? '#ffffff'}` : undefined} href={localPath(lang, `/work/${c.id}${linkBase}`)}>
         <div>
           <p class="client">{c.data.client}, {c.data.year}</p>
           <h2>{c.data.title}</h2>

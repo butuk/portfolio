@@ -340,6 +340,8 @@ body:has(.consent:not([hidden])) .cookie-settings { display: none; }
    the dark text only gains contrast. The cover photo grows a little inside its frame. */
 .case-card { transition: box-shadow 400ms ease; }
 .case-card:hover, .case-card:focus-visible { box-shadow: inset 0 0 0 100vmax rgb(255 255 255 / 0.1); }
+/* The cover sits right on the card's colour, so hovering doesn't lighten it (keyboard focus still does). */
+.case-card--flat:hover:not(:focus-visible) { box-shadow: none; }
 .case-card .visual img { transition: transform 500ms cubic-bezier(0.25, 0.7, 0.25, 1); }
 .case-card:hover .visual img, .case-card:focus-visible .visual img { transform: scale(1.04); }
 @media (prefers-reduced-motion: reduce) {

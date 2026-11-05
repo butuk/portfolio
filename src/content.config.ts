@@ -20,6 +20,8 @@ const schema = z.object({
     // (instead of the coral card and the scrolling colours).
     bg: z.string().optional(),
     ink: z.string().optional(),
+    // false: the preview card doesn't lighten on hover (when the cover image is meant to sit right on the card's colour)
+    hoverTint: z.boolean().optional(),
 });
 
 // English cases in content/cases, their Polish versions (same file names) in content/cases-pl.
