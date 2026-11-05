@@ -1,0 +1,104 @@
+---
+title: One suite, one setup
+client: Denti.AI
+year: 2026
+role: "Product Designer: settings audit, information architecture, interaction principles, UI"
+team: Tech lead, engineering team
+format: full
+tags: [product, ux]
+order: 2
+summary: >
+  Unifying the installer and settings of Denti.AI's clinical products, so that a bundle
+  built by several teams feels like one product.
+metrics:
+  - value: "80+"
+    label: settings from 6+ windows and a web page, each now in exactly one place
+  - value: "1"
+    label: installer for the whole suite instead of one per product
+  - value: "0"
+    label: designers needed to add the next product's settings
+cover: /media/suite-setup/cover
+seoTitle: Denti.AI installer and settings — Vitali Yanusheuski
+seoDescription: >
+  One installer and one settings app for Denti.AI's clinical suite: 80+ settings from
+  six windows and a web page, each now in exactly one place.
+---
+
+import Figure from '../../components/Figure.astro';
+import BeforeAfter from '../../components/BeforeAfter.astro';
+
+## Context
+
+Denti.AI builds AI tools for dental clinics: Voice Perio for hands-free periodontal
+charting, Imaging for X-ray analysis, and Scribe for clinical notes. Clinics usually get
+them together as OneStop Clinical, a small AI operating system for the practice.
+
+The products were built by different teams at different times. Each came with its own
+installer and its own settings, organized by its own logic.
+
+## The problem
+
+A clinic buys one suite but gets several separate products, each with its own installer
+and settings. A Denti.AI onboarding specialist configured them across tray-menu windows,
+tabs, nested dialogs and a separate web page. The microphone alone could be chosen in
+three places, and window names often didn't match their contents: the switch for the
+entire Scribe product sat under Advanced.
+
+The tech lead set the goal: **one installer for the whole suite and one place to configure
+everything in it**.
+
+## Audit
+
+I started by collecting every setting from every product: **80+ controls across at least
+six windows**, on two platforms. Then I marked up what each one actually belonged to,
+regardless of where it happened to live.
+
+<Figure src="/media/suite-setup/audit" caption="The original settings windows, marked up by what each setting belongs to" />
+
+The markup showed a structure the products never had. Settings fell into clear groups: the
+connection to the clinic's PMS, account and activation, audio devices, connection and
+updates, maintenance and sync, and the behavior of each product. Duplicates collapsed into
+one entry each. Settings that no longer did anything were cut.
+
+## One rule for every level
+
+The harder question was not where each setting goes, but how the whole structure behaves.
+I borrowed the answer from operating system settings: **a setting looks and works the same
+whether it sits on the first screen or three levels deep**. People learn the pattern once,
+and it holds as sections grow.
+
+That principle mattered more than any single screen. When the team later moved items
+between sections, nothing in the logic had to change. Imaging was deliberately left out of
+the first pass: the developers will add its settings themselves, following the same rules.
+
+<Figure src="/media/suite-setup/structure" caption="The new settings structure" />
+
+<Figure src="/media/suite-setup/settings-ui" caption="The final settings app" />
+
+## Installer
+
+Instead of a separate installer per product, the clinic now runs one. It installs the whole
+suite or only the selected products, and connects the clinic's PMS during setup.
+
+The engineers' draft had a reasonable number of steps. The problem was what was inside
+them. The PMS and the install path were asked on two different screens, though each is
+needed only once. Every screen also carried a Back link that served no purpose: it was
+needed neither to return to a previous step nor to leave the installation. I removed both,
+so **each screen asks for one thing, once**.
+
+<Figure src="/media/suite-setup/installer-flow" caption="The engineers' flow and the final one: duplicated questions and the Back link removed" />
+
+<Figure src="/media/suite-setup/installer-ui" caption="The final installer" />
+
+## Process and outcome
+
+I iterated with the tech lead, then presented the final version to the whole engineering
+team and worked their feedback in. The design was approved and taken into development.
+
+- One installer for the whole suite instead of one per product
+- One settings app, desktop with a web counterpart, instead of 6+ windows and a separate web page
+- Every setting in exactly one place
+- A principle the team can extend without a designer, starting with Imaging
+
+Today setup is done by Denti.AI's onboarding specialists. The new installer and settings
+are designed so that clinic staff could do it themselves.

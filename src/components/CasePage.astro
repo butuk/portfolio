@@ -1,6 +1,6 @@
 ---
 // A case page; the same for every language (the entry comes from that language's collection).
-import { render } from 'astro:content';
+import { render, getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { nb } from '../lib/nbsp.mjs';
 import { ui, type Lang } from '../i18n';
@@ -8,8 +8,11 @@ const { entry, lang = 'en' } = Astro.props as { entry: any; lang?: Lang };
 const t = ui[lang];
 const { Content } = await render(entry);
 const d = entry.data;
+// Languages this case isn't translated into yet (the switcher then points to that language's main page).
+const ids = { en: (await getCollection('cases')).map((c) => c.id), pl: (await getCollection('casesPl')).map((c) => c.id) };
+const missingIn = (['en', 'pl'] as const).filter((l) => !ids[l].includes(entry.id));
 ---
-<Base title={d.seoTitle ?? `${d.title}, Vitali Yanusheuski`} description={(d.seoDescription ?? d.summary).trim()} bodyClass="tinted">
+<Base title={d.seoTitle ?? `${d.title}, Vitali Yanusheuski`} description={(d.seoDescription ?? d.summary).trim()} bodyClass="tinted" missingIn={missingIn}>
   <article>
     <header class="case-head wrap">
       <p class="client">{d.client}, {d.year}</p>

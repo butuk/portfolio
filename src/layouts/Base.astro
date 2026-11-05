@@ -4,7 +4,10 @@ import { site } from '../site';
 import { ui, langOf, pathIn, localPath, langs } from '../i18n';
 const lang = langOf(Astro.url.pathname);
 const t = ui[lang];
-const { title = t.title, description = t.description, bodyClass } = Astro.props;
+const { title = t.title, description = t.description, bodyClass, missingIn = [] } = Astro.props as { title?: string; description?: string; bodyClass?: string; missingIn?: string[] };
+// The same page in each language; a language this page doesn't exist in yet links to that language's main page.
+const alt = (l: (typeof langs)[number]) => (missingIn.includes(l) ? localPath(l, '/') : pathIn(Astro.url.pathname, l));
+const altLangs = langs.filter((l) => !missingIn.includes(l));
 const home = localPath(lang, '/');
 const abs = (p: string) => new URL(p, Astro.site).href;
 ---
@@ -15,7 +18,7 @@ const abs = (p: string) => new URL(p, Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Colour Safari (and mobile browsers) give their toolbar; without it Safari samples the page background. -->
     <meta name="theme-color" content="#ffffff" />
-    {lang === 'en' && (
+    {lang === 'en' && !missingIn.includes('pl') && (
       <script is:inline>
         // A visitor whose browser is set to Polish lands on the Polish version, unless they have picked a language
         // with the switcher before. The page stays hidden for the moment it takes, so English never flashes.
@@ -46,8 +49,8 @@ const abs = (p: string) => new URL(p, Astro.site).href;
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:locale" content={t.ogLocale} />
-    {langs.map((l) => <link rel="alternate" hreflang={l} href={abs(pathIn(Astro.url.pathname, l))} />)}
-    <link rel="alternate" hreflang="x-default" href={abs(pathIn(Astro.url.pathname, 'en'))} />
+    {altLangs.length > 1 && altLangs.map((l) => <link rel="alternate" hreflang={l} href={abs(pathIn(Astro.url.pathname, l))} />)}
+    {altLangs.length > 1 && <link rel="alternate" hreflang="x-default" href={abs(pathIn(Astro.url.pathname, 'en'))} />}
   </head>
   <body class={bodyClass}>
     <header class="site-header">
@@ -75,7 +78,7 @@ const abs = (p: string) => new URL(p, Astro.site).href;
     <footer class="site-footer wrap">
       <span>© {new Date().getFullYear()} {site.name}<span class="cookie-settings"> · <button type="button" class="linkish" data-consent-open>{t.cookieSettings}</button></span></span>
       <nav class="lang" aria-label={t.langLabel}>
-        {langs.map((l) => <a href={pathIn(Astro.url.pathname, l)} hreflang={l} lang={l} aria-current={l === lang ? 'page' : undefined}>{l.toUpperCase()}</a>)}
+        {langs.map((l) => <a href={alt(l)} hreflang={l} lang={l} aria-current={l === lang ? 'page' : undefined}>{l.toUpperCase()}</a>)}
       </nav>
       <script is:inline>
         // A language picked with the switcher is remembered, so the automatic choice never overrides it.
