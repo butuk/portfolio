@@ -16,6 +16,10 @@ const schema = z.object({
     seoDescription: z.string().optional(),  // meta description, up to ~155 characters; defaults to the summary
     metrics: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
     cover: z.string().optional(),
+    // Own colours for this case: the preview card and the case page get this background and text colour
+    // (instead of the coral card and the scrolling colours).
+    bg: z.string().optional(),
+    ink: z.string().optional(),
 });
 
 // English cases in content/cases, their Polish versions (same file names) in content/cases-pl.

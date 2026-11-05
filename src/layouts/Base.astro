@@ -4,7 +4,7 @@ import { site } from '../site';
 import { ui, langOf, pathIn, localPath, langs } from '../i18n';
 const lang = langOf(Astro.url.pathname);
 const t = ui[lang];
-const { title = t.title, description = t.description, bodyClass, missingIn = [] } = Astro.props as { title?: string; description?: string; bodyClass?: string; missingIn?: string[] };
+const { title = t.title, description = t.description, bodyClass, bodyStyle, missingIn = [] } = Astro.props as { title?: string; description?: string; bodyClass?: string; bodyStyle?: string; missingIn?: string[] };
 // The same page in each language; a language this page doesn't exist in yet links to that language's main page.
 const alt = (l: (typeof langs)[number]) => (missingIn.includes(l) ? localPath(l, '/') : pathIn(Astro.url.pathname, l));
 const altLangs = langs.filter((l) => !missingIn.includes(l));
@@ -52,7 +52,7 @@ const abs = (p: string) => new URL(p, Astro.site).href;
     {altLangs.length > 1 && altLangs.map((l) => <link rel="alternate" hreflang={l} href={abs(pathIn(Astro.url.pathname, l))} />)}
     {altLangs.length > 1 && <link rel="alternate" hreflang="x-default" href={abs(pathIn(Astro.url.pathname, 'en'))} />}
   </head>
-  <body class={bodyClass}>
+  <body class={bodyClass} style={bodyStyle}>
     <header class="site-header">
       <div class="wrap">
         <a class="name" href={home} aria-current={Astro.url.pathname === home ? 'page' : undefined}>{site.name}<span class="title"> • Senior UX / UI / Product Designer</span></a>

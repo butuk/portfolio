@@ -12,7 +12,7 @@ const d = entry.data;
 const ids = { en: (await getCollection('cases')).map((c) => c.id), pl: (await getCollection('casesPl')).map((c) => c.id) };
 const missingIn = (['en', 'pl'] as const).filter((l) => !ids[l].includes(entry.id));
 ---
-<Base title={d.seoTitle ?? `${d.title}, Vitali Yanusheuski`} description={(d.seoDescription ?? d.summary).trim()} bodyClass="tinted" missingIn={missingIn}>
+<Base title={d.seoTitle ?? `${d.title}, Vitali Yanusheuski`} description={(d.seoDescription ?? d.summary).trim()} bodyClass={d.bg ? 'tinted themed' : 'tinted'} bodyStyle={d.bg ? `--case-bg: ${d.bg}; --case-ink: ${d.ink ?? '#ffffff'}` : undefined} missingIn={missingIn}>
   <article>
     <header class="case-head wrap">
       <p class="client">{d.client}, {d.year}</p>
@@ -41,7 +41,9 @@ const missingIn = (['en', 'pl'] as const).filter((l) => !ids[l].includes(entry.i
     fit();
     addEventListener('resize', fit);
 
-    // Trial: the page background moves through Vitali's six colours, red to green, as you scroll.
+    // A case with its own colour keeps that one background; the others move through Vitali's six colours,
+    // red to green, as you scroll.
+    const fixed = getComputedStyle(document.body).getPropertyValue('--case-bg').trim();
     const stops = ['#ff7655', '#ff9448', '#f2ab45', '#e5d245', '#c6c856', '#5db366']
       .map((h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)));
     const paint = () => {
@@ -57,8 +59,13 @@ const missingIn = (['en', 'pl'] as const).filter((l) => !ids[l].includes(entry.i
     };
     let queued = false;
     const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(() => { queued = false; paint(); }); } };
-    paint();
-    addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', onScroll);
+    if (fixed) {
+      document.body.style.backgroundColor = fixed;
+      document.documentElement.style.backgroundColor = fixed;
+    } else {
+      paint();
+      addEventListener('scroll', onScroll, { passive: true });
+      addEventListener('resize', onScroll);
+    }
   </script>
 </Base>
