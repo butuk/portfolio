@@ -410,7 +410,6 @@ body:has(.consent:not([hidden])) .scroll-hint { bottom: calc(32px + var(--consen
 
 /* Cases with their own colours (bg / ink in the case's front matter): the preview card and the case page. */
 .case-card--themed { background: var(--card-bg); }
-.case-card--themed .roles li { background: color-mix(in srgb, var(--card-ink) 15%, transparent); }
 .tinted.themed { --ink: var(--case-ink); --line: var(--case-ink); --rule: color-mix(in srgb, var(--case-ink) 30%, transparent); background: var(--case-bg); }
 .tinted.themed .site-header, .tinted.themed .lightbox, .tinted.themed .consent { --ink: #252a2d; --line: #878d92; --rule: #e3e6ea; }
 .tinted.themed .contact .btn:hover, .tinted.themed .contact .btn:focus-visible { background: var(--case-ink); border-color: var(--case-ink); color: var(--case-bg); }
