@@ -415,3 +415,12 @@ body:has(.consent:not([hidden])) .scroll-hint { bottom: calc(32px + var(--consen
 .tinted.themed { --ink: var(--case-ink); --line: var(--case-ink); --rule: color-mix(in srgb, var(--case-ink) 30%, transparent); background: var(--case-bg); }
 .tinted.themed .site-header, .tinted.themed .lightbox, .tinted.themed .consent { --ink: #252a2d; --line: #878d92; --rule: #e3e6ea; }
 .tinted.themed .contact .btn:hover, .tinted.themed .contact .btn:focus-visible { background: var(--case-ink); border-color: var(--case-ink); color: var(--case-bg); }
+
+/* Trial: the avatar has its own column on the right and slides up and down it after the cursor.
+   It is lifted out of the text (the text keeps clear of the whole column), and starts where it used to be,
+   level with the top of the headline. */
+@media (min-width: 861px) {
+  .hero .photo { float: none; position: absolute; right: var(--gutter); margin: 0; will-change: translate; }
+  .hero h1, .hero .lede { padding-right: calc(clamp(74px, 8.65vw, 113px) + 32px); }
+  .hero .lede { box-sizing: content-box; }
+}

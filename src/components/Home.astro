@@ -255,6 +255,34 @@ const parsed = t.endings.map((e) => {
     }
   </script>
   <script>
+    // Trial: the avatar follows the cursor up and down its column, smoothly, never leaving the block: from the top of
+    // the headline to the bottom of the buttons. Only with a mouse on wide screens; still for reduced motion.
+    const fphoto = document.querySelector<HTMLElement>('.hero .photo');
+    const fblock = document.querySelector<HTMLElement>('.hero');
+    const fend = document.querySelector<HTMLElement>('.hero .actions');
+    const can = matchMedia('(min-width: 861px) and (hover: hover) and (pointer: fine)');
+    if (fphoto && fblock && fend && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      let y = 0, target = 0, mouseY = -1, raf = 0;
+      const range = () => Math.max(0, fend.getBoundingClientRect().bottom - fphoto.getBoundingClientRect().bottom + y);
+      const aim = () => {
+        if (!can.matches || mouseY < 0) return;
+        const top = fphoto.getBoundingClientRect().top - y;  // where the avatar sits with no shift
+        target = Math.max(0, Math.min(range(), mouseY - top - fphoto.offsetHeight / 2));
+        if (!raf) raf = requestAnimationFrame(tick);
+      };
+      const tick = () => {
+        y += (target - y) * 0.1;
+        if (Math.abs(target - y) < 0.3) { y = target; raf = 0; } else raf = requestAnimationFrame(tick);
+        fphoto.style.translate = `0 ${y.toFixed(1)}px`;
+      };
+      addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') { mouseY = e.clientY; aim(); } }, { passive: true });
+      addEventListener('scroll', aim, { passive: true });
+      // The headline changes height as its ending changes, moving the buttons: keep the avatar within them.
+      new ResizeObserver(aim).observe(fblock.querySelector('h1')!);
+      can.addEventListener('change', () => { if (!can.matches) { y = target = 0; fphoto.style.translate = ''; } });
+    }
+  </script>
+  <script>
     // Intro: the avatar fades in at the left edge of the headline and glides to its place
     // on the right; once it has arrived, the headline, the text and the buttons fade in.
     const root = document.documentElement;
