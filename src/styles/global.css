@@ -419,6 +419,7 @@ body:has(.consent:not([hidden])) .scroll-hint { bottom: calc(32px + var(--consen
 /* Slideshow: frames stacked in one place; the one on screen fades in over the others. */
 .slideshow .zoom { position: relative; overflow: hidden; }
 .slideshow__frame { display: block; }
+.figure .slideshow__frame { background: none; }  /* frames may carry their own transparent shadow */
 .slideshow__frame:not(:first-child) { position: absolute; inset: 0; height: 100%; }
 .slideshow__frame { opacity: 0; transition: opacity 400ms ease; }
 .slideshow__frame.is-on { opacity: 1; }
