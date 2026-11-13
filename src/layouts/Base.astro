@@ -146,7 +146,7 @@ const abs = (p: string) => new URL(p, Astro.site).href;
         const btn = (e.target as Element).closest<HTMLButtonElement>('.zoom');
         if (btn) {
           big.src = btn.dataset.full!;
-          big.alt = btn.querySelector('img')?.alt ?? '';
+          big.alt = (btn.querySelector('img.is-on') ?? btn.querySelector('img'))?.alt ?? '';
           dlg.showModal();
         } else if (dlg.open && (e.target as Element).closest('.lightbox')) {
           dlg.close();

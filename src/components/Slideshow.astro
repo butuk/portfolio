@@ -1,0 +1,48 @@
+---
+// A few still frames that replace one another in place, like a gif but in full quality: each frame is an ordinary
+// image. Frames cross-fade every few seconds and loop; the slideshow pauses while it is off screen, and with
+// reduced motion only the first frame is shown. Click opens the frame on screen full size.
+// frames: [{ src: base path like /media/case/name, alt }], all the same size. hold: ms each frame stays.
+import media from '../media.json';
+import { nb } from '../lib/nbsp.mjs';
+import { ui, langOf } from '../i18n';
+const enlarge = ui[langOf(Astro.url.pathname)].enlarge;
+const { frames, caption, hold = 3000, sizes = '(min-width: 1200px) 1104px, 100vw' } = Astro.props as {
+  frames: { src: string; alt: string }[]; caption?: string; hold?: number; sizes?: string;
+};
+const m = media as Record<string, [number, number]>;
+const props = (src: string, alt: string) => {
+  const [w, h] = m[src] ?? [4, 3];
+  return { src: `${src}-1920.webp`, srcset: `${src}-960.webp ${Math.min(960, w)}w, ${src}-1920.webp ${Math.min(1920, w)}w`,
+    sizes, width: w, height: h, alt, loading: 'lazy' as const, decoding: 'async' as const };
+};
+---
+<figure class="figure slideshow" data-slideshow data-hold={hold}>
+  <button type="button" class="zoom" data-full={`${frames[0].src}-1920.webp`} aria-label={`${enlarge}: ${frames[0].alt}`}>
+    {frames.map((f, i) => <img {...props(f.src, f.alt)} class:list={['slideshow__frame', i === 0 && 'is-on']} data-full={`${f.src}-1920.webp`} />)}
+  </button>
+  {caption && <figcaption>{nb(caption)}</figcaption>}
+</figure>
+
+<script>
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('[data-slideshow]').forEach((box) => {
+    const btn = box.querySelector<HTMLButtonElement>('.zoom')!;
+    const frames = [...box.querySelectorAll<HTMLImageElement>('.slideshow__frame')];
+    if (still || frames.length < 2) return;
+    const hold = Number(box.dataset.hold) || 3000;
+    const label = btn.getAttribute('aria-label')!.split(':')[0];
+    let at = 0, timer = 0;
+    const show = (n: number) => {
+      frames[at].classList.remove('is-on');
+      at = n % frames.length;
+      frames[at].classList.add('is-on');
+      btn.dataset.full = frames[at].dataset.full;
+      btn.setAttribute('aria-label', `${label}: ${frames[at].alt}`);
+    };
+    const play = () => { if (!timer) timer = window.setInterval(() => show(at + 1), hold); };
+    const stop = () => { clearInterval(timer); timer = 0; };
+    new IntersectionObserver(([e]) => (e.isIntersecting ? play() : stop()), { threshold: 0.3 }).observe(box);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : play()));
+  });
+</script>

@@ -29,6 +29,7 @@ seoDescription: >
 
 import Figure from '../../components/Figure.astro';
 import BeforeAfter from '../../components/BeforeAfter.astro';
+import Slideshow from '../../components/Slideshow.astro';
 
 ## Context
 
@@ -76,7 +77,16 @@ the first pass: the developers will add its settings themselves, following the s
 
 <Figure clear src="/media/suite-setup/structure" caption="The new settings structure" />
 
-<Figure src="/media/suite-setup/settings-ui" caption="The final settings app" />
+<Slideshow caption="The final settings app" frames={[
+  { src: "/media/suite-setup/settings-ui-1", alt: "Settings app: General" },
+  { src: "/media/suite-setup/settings-ui-2", alt: "Settings app: Voice Perio" },
+  { src: "/media/suite-setup/settings-ui-3", alt: "Settings app: Scribe" },
+  { src: "/media/suite-setup/settings-ui-4", alt: "Settings app: PMS" },
+  { src: "/media/suite-setup/settings-ui-5", alt: "Settings app: PMS, Dentrix" },
+  { src: "/media/suite-setup/settings-ui-6", alt: "Settings app: Audio" },
+  { src: "/media/suite-setup/settings-ui-7", alt: "Settings app: Audio, testing the microphone" },
+  { src: "/media/suite-setup/settings-ui-8", alt: "Settings app: Advanced" },
+]} />
 
 ## Installer
 
